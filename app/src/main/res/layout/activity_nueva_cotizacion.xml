@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".nueva_cotizacion">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nueva Cotización"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp">
+
+    </TextView>
+    
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="Nombre:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="35dp"
+        >
+
+    </TextView>
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:padding="16dp"
+        android:layout_gravity="center"
+        android:hint="Ej. Cotización 1"
+        android:background="@drawable/editex">
+
+    </EditText>
+
+
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="Cliente:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        >
+
+    </TextView>
+    <EditText
+        android:id="@+id/client"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:hint="Ej. Juan Perez"
+        android:background="@drawable/editex">
+
+    </EditText>
+
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="Descripción:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        >
+
+    </TextView>
+    <EditText
+        android:id="@+id/descripcion"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:background="@drawable/editex"
+        android:hint="Ingrese una descripción"
+        android:padding="16dp"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:minLines="3"
+        android:maxLines="6"
+        android:scrollHorizontally="false"
+        android:overScrollMode="always"
+        android:scrollbars="vertical">
+
+    </EditText>
+
+
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="Fecha:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        >
+
+    </TextView>
+
+
+            <EditText
+                android:id="@+id/fecha"
+                android:layout_width="240dp"
+                android:layout_height="50dp"
+                android:padding="16dp"
+                android:layout_marginLeft="45dp"
+                android:hint="04/08/24"
+                android:background="@drawable/editex"/>
+
+            <ImageButton
+                android:id="@+id/button"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/calendario"
+                android:background="@drawable/button_background"
+                android:onClick="AbrirCalendario"
+                android:layout_marginLeft="125dp"
+                android:layout_marginTop="-57dp"
+                android:layout_gravity="center"/>
+
+
+    <ImageButton
+        android:id="@+id/sisuiente_coti"
+        android:layout_width="64dp"
+        android:src="@drawable/icon_siguiente2"
+        android:layout_height="64dp"
+        android:background="@drawable/button_background"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center">
+
+    </ImageButton>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

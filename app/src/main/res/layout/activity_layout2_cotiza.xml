@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".layout_2_cotiza">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+        <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="Seleccionar producto:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="30dp"
+        >
+
+    </TextView>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:paddingEnd="40dp"
+            android:paddingStart="12dp"
+            android:background="@drawable/editex"
+            android:hint="Value"
+            android:focusable="false"
+            android:clickable="true"/>
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="5dp"/>
+    </FrameLayout>
+            <EditText
+                android:id="@+id/descripcion"
+                android:layout_width="180dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/editex"
+                android:gravity="top|start"
+                android:focusable="false"
+                android:clickable="false">
+
+            </EditText>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:text="Agrague una imagen:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+    </TextView>
+
+            <FrameLayout
+                android:layout_width="300dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/imageEditText"
+                    android:layout_width="300dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/editex"
+                    android:padding="67dp"
+                    android:hint="No ha seleccionado una imagen"
+                    android:gravity="top|start"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:drawablePadding="8dp">
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/add_image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/add_imagen"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/button_background">
+                </ImageButton>
+            </FrameLayout>
+
+
+
+
+
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="Cantidad:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        >
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/client"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:inputType="number"
+        android:padding="16dp"
+        android:hint="Ej. 1, 2, 3 ..."
+        android:background="@drawable/editex">
+
+    </EditText>
+
+
+    <Button
+        android:layout_width="255dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@color/switch_thumb_color"
+        android:text="Generar cotización"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="28dp">
+
+    </Button>
+
+            <ImageButton
+                android:id="@+id/atras_coti1"
+                android:layout_width="64dp"
+                android:src="@drawable/icon_atras_siguiente"
+                android:layout_height="64dp"
+                android:background="@drawable/button_background"
+                android:layout_marginTop="7dp"
+                android:layout_gravity="center"
+                >
+
+            </ImageButton>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+</LinearLayout>
