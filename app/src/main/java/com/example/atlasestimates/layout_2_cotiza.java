@@ -1,66 +1,63 @@
 package com.example.atlasestimates;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.view.View;
-import android.widget.AdapterView;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class layout_2_cotiza extends AppCompatActivity {
 
     private Spinner spinner;
     private EditText editText;
-    private EditText imageEditText;
-    private ImageButton addImageButton;
-    private static final int PICK_IMAGE = 100;
+    private TextView tvML;
+    private EditText etML;
+    private Cotizacion cotizacion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_layout2_cotiza);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        // Nuevo código agregado para el ImageButton
+        // Obtener la cotizacion guardada en el CotizacionManager
+        cotizacion = CotizacionManager.getInstance().getCotizacion();
+
         ImageButton imageButtonatras1 = findViewById(R.id.atras_coti1);
         imageButtonatras1.setOnClickListener(v -> {
             Intent intent = new Intent(layout_2_cotiza.this, nueva_cotizacion.class);
             startActivity(intent);
         });
 
-
-        // Inicializar el Spinner y los EditText
         spinner = findViewById(R.id.spinner2);
         editText = findViewById(R.id.editText2);
-        imageEditText = findViewById(R.id.imageEditText);
-        addImageButton = findViewById(R.id.add_image);
 
-        // Crear el adaptador para el Spinner
+
+        CheckBox checkboxML1 = findViewById(R.id.checkbox_ml);
+        CheckBox checkboxHM2 = findViewById(R.id.checkbox_hm);
+        CheckBox checkboxGLOBAL3 = findViewById(R.id.checkbox_global);
+        CheckBox checkboxUN4 = findViewById(R.id.checkbox_unidades);
+        CheckBox checkboxPL5 = findViewById(R.id.checkbox_planos);
+        Button btn_mostrar_cotización = findViewById(R.id.GuardarButton);
+
+        tvML = findViewById(R.id.tv_ml);
+        etML = findViewById(R.id.et_ml);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.spinner_productos,
                 android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        // Configurar el listener para el Spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -74,63 +71,54 @@ public class layout_2_cotiza extends AppCompatActivity {
             }
         });
 
-        // Configurar el listener para el botón de agregar imagen
-        addImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
+        btn_mostrar_cotización.setOnClickListener(v -> {
+            // Obtener los datos adicionales de la cotización
+            String producto = editText.getText().toString();
+            String descripcion = ((EditText) findViewById(R.id.descripcion)).getText().toString();
+            String metrosLineales = ((EditText) findViewById(R.id.et_ml)).getText().toString();
+
+            // Actualizar la cotizacion con los nuevos datos
+            cotizacion.setProducto(producto);
+            cotizacion.setDescripcion(descripcion);
+            cotizacion.setMetrosLineales(metrosLineales);
+
+            // Crear un Intent para iniciar la siguiente actividad
+            Intent intent = new Intent(layout_2_cotiza.this, Activity_mostrar_cotizacon.class);
+            intent.putExtra("cotizacion", cotizacion);
+            startActivity(intent);
         });
-    }
 
-    private void openGallery() {
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            Uri imageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
 
-                // Ajustar el tamaño de la imagen para que no se distorsione y ocupe el espacio adecuado
-                int drawableWidth = drawable.getIntrinsicWidth();
-                int drawableHeight = drawable.getIntrinsicHeight();
-                int editTextWidth = imageEditText.getWidth();
-                int editTextHeight = imageEditText.getHeight();
 
-                // Calcular el nuevo tamaño manteniendo la proporción
-                int newWidth = drawableWidth;
-                int newHeight = drawableHeight;
-                if (drawableWidth > editTextWidth / 2) {
-                    newWidth = editTextWidth / 2;
-                    newHeight = (newWidth * drawableHeight) / drawableWidth;
+
+
+        // Crear un listener común para los checkboxes
+        CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
+            if (isChecked) {
+                // Deseleccionar los demás checkboxes
+                if (buttonView != checkboxML1) checkboxML1.setChecked(false);
+                if (buttonView != checkboxHM2) checkboxHM2.setChecked(false);
+                if (buttonView != checkboxGLOBAL3) checkboxGLOBAL3.setChecked(false);
+                if (buttonView != checkboxUN4) checkboxUN4.setChecked(false);
+                if (buttonView != checkboxPL5) checkboxPL5.setChecked(false);
+
+                // Mostrar los TextView y EditText correspondientes
+                if (buttonView == checkboxML1) {
+                    tvML.setVisibility(View.VISIBLE);
+                    etML.setVisibility(View.VISIBLE);
+                } else {
+                    tvML.setVisibility(View.GONE);
+                    etML.setVisibility(View.GONE);
                 }
-                if (newHeight > editTextHeight - 30) {
-                    newHeight = editTextHeight - 30;
-                    newWidth = (newHeight * drawableWidth) / drawableHeight;
-                }
-
-                Drawable scaledDrawable = scaleDrawable(drawable, newWidth, newHeight);
-
-                // Colocar la imagen en el lado derecho del EditText
-                imageEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, scaledDrawable, null);
-                imageEditText.setHint(""); // Elimina el hint una vez que se ha seleccionado una imagen
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-    }
+        };
 
-    private Drawable scaleDrawable(Drawable drawable, int width, int height) {
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        return new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, width, height, true));
-
-
-
+        // Asignar el listener a cada checkbox
+        checkboxML1.setOnCheckedChangeListener(listener);
+        checkboxHM2.setOnCheckedChangeListener(listener);
+        checkboxGLOBAL3.setOnCheckedChangeListener(listener);
+        checkboxUN4.setOnCheckedChangeListener(listener);
+        checkboxPL5.setOnCheckedChangeListener(listener);
     }
 }

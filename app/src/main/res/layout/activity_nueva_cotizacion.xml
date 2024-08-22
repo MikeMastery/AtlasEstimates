@@ -24,28 +24,33 @@
         android:text="Nueva Cotización"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="45dp"
+        android:textSize="42dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp">
 
     </TextView>
     
     <TextView
+
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:text="Nombre:"
         android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="35dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
         >
 
     </TextView>
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/namecoti"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:padding="16dp"
+        android:inputType="text"
+        android:textSize="17sp"
+        android:textColor="#5F5F5F"
         android:layout_gravity="center"
         android:hint="Ej. Cotización 1"
         android:background="@drawable/editex">
@@ -60,52 +65,66 @@
         android:layout_gravity="center"
         android:text="Cliente:"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_marginTop="20dp"
         >
 
     </TextView>
     <EditText
-        android:id="@+id/client"
+        android:id="@+id/cliente"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:padding="16dp"
+        android:textSize="17sp"
+        android:textColor="#5F5F5F"
         android:hint="Ej. Juan Perez"
         android:background="@drawable/editex">
 
     </EditText>
 
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:text="Agregue una imagen:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp">
+            </TextView>
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:text="Descripción:"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        >
+            <FrameLayout
+                android:layout_width="300dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center">
 
-    </TextView>
-    <EditText
-        android:id="@+id/descripcion"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:background="@drawable/editex"
-        android:hint="Ingrese una descripción"
-        android:padding="16dp"
-        android:gravity="top|start"
-        android:inputType="textMultiLine"
-        android:lines="4"
-        android:minLines="3"
-        android:maxLines="6"
-        android:scrollHorizontally="false"
-        android:overScrollMode="always"
-        android:scrollbars="vertical">
+                <EditText
+                    android:id="@+id/imageEditText"
+                    android:layout_width="300dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/editex"
+                    android:padding="67dp"
+                    android:hint="No ha seleccionado una imagen"
+                    android:gravity="top|start"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:drawablePadding="8dp">
+                </EditText>
 
-    </EditText>
+                <ImageButton
+                    android:id="@+id/add_image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/add_imagen"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/button_background">
+                </ImageButton>
+            </FrameLayout>
+
 
 
 
@@ -115,7 +134,8 @@
         android:layout_gravity="center"
         android:text="Fecha:"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_marginTop="20dp"
         >
 
@@ -127,6 +147,8 @@
                 android:layout_width="240dp"
                 android:layout_height="50dp"
                 android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
                 android:layout_marginLeft="45dp"
                 android:hint="04/08/24"
                 android:background="@drawable/editex"/>
@@ -149,7 +171,7 @@
         android:src="@drawable/icon_siguiente2"
         android:layout_height="64dp"
         android:background="@drawable/button_background"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center">
 
     </ImageButton>

@@ -17,16 +17,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-
         <TextView
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:text="Seleccionar producto:"
         android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="30dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="25sp"
         >
 
     </TextView>
@@ -42,6 +41,8 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:paddingEnd="40dp"
+            android:textSize="17sp"
+            android:textColor="#5F5F5F"
             android:paddingStart="12dp"
             android:background="@drawable/editex"
             android:hint="Value"
@@ -55,65 +56,141 @@
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="5dp"/>
     </FrameLayout>
+
             <EditText
                 android:id="@+id/descripcion"
-                android:layout_width="180dp"
-                android:layout_height="110dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="48dp"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
                 android:background="@drawable/editex"
+                android:hint="Ingrese una descripción"
+                android:padding="16dp"
+                android:layout_marginTop="15dp"
                 android:gravity="top|start"
-                android:focusable="false"
-                android:clickable="false">
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:minLines="3"
+                android:maxLines="6"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:scrollbars="vertical">
 
             </EditText>
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:text="Agrague una imagen:"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp">
-    </TextView>
-
-            <FrameLayout
+            <TextView
                 android:layout_width="300dp"
-                android:layout_height="180dp"
-                android:layout_gravity="center">
+                android:layout_height="40dp"
+                android:text="Unidades de medida:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
 
-                <EditText
-                    android:id="@+id/imageEditText"
-                    android:layout_width="300dp"
-                    android:layout_height="180dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/editex"
-                    android:padding="67dp"
-                    android:hint="No ha seleccionado una imagen"
-                    android:gravity="top|start"
-                    android:focusable="false"
-                    android:clickable="false"
-                    android:drawablePadding="8dp">
-                </EditText>
 
-                <ImageButton
-                    android:id="@+id/add_image"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/add_imagen"
-                    android:layout_marginLeft="12dp"
-                    android:background="@drawable/button_background">
-                </ImageButton>
-            </FrameLayout>
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:columnCount="3"
+                android:useDefaultMargins="false"
+                android:alignmentMode="alignBounds">
 
 
 
+                <CheckBox
+                    android:id="@+id/checkbox_ml"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ML"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"/>
 
+                <CheckBox
+                    android:id="@+id/checkbox_hm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HM"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
 
+                <CheckBox
+                    android:id="@+id/checkbox_global"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Global"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"/>
 
-    <TextView
+                <CheckBox
+                    android:id="@+id/checkbox_unidades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UNIDADES"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_planos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PLANOS"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Otro"
+                    android:textSize="18dp"/>
+
+            </GridLayout>
+
+            <!-- TextView y EditText para cada CheckBox -->
+            <!-- Inicialmente, los elementos están ocultos -->
+
+            <!-- ML -->
+            <TextView
+                android:id="@+id/tv_ml"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:text="Metros Lineales:"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/et_ml"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="Metros"
+                android:paddingEnd="40dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:paddingStart="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/editex"/>
+            
+
+   <!-- <TextView
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -126,7 +203,7 @@
     </TextView>
 
     <EditText
-        android:id="@+id/client"
+        android:id="@+id/cantidad"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -135,18 +212,19 @@
         android:hint="Ej. 1, 2, 3 ..."
         android:background="@drawable/editex">
 
-    </EditText>
+    </EditText> -->
 
 
     <Button
-        android:layout_width="255dp"
-        android:layout_height="65dp"
+        android:id="@+id/GuardarButton"
+        android:layout_width="235dp"
+        android:layout_height="60dp"
         android:backgroundTint="@color/switch_thumb_color"
         android:text="Generar cotización"
-        android:textSize="18dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         android:layout_gravity="center"
-        android:layout_marginTop="28dp">
+        android:layout_marginTop="70dp">
 
     </Button>
 
@@ -156,7 +234,7 @@
                 android:src="@drawable/icon_atras_siguiente"
                 android:layout_height="64dp"
                 android:background="@drawable/button_background"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 >
 
@@ -165,12 +243,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-
-
-
-
-
-
 
 </LinearLayout>

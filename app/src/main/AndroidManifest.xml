@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AtlasEstimates"
         tools:targetApi="31">
         <activity
+            android:name=".Activity_mostrar_cotizacon"
+            android:exported="false" />
+        <activity
             android:name=".activity_add_product"
             android:exported="false" />
         <activity

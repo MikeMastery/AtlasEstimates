@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_mostrar_cotizacon">
+
+    <TextView
+        android:id="@+id/textViewTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#94B8B7B7"
+        android:layout_marginTop="2dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:text="Cliente:"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/nombre_cliente"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=""
+            android:textColor="#5F5F5F"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:text="Fecha:"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/fecha_coti"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=""
+            android:textColor="#5F5F5F"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:text="Requerimiento:"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/producto"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=""
+            android:textColor="#5F5F5F"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:text="Metros lineales:"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/un_medida"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=""
+            android:textColor="#5F5F5F"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+
+        <EditText
+            android:id="@+id/imagen_cotizacion"
+            android:layout_width="230dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:background="@drawable/editex"
+            android:padding="25dp"
+            android:layout_marginTop="2dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:drawablePadding="8dp">
+        </EditText>
+    <EditText
+        android:id="@+id/descripcion_cotizacion"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:background="@drawable/editex"
+        android:padding="16dp"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:textColor="#5F5F5F"
+        android:layout_marginTop="15dp"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:minLines="3"
+        android:maxLines="6"
+        android:scrollHorizontally="false"
+        android:overScrollMode="always"
+        android:scrollbars="vertical">
+
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="40dp"
+            android:text="Subtotal S/:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+>
+        </TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="20,000"
+            android:textColor="#5F5F5F"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="45dp"
+            android:text="IGV S/:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="3,600"
+            android:textColor="#5F5F5F"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"/>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Total S/:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="23,600"
+            android:textColor="#5F5F5F"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/black"
+        android:text="Guardar"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        >
+
+    </Button>
+    <Button
+        android:layout_width="115dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="-50dp"
+        android:text="Modificar"
+        android:textStyle="bold"
+        android:textSize="12dp"
+        >
+
+    </Button>
+    <ImageButton
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/pdf1"
+        android:layout_marginTop="-60dp"
+        android:background="@drawable/button_background"
+        android:layout_marginLeft="295dp">
+    </ImageButton>
+
+
+
+</LinearLayout>

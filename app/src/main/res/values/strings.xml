@@ -14,9 +14,16 @@
 
     <string-array name="spinner_productos">
 
-        <item>Muro prefabricado</item>
-        <item>Postes </item>
-        <item>Ladrillos</item>
+        <item>Cerco prefabricado</item>
+        <item>CP. Estandar</item>
+        <item>CP. Cabeza caballo</item>
+        <item>Maquinaria Pesada</item>
+        <item>Poste concreto </item>
+        <item>Block concreto</item>
+        <item>Desarrollo projectos</item>
+        <item>Srv. Topografia</item>
+
+
     </string-array>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
