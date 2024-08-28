@@ -13,6 +13,7 @@ public class Cotizacion implements Serializable {
     private String descripcion;
     private String metrosLineales;
 
+
     // Getters y Setters
     public String getNombreCotizacion() {
         return nombreCotizacion;
@@ -70,6 +71,9 @@ public class Cotizacion implements Serializable {
     public void setMetrosLineales(String metrosLineales) {
         this.metrosLineales = metrosLineales;
     }
+
+
+
 
     public String getOtrosDatos() {
         return otrosDatos;

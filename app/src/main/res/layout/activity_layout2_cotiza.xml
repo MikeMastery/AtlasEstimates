@@ -57,6 +57,35 @@
             android:layout_marginEnd="5dp"/>
     </FrameLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="13dp">
+
+               <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="45dp"
+                    android:text="Precio:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPrecio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="#5F5F5F"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
+
+
+
             <EditText
                 android:id="@+id/descripcion"
                 android:layout_width="300dp"
@@ -65,7 +94,7 @@
                 android:background="@drawable/editex"
                 android:hint="Ingrese una descripción"
                 android:padding="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
                 android:lines="4"
@@ -92,7 +121,7 @@
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:columnCount="3"
                 android:useDefaultMargins="false"
@@ -155,8 +184,10 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Otro"
-                    android:textSize="18dp"/>
+                    android:text="OTRO"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"
+                    android:textSize="17sp"/>
 
             </GridLayout>
 
@@ -174,7 +205,7 @@
                 android:textSize="20sp"
                 android:visibility="gone"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="15dp"/>
 
             <EditText
                 android:id="@+id/et_ml"
@@ -188,7 +219,38 @@
                 android:layout_gravity="center"
                 android:visibility="gone"
                 android:background="@drawable/editex"/>
-            
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="85dp"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="45dp"
+                android:text="Total:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/tvPrecioTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text=""
+                android:textColor="#5F5F5F"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"/>
+
+        </LinearLayout>
+
+
+
 
    <!-- <TextView
         android:layout_width="300dp"
@@ -224,7 +286,7 @@
         android:textSize="15dp"
         android:textStyle="bold"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="10dp">
 
     </Button>
 
