@@ -161,18 +161,27 @@ public class layout_2_cotiza extends AppCompatActivity {
             double metrosLineales = Double.parseDouble(etML.getText().toString());
             double precio = Double.parseDouble(etPrecio.getText().toString());
 
-            double total = metrosLineales * precio;
-            double totalIGV = total * (1 + IGV);
+            // Calcular subtotal
+            double subtotal = metrosLineales * precio;
 
-            DecimalFormat df = new DecimalFormat("#.##");
+            // Calcular IGV
+            double igv = subtotal * IGV;
+
+            // Calcular total
+            double total = subtotal + igv;
+
+            // Formatear los valores a dos decimales
+            DecimalFormat df = new DecimalFormat("#,###.##");
 
             // Guardar los resultados en el objeto cotizacion
+            cotizacion.setSubtotal(df.format(subtotal));
+            cotizacion.setIgv(df.format(igv));
             cotizacion.setTotal(df.format(total));
-            cotizacion.setTotalIGV(df.format(totalIGV));
         } catch (NumberFormatException e) {
             // En caso de error, establecer valores por defecto o manejar el error
+            cotizacion.setSubtotal("0.00");
+            cotizacion.setIgv("0.00");
             cotizacion.setTotal("0.00");
-            cotizacion.setTotalIGV("0.00");
         }
     }
 }

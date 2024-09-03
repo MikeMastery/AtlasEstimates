@@ -10,6 +10,7 @@ public class Cotizacion implements Serializable {
     private String imagenUri; // Cambiado de Bitmap a String (URI)
     private String total;
     private String igv;
+    private String subTotal;
     private String producto;
     private String descripcion;
     private String metrosLineales;
@@ -93,8 +94,15 @@ public class Cotizacion implements Serializable {
         return igv;
 
     }
-    public void setTotalIGV(String obtenerIGV){
+    public void setIgv(String obtenerIGV){
         this.igv = obtenerIGV;
+    }
+    public String getSubTotal(){
+        return subTotal;
+
+    }
+    public void setSubtotal(String obtenerSubTotal){
+        this.subTotal = obtenerSubTotal;
     }
 
 

@@ -25,6 +25,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private TextView texviewPrecio;
     private TextView textviewTotal;
     private TextView textviewTotalIGV;
+    private TextView textviewSubTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         texviewPrecio = findViewById(R.id.mostrar_precio);
         textviewTotal = findViewById(R.id.ed_total);
         textviewTotalIGV =findViewById(R.id.mostrar_igv);
+        textviewSubTotal = findViewById(R.id.ed_SubTotal);
 
         Cotizacion cotizacion = (Cotizacion) getIntent().getSerializableExtra("cotizacion");
         if (cotizacion != null) {
@@ -53,6 +55,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             texviewPrecio.setText(cotizacion.getPrecio());
             textviewTotal.setText(cotizacion.getTotal());
             textviewTotalIGV.setText(cotizacion.getIgv());
+            textviewSubTotal.setText(cotizacion.getSubTotal());
 
             String imageUriString = cotizacion.getImagenUri();
             if (imageUriString != null) {
@@ -64,8 +67,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     // Escalar el bitmap para que se ajuste dentro de los límites del EditText
                     int width = bitmap.getWidth();
                     int height = bitmap.getHeight();
-                    int targetWidth = 500; // Ancho del EditText en dp
-                    int targetHeight = 400; // Altura del EditText en dp
+                    int targetWidth = 600; // Ancho del EditText en dp
+                    int targetHeight = 500; // Altura del EditText en dp
 
                     if (width > targetWidth || height > targetHeight) {
                         float aspectRatio = (float) width / height;
