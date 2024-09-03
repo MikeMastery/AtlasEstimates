@@ -2,6 +2,8 @@ package com.example.atlasestimates;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Locale;
+import java.text.DecimalFormat;
 
 public class layout_2_cotiza extends AppCompatActivity {
 
@@ -23,9 +25,10 @@ public class layout_2_cotiza extends AppCompatActivity {
     private EditText editText;
     private TextView tvML;
     private EditText etML;
-    private Cotizacion cotizacion;
     private TextView tvPrecio;
-    private ProductManager productManager;
+    private EditText etPrecio;
+    private Cotizacion cotizacion;
+    private static final double IGV = 0.18; // 18% IGV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,11 @@ public class layout_2_cotiza extends AppCompatActivity {
         editText = findViewById(R.id.editText2);
         tvML = findViewById(R.id.tv_ml);
         etML = findViewById(R.id.et_ml);
-        tvPrecio = findViewById(R.id.tvPrecio);
+        tvPrecio = findViewById(R.id.tex_precio);
+        etPrecio = findViewById(R.id.ed_precio);
 
         // Inicialización de objetos
         cotizacion = CotizacionManager.getInstance().getCotizacion();
-        productManager = new ProductManager();
 
         ImageButton imageButtonatras1 = findViewById(R.id.atras_coti1);
         imageButtonatras1.setOnClickListener(v -> {
@@ -62,11 +65,6 @@ public class layout_2_cotiza extends AppCompatActivity {
                 String selectedProduct = parent.getItemAtPosition(position).toString();
                 editText.setText(selectedProduct);
 
-                // Obtener y mostrar el precio
-                Double price = productManager.getPrice(selectedProduct);
-                String formattedPrice = String.format(Locale.getDefault(), "S/ %.2f", price);
-                tvPrecio.setText(formattedPrice);
-
                 // Actualizar la cotización
                 cotizacion.setProducto(selectedProduct);
             }
@@ -74,7 +72,6 @@ public class layout_2_cotiza extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 editText.setText("");
-                tvPrecio.setText("");
             }
         });
 
@@ -101,9 +98,13 @@ public class layout_2_cotiza extends AppCompatActivity {
                 if (buttonView == checkboxML1) {
                     tvML.setVisibility(View.VISIBLE);
                     etML.setVisibility(View.VISIBLE);
+                    tvPrecio.setVisibility(View.VISIBLE);
+                    etPrecio.setVisibility(View.VISIBLE);
                 } else {
                     tvML.setVisibility(View.GONE);
                     etML.setVisibility(View.GONE);
+                    tvPrecio.setVisibility(View.GONE);
+                    etPrecio.setVisibility(View.GONE);
                 }
             }
         };
@@ -115,21 +116,63 @@ public class layout_2_cotiza extends AppCompatActivity {
         checkboxUN4.setOnCheckedChangeListener(listener);
         checkboxPL5.setOnCheckedChangeListener(listener);
 
+        // Añadir TextWatcher a etML y etPrecio
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                calcularTotal();
+            }
+        };
+
+        etML.addTextChangedListener(textWatcher);
+        etPrecio.addTextChangedListener(textWatcher);
+
         // Configuración del botón para mostrar cotización
         Button btn_mostrar_cotización = findViewById(R.id.GuardarButton);
         btn_mostrar_cotización.setOnClickListener(v -> {
             // Obtener los datos adicionales de la cotización
             String descripcion = ((EditText) findViewById(R.id.descripcion)).getText().toString();
             String metrosLineales = etML.getText().toString();
+            String precio = etPrecio.getText().toString();
 
             // Actualizar la cotizacion con los nuevos datos
             cotizacion.setDescripcion(descripcion);
             cotizacion.setMetrosLineales(metrosLineales);
+            cotizacion.setPrecio(precio);
+
+            // Realizar el cálculo final antes de pasar a la siguiente actividad
+            calcularTotal();
 
             // Crear un Intent para iniciar la siguiente actividad
             Intent intent = new Intent(layout_2_cotiza.this, Activity_mostrar_cotizacon.class);
             intent.putExtra("cotizacion", cotizacion);
             startActivity(intent);
         });
+    }
+
+    private void calcularTotal() {
+        try {
+            double metrosLineales = Double.parseDouble(etML.getText().toString());
+            double precio = Double.parseDouble(etPrecio.getText().toString());
+
+            double total = metrosLineales * precio;
+            double totalIGV = total * (1 + IGV);
+
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            // Guardar los resultados en el objeto cotizacion
+            cotizacion.setTotal(df.format(total));
+            cotizacion.setTotalIGV(df.format(totalIGV));
+        } catch (NumberFormatException e) {
+            // En caso de error, establecer valores por defecto o manejar el error
+            cotizacion.setTotal("0.00");
+            cotizacion.setTotalIGV("0.00");
+        }
     }
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductManager {
-    private Map<String, Double> productPrices;
+    /*private Map<String, Double> productPrices;
 
     public ProductManager() {
         productPrices = new HashMap<>();
@@ -25,5 +25,5 @@ public class ProductManager {
 
     public void updatePrice(String productName, Double price) {
         productPrices.put(productName, price);
-    }
+    }*/
 }

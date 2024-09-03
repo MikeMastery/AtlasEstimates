@@ -129,13 +129,38 @@
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:text="Precio:"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/mostrar_precio"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=""
+            android:textColor="#5F5F5F"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
 
         <EditText
             android:id="@+id/imagen_cotizacion"
             android:layout_width="230dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
-            android:background="@drawable/editex"
             android:padding="25dp"
             android:layout_marginTop="2dp"
             android:focusable="false"
@@ -152,7 +177,7 @@
         android:textStyle="bold"
         android:textSize="17sp"
         android:textColor="#5F5F5F"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:gravity="top|start"
         android:inputType="textMultiLine"
         android:lines="4"
@@ -168,28 +193,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="40dp"
-            android:text="Subtotal S/:"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
->
-        </TextView>
+        android:layout_marginTop="20dp">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="20,000"
-            android:textColor="#5F5F5F"
-            android:textStyle="bold"
-            android:textSize="17sp"
-            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -202,9 +208,10 @@
             >
         </TextView>
         <TextView
+            android:id="@+id/mostrar_igv"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="3,600"
+            android:text=""
             android:textColor="#5F5F5F"
             android:textStyle="bold"
             android:textSize="17sp"
@@ -214,17 +221,18 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="5dp">
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_marginLeft="45dp"
             android:text="Total S/:"
             android:textSize="20sp"
             android:textColor="@color/black"
@@ -232,15 +240,18 @@
             >
         </TextView>
         <TextView
+            android:id="@+id/ed_total"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="23,600"
+            android:text=""
             android:textColor="#5F5F5F"
-            android:textStyle="bold"
             android:textSize="17sp"
+            android:textStyle="bold"
             android:layout_marginStart="10dp"/>
-    </LinearLayout>
 
+
+
+    </LinearLayout>
 
 
 
@@ -252,7 +263,7 @@
         android:layout_width="110dp"
         android:layout_height="50dp"
         android:layout_marginLeft="45dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="-3dp"
         android:backgroundTint="@color/black"
         android:text="Guardar"
         android:textSize="12dp"

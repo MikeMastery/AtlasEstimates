@@ -8,10 +8,12 @@ public class Cotizacion implements Serializable {
     private String nombreCliente;
     private String fecha;
     private String imagenUri; // Cambiado de Bitmap a String (URI)
-    private String otrosDatos;
+    private String total;
+    private String igv;
     private String producto;
     private String descripcion;
     private String metrosLineales;
+    private String obtenerPrecio;
 
 
     // Getters y Setters
@@ -70,16 +72,30 @@ public class Cotizacion implements Serializable {
 
     public void setMetrosLineales(String metrosLineales) {
         this.metrosLineales = metrosLineales;
+
+
+    }
+    public String getPrecio() {
+        return obtenerPrecio;
+    }
+
+    public void setPrecio(String obtenerPrecio) {
+        this.obtenerPrecio = obtenerPrecio;
+    }
+    public String getTotal(){
+        return total;
+
+    }
+    public void setTotal(String obtenerTotal){
+        this.total = obtenerTotal;
+    }
+    public String getIgv(){
+        return igv;
+
+    }
+    public void setTotalIGV(String obtenerIGV){
+        this.igv = obtenerIGV;
     }
 
 
-
-
-    public String getOtrosDatos() {
-        return otrosDatos;
-    }
-
-    public void setOtrosDatos(String otrosDatos) {
-        this.otrosDatos = otrosDatos;
-    }
 }

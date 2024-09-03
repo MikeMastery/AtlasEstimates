@@ -22,6 +22,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private EditText editextImagen;
     private TextView textviewUNmedida;
     private TextView textviewDescripcion;
+    private TextView texviewPrecio;
+    private TextView textviewTotal;
+    private TextView textviewTotalIGV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         editextImagen = findViewById(R.id.imagen_cotizacion);
         textviewUNmedida = findViewById(R.id.un_medida);
         textviewDescripcion = findViewById(R.id.descripcion_cotizacion);
+        texviewPrecio = findViewById(R.id.mostrar_precio);
+        textviewTotal = findViewById(R.id.ed_total);
+        textviewTotalIGV =findViewById(R.id.mostrar_igv);
 
         Cotizacion cotizacion = (Cotizacion) getIntent().getSerializableExtra("cotizacion");
         if (cotizacion != null) {
@@ -44,6 +50,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewRequerimiento.setText(cotizacion.getProducto());
             textviewUNmedida.setText(cotizacion.getMetrosLineales());
             textviewDescripcion.setText(cotizacion.getDescripcion());
+            texviewPrecio.setText(cotizacion.getPrecio());
+            textviewTotal.setText(cotizacion.getTotal());
+            textviewTotalIGV.setText(cotizacion.getIgv());
 
             String imageUriString = cotizacion.getImagenUri();
             if (imageUriString != null) {
