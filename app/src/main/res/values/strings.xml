@@ -17,11 +17,24 @@
         <item>Cerco prefabricado</item>
         <item>CP. Estandar</item>
         <item>CP. Cabeza caballo</item>
-        <item>Maquinaria Pesada</item>
         <item>Poste concreto </item>
         <item>Block concreto</item>
-        <item>Desarrollo projectos</item>
-        <item>Srv. Topografia</item>
+
+
+
+    </string-array>
+
+    <string-array name="spinner_categorias">
+
+        <item>Ingenieria</item>
+        <item>Arquitectura</item>
+        <item>Topografia</item>
+        <item>Cercos</item>
+        <item>Maquinaria pesada</item>
+        <item>Unidades</item>
+
+
+
 
 
     </string-array>

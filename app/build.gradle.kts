@@ -6,6 +6,7 @@ android {
     namespace = "com.example.atlasestimates"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.example.atlasestimates"
         minSdk = 30
@@ -45,6 +46,8 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.activity)
     implementation(libs.room.common)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

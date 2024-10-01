@@ -17,6 +17,46 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Categorias:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25sp"
+                >
+
+            </TextView>
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editText1"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:paddingEnd="40dp"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:paddingStart="12dp"
+                    android:background="@drawable/editex"
+                    android:hint="Value"
+                    android:focusable="false"
+                    android:clickable="true"/>
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="5dp"/>
+            </FrameLayout>
+
         <TextView
         android:layout_width="300dp"
         android:layout_height="40dp"
@@ -194,7 +234,7 @@
             <!-- TextView y EditText para cada CheckBox -->
             <!-- Inicialmente, los elementos están ocultos -->
 
-            <!-- ML -->
+            <!--Inserción de datos de ML (Metros lineales) -->
             <TextView
                 android:id="@+id/tv_ml"
                 android:layout_width="300dp"
@@ -235,6 +275,59 @@
 
             <EditText
                 android:id="@+id/ed_precio"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="Precio"
+                android:paddingEnd="40dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:paddingStart="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/editex"/>
+
+
+            <!--Inserción de datos de HM (Horas Maquina) -->
+            <TextView
+                android:id="@+id/tv_hm"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:text="Tiempo de alquiler:"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"/>
+
+            <EditText
+                android:id="@+id/et_hm"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="Horas"
+                android:paddingEnd="40dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:paddingStart="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/editex"/>
+
+            <!-- Precio -->
+            <TextView
+                android:id="@+id/tex_precio_hm"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:text="Precio por hora:"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"/>
+
+            <EditText
+                android:id="@+id/ed_precio_hm"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:hint="Precio"

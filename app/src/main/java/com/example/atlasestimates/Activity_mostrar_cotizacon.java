@@ -15,17 +15,20 @@ import java.io.FileNotFoundException;
 
 public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
+
     private TextView textViewTitulo;
     private TextView textviewCliente;
     private TextView textviewFecha;
     private TextView textviewRequerimiento;
     private EditText editextImagen;
-    private TextView textviewUNmedida;
-    private TextView textviewDescripcion;
-    private TextView texviewPrecio;
+    private TextView labelUnidadMedida;
+    private TextView textviewUnidadMedida;
+    private TextView textviewPrecio;
     private TextView textviewTotal;
+    private TextView textviewDescripcion;
     private TextView textviewTotalIGV;
     private TextView textviewSubTotal;
+    private TextView textview_mostrar_texto_precio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,12 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         textviewFecha = findViewById(R.id.fecha_coti);
         textviewRequerimiento = findViewById(R.id.producto);
         editextImagen = findViewById(R.id.imagen_cotizacion);
-        textviewUNmedida = findViewById(R.id.un_medida);
         textviewDescripcion = findViewById(R.id.descripcion_cotizacion);
-        texviewPrecio = findViewById(R.id.mostrar_precio);
+        labelUnidadMedida = findViewById(R.id.label_unidad_medida);
+        textviewUnidadMedida = findViewById(R.id.un_medida);
+        textviewPrecio = findViewById(R.id.mostrar_precio);
         textviewTotal = findViewById(R.id.ed_total);
-        textviewTotalIGV =findViewById(R.id.mostrar_igv);
+        textviewTotalIGV = findViewById(R.id.mostrar_igv);
         textviewSubTotal = findViewById(R.id.ed_SubTotal);
 
         Cotizacion cotizacion = (Cotizacion) getIntent().getSerializableExtra("cotizacion");
@@ -50,12 +54,23 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewCliente.setText(cotizacion.getNombreCliente());
             textviewFecha.setText(cotizacion.getFecha());
             textviewRequerimiento.setText(cotizacion.getProducto());
-            textviewUNmedida.setText(cotizacion.getMetrosLineales());
             textviewDescripcion.setText(cotizacion.getDescripcion());
-            texviewPrecio.setText(cotizacion.getPrecio());
+
+            // Determinar qué mostrar basándose en los datos de la cotización
+            if (!cotizacion.getMetrosLineales().isEmpty()) {
+                labelUnidadMedida.setText("Metros lineales:");
+                textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
+                textviewPrecio.setText(cotizacion.getPrecio());
+            } else if (!cotizacion.getHorasMaquina().isEmpty()) {
+                labelUnidadMedida.setText("Horas de alquiler:");
+                textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
+                textviewPrecio.setText(cotizacion.getPrecioHora());
+            }
+
             textviewTotal.setText(cotizacion.getTotal());
             textviewTotalIGV.setText(cotizacion.getIgv());
             textviewSubTotal.setText(cotizacion.getSubTotal());
+
 
             String imageUriString = cotizacion.getImagenUri();
             if (imageUriString != null) {
