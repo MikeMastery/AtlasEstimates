@@ -13,31 +13,21 @@
 
 
     <string-array name="spinner_productos">
-
-        <item>Cerco prefabricado</item>
-        <item>CP. Estandar</item>
-        <item>CP. Cabeza caballo</item>
-        <item>Poste concreto </item>
-        <item>Block concreto</item>
-
+        <item>Seleccione un producto</item>
+        <item>Cercos prefabricados</item>
+        <item>Cerco cabeza caballo</item>
+        <item>Block de concreto</item>
+        <item>Poste de concreto</item>
 
 
     </string-array>
 
     <string-array name="spinner_categorias">
-
-        <item>Ingenieria</item>
-        <item>Arquitectura</item>
-        <item>Topografia</item>
-        <item>Cercos</item>
-        <item>Maquinaria pesada</item>
-        <item>Unidades</item>
-
-
-
-
+        <item>Seleccione una categoría</item>
+        <item>Productos</item>
 
     </string-array>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

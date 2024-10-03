@@ -6,12 +6,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileNotFoundException;
+import java.util.logging.Handler;
 
 public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
@@ -47,6 +50,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         textviewTotal = findViewById(R.id.ed_total);
         textviewTotalIGV = findViewById(R.id.mostrar_igv);
         textviewSubTotal = findViewById(R.id.ed_SubTotal);
+
+
+
 
         Cotizacion cotizacion = (Cotizacion) getIntent().getSerializableExtra("cotizacion");
         if (cotizacion != null) {

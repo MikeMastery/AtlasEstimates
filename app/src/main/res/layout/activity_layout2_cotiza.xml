@@ -58,6 +58,7 @@
             </FrameLayout>
 
         <TextView
+        android:id="@+id/tvseleccionar_prodcuto"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -97,32 +98,7 @@
             android:layout_marginEnd="5dp"/>
     </FrameLayout>
 
-           <!-- <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="13dp">
 
-               <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="45dp"
-                    android:text="Precio:"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tvPrecio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text=""
-                    android:textColor="#5F5F5F"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="10dp"/>
-
-            </LinearLayout>-->
 
 
 
@@ -147,18 +123,35 @@
                 android:scrollbars="vertical">
 
             </EditText>
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:text="Unidades de medida:"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:text="Unidad de medida:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvUnidadMedida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="#5F5F5F"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
 
 
-            <GridLayout
+           <!-- <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -229,7 +222,7 @@
                     android:textStyle="bold"
                     android:textSize="17sp"/>
 
-            </GridLayout>
+            </GridLayout>-->
 
             <!-- TextView y EditText para cada CheckBox -->
             <!-- Inicialmente, los elementos están ocultos -->
@@ -338,62 +331,6 @@
                 android:layout_gravity="center"
                 android:visibility="gone"
                 android:background="@drawable/editex"/>
-
-       <!-- <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="25dp">
-
-           <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="45dp"
-                android:text="Total:"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-
-            <TextView
-                android:id="@+id/tvPrecioTotal"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text=""
-                android:textColor="#5F5F5F"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"/>
-
-        </LinearLayout>-->
-
-
-
-
-   <!--<TextView
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:text="Cantidad:"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        >
-
-    </TextView>
-
-    <EditText
-        android:id="@+id/cantidad"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:inputType="number"
-        android:padding="16dp"
-        android:hint="Ej. 1, 2, 3 ..."
-        android:background="@drawable/editex">
-
-    </EditText>-->
 
 
     <Button

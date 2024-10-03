@@ -87,6 +87,32 @@
             <TextView
                 android:layout_width="300dp"
                 android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="DNI o RUC:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/identificacion"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:inputType="number"
+                android:textColor="#5F5F5F"
+                android:hint="Ej. Juan Perez"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="40dp"
                 android:text="Agregue una imagen:"
                 android:textColor="@color/black"
                 android:textSize="20sp"
