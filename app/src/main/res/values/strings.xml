@@ -13,7 +13,7 @@
 
 
     <string-array name="spinner_productos">
-        <item>Seleccione un producto</item>
+
         <item>Cercos prefabricados</item>
         <item>Cerco cabeza caballo</item>
         <item>Block de concreto</item>

@@ -19,6 +19,9 @@ public class layout_2_cotiza extends AppCompatActivity {
     private EditText etPrecio;
     private TextView tvMl;
     private TextView tvPrecio;
+    private EditText editex_categoria;
+    private EditText edittext_producto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,9 @@ public class layout_2_cotiza extends AppCompatActivity {
         etPrecio = findViewById(R.id.ed_precio);
         tvMl = findViewById(R.id.tv_ml);
         tvPrecio = findViewById(R.id.tex_precio);
+        editex_categoria = findViewById(R.id.editText1);
+        edittext_producto = findViewById(R.id.editText2);
+
 
         // Configurar Spinner de Categoría
         ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(this,
@@ -44,6 +50,10 @@ public class layout_2_cotiza extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedCategoria = parent.getItemAtPosition(position).toString();
+
+                // Mostrar la selección en editText1
+                editex_categoria.setText(selectedCategoria);
+
                 if ("Productos".equals(selectedCategoria)) {
                     tvSeleccionarProducto.setText("Seleccionar Producto");
                     configureProductSpinner();
@@ -72,7 +82,10 @@ public class layout_2_cotiza extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedProduct = parent.getItemAtPosition(position).toString();
                 updateUnidadMedida(selectedProduct);
+
+                edittext_producto.setText(selectedProduct);
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
