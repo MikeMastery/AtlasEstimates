@@ -27,6 +27,7 @@ public class nueva_cotizacion extends AppCompatActivity {
     private EditText etNombreCotizacion, etNombreCliente, etFecha;
     private EditText imageEditText;
     private ImageButton addImageButton;
+
     private Bitmap selectedImageBitmap;
     private Uri imageUri;
     private static final int PICK_IMAGE = 100;
@@ -41,6 +42,7 @@ public class nueva_cotizacion extends AppCompatActivity {
         etFecha = findViewById(R.id.fecha);
         imageEditText = findViewById(R.id.imageEditText);
         addImageButton = findViewById(R.id.add_image);
+
 
         ImageButton imageButton = findViewById(R.id.sisuiente_coti);
         imageButton.setOnClickListener(v -> {
@@ -57,6 +59,7 @@ public class nueva_cotizacion extends AppCompatActivity {
         cotizacion.setNombreCotizacion(etNombreCotizacion.getText().toString());
         cotizacion.setNombreCliente(etNombreCliente.getText().toString());
         cotizacion.setFecha(etFecha.getText().toString());
+
         if (imageUri != null) {
             cotizacion.setImagenUri(imageUri.toString()); // Usar URI como String
         }

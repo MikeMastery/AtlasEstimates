@@ -17,13 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-
     <TextView
         android:id="@+id/textViewTitulo"
         android:layout_width="wrap_content"
@@ -67,6 +60,33 @@
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:text="DNI/RUC:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/identificacion1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="#5F5F5F"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,6 +113,32 @@
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:text="Categoria:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/categoriaMostrar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="#5F5F5F"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,7 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
-            android:text="Metros lineales:"
+            android:text="Metros/Unidades:"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -171,7 +217,10 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
-        <TextView
+
+
+
+     <!--   <TextView
             android:id="@+id/horas_maquina"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -179,16 +228,21 @@
         <TextView
             android:id="@+id/precio_hora"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"/>-->
 
     </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#94B8B7B7"
+                android:layout_marginTop="7dp"/>
     <EditText
         android:id="@+id/imagen_cotizacion"
         android:layout_width="230dp"
-        android:layout_height="140dp"
+        android:layout_height="190dp"
         android:layout_gravity="center"
         android:padding="20dp"
-        android:layout_marginTop="-5dp"
+        android:layout_marginTop="10dp"
         android:focusable="false"
         android:clickable="false"
         android:drawablePadding="8dp"
@@ -204,7 +258,7 @@
         android:textStyle="bold"
         android:textSize="17sp"
         android:textColor="#5F5F5F"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:gravity="top|start"
         android:inputType="textMultiLine"
         android:lines="4"
@@ -215,12 +269,17 @@
         android:scrollbars="vertical">
 
     </EditText>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#94B8B7B7"
+                android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -310,7 +369,7 @@
         android:layout_width="110dp"
         android:layout_height="50dp"
         android:layout_marginLeft="45dp"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/black"
         android:text="Guardar"
         android:textSize="12dp"

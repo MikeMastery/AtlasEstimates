@@ -32,6 +32,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private TextView textviewTotalIGV;
     private TextView textviewSubTotal;
     private TextView textview_mostrar_texto_precio;
+    private TextView textviewCategoria;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         textviewTotal = findViewById(R.id.ed_total);
         textviewTotalIGV = findViewById(R.id.mostrar_igv);
         textviewSubTotal = findViewById(R.id.ed_SubTotal);
+        textviewCategoria = findViewById(R.id.categoriaMostrar);
+
 
 
 
@@ -61,17 +65,16 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewFecha.setText(cotizacion.getFecha());
             textviewRequerimiento.setText(cotizacion.getProducto());
             textviewDescripcion.setText(cotizacion.getDescripcion());
+            textviewCategoria.setText(cotizacion.getCategoria());
+            textviewPrecio.setText(cotizacion.getPrecio());
+            textviewPrecio.setText(cotizacion.getPrecioHora());
+            textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
+            textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
+
+
 
             // Determinar qué mostrar basándose en los datos de la cotización
-            if (!cotizacion.getMetrosLineales().isEmpty()) {
-                labelUnidadMedida.setText("Metros lineales:");
-                textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
-                textviewPrecio.setText(cotizacion.getPrecio());
-            } else if (!cotizacion.getHorasMaquina().isEmpty()) {
-                labelUnidadMedida.setText("Horas de alquiler:");
-                textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
-                textviewPrecio.setText(cotizacion.getPrecioHora());
-            }
+
 
             textviewTotal.setText(cotizacion.getTotal());
             textviewTotalIGV.setText(cotizacion.getIgv());

@@ -17,6 +17,8 @@ public class Cotizacion implements Serializable {
     private String obtenerPrecio;
     private String horasMaquina;
     private String precioHora;
+    private String categoria;
+    private String identifica;
 
 
     // Getters y Setters
@@ -120,6 +122,14 @@ public class Cotizacion implements Serializable {
     public String getPrecioHora() {
         return precioHora;
     }
+    public void setCategoria(String obtenerCategoria){
+        this.categoria = obtenerCategoria;
+    }
+    public String getCategoria() {
+        return categoria;
+    }
+
+
 
     // ... resto de la clase ...
 
