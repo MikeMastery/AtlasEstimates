@@ -20,6 +20,8 @@ import com.example.atlasestimates.ProductoAdapter;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.databinding.FragmentDashboardBinding;
 import com.example.atlasestimates.Activity_nuevoProducto;
+import com.example.atlasestimates.nueva_cotizacion;
+import com.example.atlasestimates.nuevo_servicio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,12 +80,16 @@ public class DashboardFragment extends Fragment {
             nuevoProductoLauncher.launch(intent); // Iniciar la actividad
         });
 
+        ImageButton addServicio = root.findViewById(R.id.servicio);
+        addServicio.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), nuevo_servicio.class);
+            nuevoProductoLauncher.launch(intent); // Iniciar la actividad
+        });
+
+
+
+
         return root;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 }

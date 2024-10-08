@@ -31,7 +31,31 @@
             android:textStyle="bold"
             android:textColor="#5F5F5F"
             android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="285dp"
+            android:layout_marginTop="48dp"
+            android:textStyle="bold"
+            android:textColor="#5F5F5F"
+            android:text="Nuevo Servicio"
+            android:textSize="20sp">
+
+        </TextView>
+        <ImageButton
+            android:id="@+id/servicio"
+            android:layout_width="64dp"
+            android:src="@drawable/servicio"
+            android:layout_height="64dp"
+            android:background="@drawable/button_background"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="215dp">
+
+        </ImageButton>
     </FrameLayout>
+
+
 
     <TextView
         android:layout_width="match_parent"
@@ -40,6 +64,12 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:padding="16dp"/>
+    <View
+        android:layout_width="377dp"
+        android:layout_height="3dp"
+        android:background="#94B8B7B7"
+        android:layout_gravity="center"
+        android:layout_marginTop="-7dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProductos"

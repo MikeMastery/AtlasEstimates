@@ -66,10 +66,13 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewRequerimiento.setText(cotizacion.getProducto());
             textviewDescripcion.setText(cotizacion.getDescripcion());
             textviewCategoria.setText(cotizacion.getCategoria());
-            textviewPrecio.setText(cotizacion.getPrecio());
-            textviewPrecio.setText(cotizacion.getPrecioHora());
-            textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
-            textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
+            // Asigna metros lineales y horas máquina al TextView correspondiente
+            textviewUnidadMedida.setText(cotizacion.getMetrosLineales() + " / " + cotizacion.getHorasMaquina());
+
+            // Asigna precio y precio por hora al TextView correspondiente
+            textviewPrecio.setText(cotizacion.getPrecio() + " / " + cotizacion.getPrecioHora());
+
+
 
 
 

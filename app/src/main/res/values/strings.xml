@@ -10,6 +10,12 @@
         <item>Estado</item>
         <item>Monto</item>
     </string-array>
+    <string-array name="servicios">
+
+        <item>Ingenieria</item>
+        <item>Arquitectura</item>
+        <item>Topografia</item>
+    </string-array>
 
 
     <string-array name="spinner_productos">
