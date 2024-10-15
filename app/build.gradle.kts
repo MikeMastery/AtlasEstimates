@@ -47,9 +47,10 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.room.common)
     implementation(libs.glide)
+    implementation("com.itextpdf:itext7-core:7.1.15")
+    implementation(libs.firebase.crashlytics.buildtools)
     annotationProcessor(libs.glide.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.glide)
 }

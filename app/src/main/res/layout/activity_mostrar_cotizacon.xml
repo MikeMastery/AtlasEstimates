@@ -377,6 +377,7 @@
 
     </Button>
     <ImageButton
+        android:id="@+id/conpartir_descargarPDF"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/pdf1"
