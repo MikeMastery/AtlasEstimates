@@ -171,7 +171,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Image headerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.encabezado))));
             float pageWidth = PageSize.A4.getWidth();
             float pageHeight = PageSize.A4.getHeight();
-            float imageHeight = 150f; // Ajusta este valor según lo que necesites
+            float imageHeight = 140f; // Ajusta este valor según lo que necesites
 
             // Mantener la relación de aspecto de la imagen
             float imageWidth = (headerImage.getImageWidth() / headerImage.getImageHeight()) * imageHeight;
@@ -181,11 +181,11 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             document.add(headerImage);
 
             // Crear título
-            Paragraph title = new Paragraph("Detalles de la Cotización")
+            Paragraph title = new Paragraph(  textViewTitulo.getText().toString())
                     .setBold()
                     .setFontSize(20)
                     .setTextAlignment(TextAlignment.CENTER)
-                    .setMarginTop(120); // Ajusta este valor para bajar más el título
+                    .setMarginTop(130); // Ajusta este valor para bajar más el título
             document.add(title);
 
             // Datos a la derecha con sangría
@@ -194,7 +194,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                             "Fecha: " + textviewFecha.getText().toString())
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(50)
-                    .setMarginTop(50);
+                    .setMarginTop(20);
             document.add(rightAlignedData);
 
             // Tabla en el centro
@@ -202,20 +202,24 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Table table = new Table(columnWidths);
             table.setMarginTop(20);
 
+            table.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
             // Añadir datos a la tabla
+            addCellToTable(table, "Categoría", textviewCategoria.getText().toString());
             addCellToTable(table, "Producto", textviewRequerimiento.getText().toString());
             addCellToTable(table, "Descripción", textviewDescripcion.getText().toString());
-            addCellToTable(table, "Categoría", textviewCategoria.getText().toString());
-            addCellToTable(table, "Metros Lineales / Horas Máquina", textviewUnidadMedida.getText().toString());
+            addCellToTable(table, "Metros Lineales/ UND", textviewUnidadMedida.getText().toString());
             addCellToTable(table, "Precio", textviewPrecio.getText().toString());
 
             // Agregar imagen dentro de la tabla
             if (imagePath != null) {
                 Image img = new Image(ImageDataFactory.create(imagePath));
-                img.setWidth(200);
-                img.setHeight(200);
+                img.setWidth(135);
+                img.setHeight(120);
                 table.addCell(new Cell(1, 2).add(img).setHorizontalAlignment(HorizontalAlignment.CENTER));
+
             }
+
 
             addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString());
             addCellToTable(table, "IGV", textviewTotalIGV.getText().toString());
