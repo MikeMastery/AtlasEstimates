@@ -33,6 +33,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -159,7 +160,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     // Método para crear el PDF con iText7
     public void createPDFWithIText() {
         // Ruta del archivo PDF
-        String pdfPath = getExternalFilesDir(null).getAbsolutePath() + "/cotizacion_itext.pdf";
+        String pdfPath = getExternalFilesDir(null).getAbsolutePath() + "/Cotización_Atlas.pdf";
         File file = new File(pdfPath);
 
         try {
@@ -193,9 +194,20 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     "Cliente: " + textviewCliente.getText().toString() + "\n" +
                             "Fecha: " + textviewFecha.getText().toString())
                     .setTextAlignment(TextAlignment.LEFT)
-                    .setMarginLeft(50)
+                    .setMarginLeft(28)
                     .setMarginTop(20);
             document.add(rightAlignedData);
+
+            //Añadir un breve texto de agradecimiento
+            Paragraph textAgradecimiento = new Paragraph(
+                    "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: " )
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setMarginTop(20); // Ajusta este valor para bajar más el título
+
+            document.add(textAgradecimiento);
+
+
 
             // Tabla en el centro
             float[] columnWidths = {200f, 200f};
@@ -214,10 +226,33 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             // Agregar imagen dentro de la tabla
             if (imagePath != null) {
                 Image img = new Image(ImageDataFactory.create(imagePath));
-                img.setWidth(135);
-                img.setHeight(120);
-                table.addCell(new Cell(1, 2).add(img).setHorizontalAlignment(HorizontalAlignment.CENTER));
 
+                // Obtener dimensiones originales de la imagen
+                float originalWidth = img.getImageWidth();
+                float originalHeight = img.getImageHeight();
+
+                // Definir el ancho máximo de la celda en la tabla
+                float maxWidth = 135f;
+                float maxHeight = 120f;
+
+                // Calcular ratio para mantener proporción
+                float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
+
+                // Establecer nuevas dimensiones manteniendo la proporción
+                float newWidth = originalWidth * ratio;
+                float newHeight = originalHeight * ratio;
+
+                img.setWidth(newWidth);
+                img.setHeight(newHeight);
+
+                // Crear la celda y centrar la imagen tanto horizontal como verticalmente
+                Cell imageCell = new Cell(1, 2)
+                        .add(img)
+                        .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                        .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .setPadding(5);  // Añadir un poco de padding para que no esté pegada a los bordes
+
+                table.addCell(imageCell);
             }
 
 
@@ -227,18 +262,19 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             document.add(table);
 
+
             // Crear y añadir imagen de pie de página
-            Image footerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.footer))));
-            float footerHeight = 150f; // Ajusta este valor según lo que necesites
+            Image footerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.empresas))));
+            float footerHeight = 53f; // Ajusta este valor según lo que necesites
             float footerWidth = (footerImage.getImageWidth() / footerImage.getImageHeight()) * footerHeight;
 
             // Posicionar el pie de página en la parte inferior
-            float bottomMargin = 8f; // Margen inferior, ajusta según necesites
+            float bottomMargin = 10f; // Margen inferior, ajusta según necesites
             footerImage.setFixedPosition((pageWidth - footerWidth) / 2, bottomMargin);
             footerImage.setWidth(footerWidth);
             footerImage.setHeight(footerHeight);
 
-// Añadir el pie de página al documento
+            // Añadir el pie de página al documento
             document.add(footerImage);
 
             document.close();
@@ -254,7 +290,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     }
 
     private void sharePDF() {
-        File file = new File(getExternalFilesDir(null) + "/cotizacion_itext.pdf");
+        File file = new File(getExternalFilesDir(null) + "/Cotización_Atlas.pdf");
         Uri uri = FileProvider.getUriForFile(this, "com.example.atlasestimates.fileprovider", file);
 
         Intent intent = new Intent(Intent.ACTION_SEND);
