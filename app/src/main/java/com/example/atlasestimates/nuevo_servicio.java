@@ -23,7 +23,7 @@ public class nuevo_servicio extends AppCompatActivity {
         Spinner spinner = binding.spinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
-                R.array.servicios, // Nombre del array
+                R.array.spinner_servicios, // Nombre del array
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

@@ -62,7 +62,7 @@
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:text="Seleccionar producto:"
+        android:text="SubCategoria:"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -86,9 +86,7 @@
             android:textColor="#5F5F5F"
             android:paddingStart="12dp"
             android:background="@drawable/editex"
-            android:hint="Value"
-            android:focusable="false"
-            android:clickable="true"/>
+            android:hint="Value" />
 
         <Spinner
             android:id="@+id/spinner2"
@@ -238,7 +236,7 @@
                 android:textSize="20sp"
                 android:visibility="gone"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="20dp"/>
 
             <EditText
                 android:id="@+id/et_ml"
@@ -291,7 +289,7 @@
                 android:textSize="20sp"
                 android:visibility="gone"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="20dp"/>
 
             <EditText
                 android:id="@+id/et_hm"
@@ -306,7 +304,7 @@
                 android:visibility="gone"
                 android:background="@drawable/editex"/>
 
-            <!-- Precio -->
+            <!-- Precio de unidades -->
             <TextView
                 android:id="@+id/tex_precio_hm"
                 android:layout_width="300dp"
@@ -342,7 +340,7 @@
         android:textSize="15dp"
         android:textStyle="bold"
         android:layout_gravity="center"
-        android:layout_marginTop="22dp">
+        android:layout_marginTop="50dp">
 
     </Button>
 

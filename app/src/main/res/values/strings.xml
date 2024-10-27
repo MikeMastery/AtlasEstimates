@@ -10,29 +10,111 @@
         <item>Estado</item>
         <item>Monto</item>
     </string-array>
-    <string-array name="servicios">
 
-        <item>Ingenieria</item>
-        <item>Arquitectura</item>
-        <item>Topografia</item>
-    </string-array>
 
+        <!-- segmento categorias-->
+
+        <string-array name="spinner_categorias">
+            <item>Seleccione una categoría</item>
+            <item>Materiales</item>
+            <item>Servicios</item>
+            <item>Topografia</item>
+            <item>Estructuras Metálicas</item>
+            <item>Abastecimiento de Agua</item>
+            <item>Maquinaria Pesada</item>
+            <item>Construcción de Obra</item>
+            <item>Equipos menores</item>
+
+        </string-array>
+
+    <!-- segmento de productos-->
 
     <string-array name="spinner_productos">
-        <item>Seleccione una categoría</item>
+        <item>Seleccionar</item>
         <item>Cercos prefabricados</item>
         <item>Cerco cabeza caballo</item>
         <item>Block de concreto</item>
         <item>Poste de concreto</item>
 
+    </string-array>
+
+    <!-- segmento de servicios-->
+
+    <string-array name="spinner_servicios">
+
+        <item>Seleccionar</item>
+        <item>Ingenieria</item>
+        <item>Arquitectura</item>
+    </string-array>
+
+
+    <!-- segmento de topografia -->
+
+    <string-array name="spinner_medida">
+
+        <item>Seleccionar</item>
+        <item>Unidad</item>
+        <item>Global</item>
+    </string-array>
+
+
+    <!-- segmento de estructuras metalicas -->
+
+    <string-array name="spinner_estructurasMetalicas">
+
+        <item>Seleccionar</item>
+        <item>Coberturas</item>
+        <item>Puertas</item>
+        <item>Portones</item>
+        <item>Barandas</item>
+        <item>Escaleras</item>
 
     </string-array>
 
-    <string-array name="spinner_categorias">
-        <item>Seleccione una categoría</item>
-        <item>Productos</item>
+
+    <!-- segmento de abastecimiento de agua -->
+
+    <string-array name="spinner_AbasAgua">
+
+        <item>Seleccionar</item>
+        <item>Agua potable</item>
+        <item>Agua no potable</item>
 
     </string-array>
+
+    <!-- segmento d maquinaria pesada -->
+
+    <string-array name="spinner_MaquinariaPesada">
+
+        <item>Seleccionar</item>
+        <item>Alquiler</item>
+        <item>Global</item>
+
+    </string-array>
+
+    <!-- segmento de construcción de Obra  -->
+
+    <string-array name="spinner_Constru_Obra">
+
+        <item>Global</item>
+
+    </string-array>
+
+    <!-- segmento de equipos menores  -->
+
+    <string-array name="spinner_Equipos_Menores">
+
+        <item>Seleccionar</item>
+        <item>Generador (10 KW)</item>
+        <item>Rotomartillo (17 K)</item>
+        <item>Rotomartillo (11 K)</item>
+        <item>Cortadora Padimento</item>
+        <item>Mescladora</item>
+        <item>Vibrador Concreto</item>
+
+    </string-array>
+
+
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 public class layout_2_cotiza extends AppCompatActivity {
 
     private Spinner spinnerCategoria;
@@ -24,9 +23,8 @@ public class layout_2_cotiza extends AppCompatActivity {
     private TextView tvMl, tvPrecio, tvHorasMaquina, tvPrecioHora;
     private Button btnGuardar;
     private ImageButton btnAtras;
-    private EditText editex_categoria;
+    private EditText editex_categoria, edittext_producto;
     private Cotizacion cotizacion;
-    private EditText edittext_producto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +35,19 @@ public class layout_2_cotiza extends AppCompatActivity {
         cotizacion = CotizacionManager.getInstance().getCotizacion();
 
         // Inicializar vistas
+        inicializarVistas();
+
+        // Configurar Spinners
+        configurarSpinnerCategoria();
+
+        // Configurar TextWatcher para los cálculos
+        configurarTextWatcher();
+
+        // Configurar botones
+        configurarBotones();
+    }
+
+    private void inicializarVistas() {
         spinnerCategoria = findViewById(R.id.spinner1);
         spinnerProducto = findViewById(R.id.spinner2);
         tvSeleccionarProducto = findViewById(R.id.tvseleccionar_prodcuto);
@@ -46,16 +57,16 @@ public class layout_2_cotiza extends AppCompatActivity {
         etHorasMaquina = findViewById(R.id.et_hm);
         etPrecioHora = findViewById(R.id.ed_precio_hm);
         tvMl = findViewById(R.id.tv_ml);
-        editex_categoria = findViewById(R.id.editText1);
-        edittext_producto = findViewById(R.id.editText2);
         tvPrecio = findViewById(R.id.tex_precio);
         tvHorasMaquina = findViewById(R.id.tv_hm);
         tvPrecioHora = findViewById(R.id.tex_precio_hm);
         btnGuardar = findViewById(R.id.GuardarButton);
         btnAtras = findViewById(R.id.atras_coti1);
+        editex_categoria = findViewById(R.id.editText1);
+        edittext_producto = findViewById(R.id.editText2);
+    }
 
-
-        // Configurar Spinner de Categoría
+    private void configurarSpinnerCategoria() {
         ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(this,
                 R.array.spinner_categorias, android.R.layout.simple_spinner_item);
         adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -65,27 +76,92 @@ public class layout_2_cotiza extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedCategoria = parent.getItemAtPosition(position).toString();
-
-                // Mostrar la selección en editText1
                 editex_categoria.setText(selectedCategoria);
-
-                if ("Productos".equals(selectedCategoria)) {
-                    tvSeleccionarProducto.setText("Seleccionar Producto");
-                    configureProductSpinner();
-                } else {
-                    // Restablecer a estado predeterminado o manejar otras categorías
-                    tvSeleccionarProducto.setText("Seleccionar");
-                    spinnerProducto.setAdapter(null);
-                    hideAllFields();
-                }
+                manejarCategoriaSeleccionada(selectedCategoria);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada si no se selecciona ninguna opción
             }
         });
+    }
 
-        // Configurar TextWatcher para cálculos
+    private void manejarCategoriaSeleccionada(String selectedCategoria) {
+        switch (selectedCategoria) {
+            case "Materiales":
+                tvSeleccionarProducto.setText("Materiales");
+                setSpinnerSubcategorias(R.array.spinner_productos);
+                break;
+
+            case "Servicios":
+                tvSeleccionarProducto.setText("Servicios");
+                setSpinnerSubcategorias(R.array.spinner_servicios);
+                break;
+
+            case "Topografia":
+                tvSeleccionarProducto.setText("Medida");
+                setSpinnerSubcategorias(R.array.spinner_medida);
+                break;
+
+            case "Estructuras Metálicas":
+                tvSeleccionarProducto.setText("Seleccionar Estructura");
+                setSpinnerSubcategorias(R.array.spinner_estructurasMetalicas);
+                break;
+
+            case "Abastecimiento de Agua":
+                tvSeleccionarProducto.setText("Tipo de Agua");
+                setSpinnerSubcategorias(R.array.spinner_AbasAgua);
+                break;
+
+            case "Maquinaria Pesada":
+                tvSeleccionarProducto.setText("Subcategoría");
+                setSpinnerSubcategorias(R.array.spinner_MaquinariaPesada);
+                break;
+
+            case "Construcción de Obra":
+                tvSeleccionarProducto.setText("Subcategoría");
+                setSpinnerSubcategorias(R.array.spinner_Constru_Obra);
+                break;
+
+
+            case "Equipos menores":
+                tvSeleccionarProducto.setText("Tipo de maquina");
+                setSpinnerSubcategorias(R.array.spinner_Equipos_Menores);
+                break;
+
+
+            default:
+                tvSeleccionarProducto.setText("Seleccionar");
+                spinnerProducto.setAdapter(null);
+                hideAllFields();
+                break;
+        }
+    }
+
+    private void setSpinnerSubcategorias(int arrayResource) {
+        ArrayAdapter<CharSequence> adapterSubcategorias = ArrayAdapter.createFromResource(this,
+                arrayResource, android.R.layout.simple_spinner_item);
+        adapterSubcategorias.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProducto.setAdapter(adapterSubcategorias);
+
+        spinnerProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSubcategoria = parent.getItemAtPosition(position).toString();
+                cotizacion.setProducto(selectedSubcategoria);
+                edittext_producto.setText(selectedSubcategoria);
+                updateUnidadMedida(selectedSubcategoria);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada si no se selecciona ninguna opción
+            }
+        });
+    }
+
+    private void configurarTextWatcher() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -103,8 +179,9 @@ public class layout_2_cotiza extends AppCompatActivity {
         etPrecio.addTextChangedListener(textWatcher);
         etHorasMaquina.addTextChangedListener(textWatcher);
         etPrecioHora.addTextChangedListener(textWatcher);
+    }
 
-        // Configurar botones
+    private void configurarBotones() {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,41 +192,29 @@ public class layout_2_cotiza extends AppCompatActivity {
         btnAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Vuelve a la actividad anterior
-            }
-        });
-    }
-
-    private void configureProductSpinner() {
-        ArrayAdapter<CharSequence> adapterProducto = ArrayAdapter.createFromResource(this,
-                R.array.spinner_productos, android.R.layout.simple_spinner_item);
-        adapterProducto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerProducto.setAdapter(adapterProducto);
-
-        spinnerProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedProduct = parent.getItemAtPosition(position).toString();
-                cotizacion.setProducto(selectedProduct);
-                updateUnidadMedida(selectedProduct);
-                edittext_producto.setText(selectedProduct);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                finish(); // Volver a la actividad anterior
             }
         });
     }
 
     private void updateUnidadMedida(String product) {
-        if ("Cercos prefabricados".equals(product) || "Cerco cabeza caballo".equals(product)) {
-            showMetrosLinealesFields();
-            hideHorasMaquinaFields();
-        } else if ("Block de concreto".equals(product) || "Poste de concreto".equals(product)) {
-            showHorasMaquinaFields();
-            hideMetrosLinealesFields();
-        } else {
-            hideAllFields();
+        switch (product) {
+            case "Cercos prefabricados":
+            case "Cerco cabeza caballo":
+                showMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                break;
+
+            case "Block de concreto":
+            case "Poste de concreto":
+                showHorasMaquinaFields();
+                hideMetrosLinealesFields();
+                break;
+
+
+            default:
+                hideAllFields();
+                break;
         }
     }
 
@@ -201,20 +266,19 @@ public class layout_2_cotiza extends AppCompatActivity {
                 cotizacion.setHorasMaquina(String.valueOf(cantidad));
                 cotizacion.setPrecioHora(String.valueOf(precio));
             } else {
-                return; // No hay campos visibles para calcular
+                return;
             }
 
             subtotal = cantidad * precio;
-            igv = subtotal * 0.18; // 18% de IGV
+            igv = subtotal * 0.18;
             total = subtotal + igv;
 
             cotizacion.setSubtotal(String.format("%.2f", subtotal));
             cotizacion.setIgv(String.format("%.2f", igv));
             cotizacion.setTotal(String.format("%.2f", total));
 
-
         } catch (NumberFormatException e) {
-            // Manejar el error si los campos están vacíos o no son números válidos
+            // Manejar error si los campos están vacíos o tienen formato incorrecto
             cotizacion.setSubtotal("0.0");
             cotizacion.setIgv("0.0");
             cotizacion.setTotal("0.0");
@@ -226,10 +290,12 @@ public class layout_2_cotiza extends AppCompatActivity {
     private void guardarCotizacion() {
         cotizacion.setDescripcion(etDescripcion.getText().toString());
         cotizacion.setCategoria(editex_categoria.getText().toString());
+        cotizacion.setProducto(edittext_producto.getText().toString());
 
-        // Iniciar la actividad layout_mostrar_cotización
         Intent intent = new Intent(this,Activity_mostrar_cotizacon.class);
         intent.putExtra("cotizacion", cotizacion);
         startActivity(intent);
+
+        // Acciones adicionales de guardado aquí, como almacenar en BD o mostrar en pantalla
     }
 }

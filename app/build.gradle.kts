@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.room.common)
     implementation(libs.glide)
     implementation("com.itextpdf:itext7-core:7.1.15")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation(libs.firebase.crashlytics.buildtools)
     annotationProcessor(libs.glide.compiler)
     testImplementation(libs.junit)
