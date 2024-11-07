@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -20,9 +21,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.room.Room;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -41,19 +45,62 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
     private TextView textViewTitulo, textviewCliente, textviewFecha, textviewRequerimiento, textviewDescripcion;
-    private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV, textviewSubTotal;
+    private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
+            textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
+            textviewRazoncial, textviewMostrarRazon;
     private EditText editextImagen;
     private String imagePath;
+    private AppDatabase db;
+    private CotizacionDao cotizacionDao;
+    private Button btnGuardarCotizacion;
+    private ClienteDao clienteDao;
+    private DetalleCotizacionDao detalleDao;
+    private CategoriaDao categoriaDao;
+    private ItemsDao  itemsDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_cotizacon);
 
+        // Inicializar la base de datos
+        db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "atlas_estimates_db")
+                .allowMainThreadQueries() // Solo para pruebas, en producción usar hilos
+                .build();
+        cotizacionDao = db.cotizacionDao();
+        clienteDao = db.clienteDao();
+        detalleDao = db.detalleCotizacionDao();
+        categoriaDao = db.categoriaDao();
+        itemsDao = db.itemsDao();
+
+
+        // Inicializar vistas
+        inicializarVistas();
+
+        // Recuperar y mostrar datos temporales
+        mostrarDatosTemporales();
+
+        // Configurar botón de guardado
+        btnGuardarCotizacion = findViewById(R.id.guardar_cotización);
+        btnGuardarCotizacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarCotizacionEnRoom();
+            }
+        });
+
+        // Configurar el ImageButton para mostrar el menú
+        configurarImageButton();
+    }
+
+    private void inicializarVistas() {
         textViewTitulo = findViewById(R.id.textViewTitulo);
         textviewCliente = findViewById(R.id.nombre_cliente);
         textviewFecha = findViewById(R.id.fecha_coti);
@@ -66,87 +113,239 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         textviewTotal = findViewById(R.id.ed_total);
         textviewTotalIGV = findViewById(R.id.mostrar_igv);
         textviewSubTotal = findViewById(R.id.ed_SubTotal);
+        textviewIdentificacion = findViewById(R.id.tv_mostrar_ident);
+        textview_mostrarUbicacion = findViewById(R.id.tv_mostrar_ubi);
+        mostrarMedida = findViewById(R.id.label_unidad_medida);
+        mostrarTipoIden = findViewById(R.id.mostrar_tipo_ident);
+        textviewRazoncial = findViewById(R.id.mostrar_razonSocial);
+        textviewMostrarRazon = findViewById(R.id.tv_mostrar_razonSocial);
+    }
 
-        // Recuperar la cotización
+    private void mostrarDatosTemporales() {
         Cotizacion cotizacion = (Cotizacion) getIntent().getSerializableExtra("cotizacion");
         if (cotizacion != null) {
             textViewTitulo.setText(cotizacion.getNombreCotizacion());
             textviewCliente.setText(cotizacion.getNombreCliente());
+            textview_mostrarUbicacion.setText(cotizacion.getUbicacion());
+            String sub = cotizacion.getIdentificacion();
+
+            if ("DNI".equals(sub)){
+                mostrarTipoIden.setText("DNI:");
+                textviewIdentificacion.setText(cotizacion.getDni());
+                textviewRazoncial.setVisibility(View.GONE);
+            } else if ("RUC".equals(sub)) {
+                mostrarTipoIden.setText("RUC:");
+                textviewIdentificacion.setText(cotizacion.getRuc());
+                textviewMostrarRazon.setText(cotizacion.getRazonsocial());
+                textviewRazoncial.setVisibility(View.VISIBLE);
+            }else {
+                return;
+            }
+
             textviewFecha.setText(cotizacion.getFecha());
             textviewRequerimiento.setText(cotizacion.getProducto());
             textviewDescripcion.setText(cotizacion.getDescripcion());
             textviewCategoria.setText(cotizacion.getCategoria());
-            textviewUnidadMedida.setText(cotizacion.getMetrosLineales() + " / " + cotizacion.getHorasMaquina());
-            textviewPrecio.setText(cotizacion.getPrecio() + " / " + cotizacion.getPrecioHora());
+
+            // Ajustes condicionales basados en la subcategoría
+            String subcategoria = cotizacion.getProducto(); // Usar el campo adecuado para la subcategoría
+
+            if ("Block de concreto".equals(subcategoria)) {
+                // Muestra unidades en lugar de metros
+                mostrarMedida.setText("Unidades:");
+                textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
+                textviewPrecio.setText(cotizacion.getPrecioHora());
+            } else if ("Poste de concreto".equals(subcategoria)) {
+                mostrarMedida.setText("Unidades");
+                textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
+                textviewPrecio.setText(cotizacion.getPrecioHora());
+
+            } else if ("Cercos prefabricados".equals(subcategoria)) {
+                // Muestra metros en lugar de metros/unidades
+                mostrarMedida.setText("Metros:");
+                textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
+                textviewPrecio.setText(cotizacion.getPrecio());
+            } else if ("Cerco cabeza caballo".equals(subcategoria)) {
+                mostrarMedida.setText("Metros");
+                textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
+                textviewPrecio.setText(cotizacion.getPrecio());
+
+            } else if ("Agua potable".equals(subcategoria)) {
+                mostrarMedida.setText("Metros Cubicos");
+                textviewUnidadMedida.setText(cotizacion.getCantidadAgua());
+                textviewPrecio.setText(cotizacion.getPrecioAgua());
+            } else if ("Agua no potable".equals(subcategoria)) {
+                mostrarMedida.setText("Metros Cubicos");
+                textviewUnidadMedida.setText(cotizacion.getCantidadAgua());
+                textviewPrecio.setText(cotizacion.getPrecioAgua());
+
+            } else {
+                return;
+
+            }
+
             textviewTotal.setText(cotizacion.getTotal());
             textviewTotalIGV.setText(cotizacion.getIgv());
             textviewSubTotal.setText(cotizacion.getSubTotal());
 
-            // Manejar la imagen de la cotización
-            String imageUriString = cotizacion.getImagenUri();
-            if (imageUriString != null) {
-                Uri imageUri = Uri.parse(imageUriString);
-                try {
-                    InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            manejarImagenCotizacion(cotizacion);
+        }
+    }
 
-                    // Obtener el tamaño original del bitmap
-                    int originalWidth = bitmap.getWidth();
-                    int originalHeight = bitmap.getHeight();
+    private void manejarImagenCotizacion(Cotizacion cotizacion) {
+        String imageUriString = cotizacion.getImagenUri();
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-                    // Variables para el tamaño redimensionado
-                    int resizedWidth;
-                    int resizedHeight;
+                int originalWidth = bitmap.getWidth();
+                int originalHeight = bitmap.getHeight();
+                int resizedWidth;
+                int resizedHeight;
 
-                    // Definir el tamaño basado en la orientación de la imagen
-                    if (originalHeight > originalWidth) {
-                        // Imagen vertical: ajustar según la altura deseada
-                        int desiredHeight = 535;  // Ajusta la altura deseada
-                        resizedHeight = desiredHeight;
-                        resizedWidth = (int) ((float) originalWidth * ((float) desiredHeight / originalHeight));
-                    } else {
-                        // Imagen horizontal: ajustar según el ancho deseado
-                        int desiredWidth = 550;  // Ajusta el ancho deseado
-                        resizedWidth = desiredWidth;
-                        resizedHeight = (int) ((float) originalHeight * ((float) desiredWidth / originalWidth));
-                    }
-
-                    // Redimensionar el bitmap manteniendo la proporción
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, true);
-
-                    // Crear el drawable con el bitmap redimensionado
-                    Drawable drawable = new BitmapDrawable(getResources(), resizedBitmap);
-                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-
-                    // Establecer el drawable en el EditText (a la derecha en este caso)
-                    editextImagen.setCompoundDrawables(null, null, drawable, null);
-
-                    // Guardar la imagen redimensionada si es necesario
-                    imagePath = saveImage(resizedBitmap);  // Guardar la imagen en el almacenamiento externo para usarla en el PDF
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                if (originalHeight > originalWidth) {
+                    int desiredHeight = 535;
+                    resizedHeight = desiredHeight;
+                    resizedWidth = (int) ((float) originalWidth * ((float) desiredHeight / originalHeight));
+                } else {
+                    int desiredWidth = 550;
+                    resizedWidth = desiredWidth;
+                    resizedHeight = (int) ((float) originalHeight * ((float) desiredWidth / originalWidth));
                 }
+
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, true);
+                Drawable drawable = new BitmapDrawable(getResources(), resizedBitmap);
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                editextImagen.setCompoundDrawables(null, null, drawable, null);
+                imagePath = saveImage(resizedBitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void guardarCotizacionEnRoom() {
+        try {
+            // Crear objeto de cotización
+            table_cotizacion nuevaCotizacion = new table_cotizacion();
+            nuevaCotizacion.setTitulo(textViewTitulo.getText().toString());
+            nuevaCotizacion.setFecha(textviewFecha.getText().toString());
+            nuevaCotizacion.setDescripcion(textviewDescripcion.getText().toString());
+            nuevaCotizacion.setUbicacion(textview_mostrarUbicacion.getText().toString());
+
+            String totalText = textviewTotal.getText().toString().replaceAll("[^\\d.]", "");
+            double total = Double.parseDouble(totalText);
+            nuevaCotizacion.setTotal(total);
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                nuevaCotizacion.setImagen(imagePath);
             }
 
+            // Crear objeto de cliente (solo con nombre)
+            table_clientes nuevoCliente = new table_clientes();
+            nuevoCliente.setNombre_cliente(textviewCliente.getText().toString());
+            nuevoCliente.setDni_ruc(textviewIdentificacion.getText().toString());
+            nuevoCliente.setRazon_social(textviewMostrarRazon.getText().toString());
 
+            // Crear objeto de detalle de cotización
+            table_detalleCotizacion nuevoDetalle = new table_detalleCotizacion();
+            String subtotalText = textviewSubTotal.getText().toString().replaceAll("[^\\d.]", "");
+            String igvText = textviewTotalIGV.getText().toString().replaceAll("[^\\d.]", "");
+            String cantidad = textviewUnidadMedida.getText().toString().replaceAll("[^\\d.]", "");
+            nuevoDetalle.setCantidad(Double.parseDouble(cantidad));
+            nuevoDetalle.setSubtotal(Double.parseDouble(subtotalText));
+            nuevoDetalle.setIgv(Double.parseDouble(igvText));
+
+            // Crear objeto de categoría
+            table_categoria nuevaCategoria = new table_categoria();
+            nuevaCategoria.setNombre_categoria(textviewCategoria.getText().toString());
+
+            // Crear objeto de item
+            table_items nuevoItem = new table_items();
+            nuevoItem.setNombre_Item(textviewRequerimiento.getText().toString());
+            nuevoItem.setPrecio(Double.parseDouble(textviewPrecio.getText().toString()));
+            nuevoItem.setDescripcion_product("Descripción estática"); // Descripción estática
+
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // Guardar cliente usando ClienteDao
+                        long clienteId = clienteDao.insert(nuevoCliente);
+
+                        // Asignar ID del cliente a la cotización
+                        nuevaCotizacion.setId_cliente((int) clienteId);
+
+                        // Guardar cotización usando CotizacionDao
+                        long cotizacionId = cotizacionDao.insert(nuevaCotizacion);
+
+                        // Guardar categoría usando CategoriaDao
+                        long categoriaId = categoriaDao.insert(nuevaCategoria);
+
+                        // Asignar el ID de la categoría al item (si aplica)
+                        nuevoItem.setId_categoria((int) categoriaId);
+
+                        // Guardar item usando ItemsDao
+                        long itemId = itemsDao.insert(nuevoItem);
+
+                        // Asignar el ID del item al detalle de la cotización
+                        nuevoDetalle.setId_items((int) itemId);
+
+                        // Asignar ID de la cotización al detalle
+                        nuevoDetalle.setId_cotizacion((int) cotizacionId);
+
+                        // Guardar detalle usando DetalleCotizacionDao
+                        detalleDao.insert(nuevoDetalle);
+
+                        // Notificar en la UI el éxito de la operación
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Activity_mostrar_cotizacon.this,
+                                        "Cotización y datos adicionales guardados exitosamente",
+                                        Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                    } catch (Exception e) {
+                        final String errorMessage = e.getMessage();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Activity_mostrar_cotizacon.this,
+                                        "Error al guardar: " + errorMessage,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al preparar la cotización: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            e.printStackTrace();
         }
+    }
 
-        // Configurar el ImageButton para mostrar el menú
+    private void configurarImageButton() {
         ImageButton imageButton = findViewById(R.id.conpartir_descargarPDF);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(Activity_mostrar_cotizacon.this, v);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(android.view.MenuItem item) {
                         if (item.getItemId() == R.id.action_download) {
-                            createPDFWithIText();  // Genera y guarda el PDF
+                            createPDFWithIText();
                             return true;
                         } else if (item.getItemId() == R.id.action_share) {
-                            sharePDF();  // Método para compartir el PDF
+                            sharePDF();
                             return true;
                         }
                         return false;
@@ -156,7 +355,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             }
         });
     }
-
     // Método para crear el PDF con iText7
     public void createPDFWithIText() {
         // Ruta del archivo PDF
@@ -169,16 +367,20 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             PdfDocument pdfDoc = new PdfDocument(writer);
             Document document = new Document(pdfDoc, PageSize.A4);
 
+            // Crear la imagen desde los recursos
             Image headerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.encabezado))));
             float pageWidth = PageSize.A4.getWidth();
             float pageHeight = PageSize.A4.getHeight();
-            float imageHeight = 140f; // Ajusta este valor según lo que necesites
 
-            // Mantener la relación de aspecto de la imagen
-            float imageWidth = (headerImage.getImageWidth() / headerImage.getImageHeight()) * imageHeight;
+            // Ajustar el tamaño de la imagen
+            float imageWidth = pageWidth - 100; // Ajusta el ancho para que ocupe más espacio horizontal (ajusta el valor según lo que desees)
+            float imageHeight = 118f; // Ajusta la altura para que sea más corta
+
+            // Configurar la posición y tamaño de la imagen
             headerImage.setFixedPosition((pageWidth - imageWidth) / 2, pageHeight - imageHeight - 10);
             headerImage.setWidth(imageWidth);
             headerImage.setHeight(imageHeight);
+
             document.add(headerImage);
 
             // Crear título
@@ -186,16 +388,20 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     .setBold()
                     .setFontSize(20)
                     .setTextAlignment(TextAlignment.CENTER)
-                    .setMarginTop(130); // Ajusta este valor para bajar más el título
+                    .setMarginTop(113); // Ajusta este valor para bajar más el título
             document.add(title);
+
+            String tipoidentificacion = mostrarTipoIden.getText().toString();
 
             // Datos a la derecha con sangría
             Paragraph rightAlignedData = new Paragraph(
                     "Cliente: " + textviewCliente.getText().toString() + "\n" +
-                            "Fecha: " + textviewFecha.getText().toString())
+                            "Fecha: " + textviewFecha.getText().toString() + "\n" +
+                            tipoidentificacion + ": " + textviewIdentificacion.getText().toString() + "\n" +  // Añade tipo de identificación
+                                "Ubicación: " + textview_mostrarUbicacion.getText().toString())
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(20);
+                    .setMarginTop(10);
             document.add(rightAlignedData);
 
             //Añadir un breve texto de agradecimiento
@@ -212,16 +418,19 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             // Tabla en el centro
             float[] columnWidths = {200f, 200f};
             Table table = new Table(columnWidths);
-            table.setMarginTop(20);
+            table.setMarginTop(15);
 
             table.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            // Usar el campo adecuado para la subcategoría
 
+            // Recuperar el texto actual de mostrarMedida
+            String unidadMedidaTexto = mostrarMedida.getText().toString();
             // Añadir datos a la tabla
-            addCellToTable(table, "Categoría", textviewCategoria.getText().toString());
-            addCellToTable(table, "Producto", textviewRequerimiento.getText().toString());
-            addCellToTable(table, "Descripción", textviewDescripcion.getText().toString());
-            addCellToTable(table, "Metros Lineales/ UND", textviewUnidadMedida.getText().toString());
-            addCellToTable(table, "Precio", textviewPrecio.getText().toString());
+            addCellToTable(table, "Categoría", textviewCategoria.getText().toString(), true);
+            addCellToTable(table, "Producto", textviewRequerimiento.getText().toString(), true);
+            addCellToTable(table, "Descripción", textviewDescripcion.getText().toString(), true);
+            addCellToTable(table, unidadMedidaTexto, textviewUnidadMedida.getText().toString(), true);
+            addCellToTable(table, "Precio", textviewPrecio.getText().toString(), true);
 
             // Agregar imagen dentro de la tabla
             if (imagePath != null) {
@@ -255,27 +464,41 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 table.addCell(imageCell);
             }
 
-
-            addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString());
-            addCellToTable(table, "IGV", textviewTotalIGV.getText().toString());
-            addCellToTable(table, "Total", textviewTotal.getText().toString());
+            addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString(), true);
+            addCellToTable(table, "IGV", textviewTotalIGV.getText().toString(), true);
+            addCellToTable(table, "Total", textviewTotal.getText().toString(), true);
 
             document.add(table);
 
-
-            // Crear y añadir imagen de pie de página
+// Crear y añadir la imagen del pie de página (footer)
             Image footerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.empresas))));
-            float footerHeight = 53f; // Ajusta este valor según lo que necesites
+            float footerHeight = 50f; // Altura del pie de página, ajusta según necesites
             float footerWidth = (footerImage.getImageWidth() / footerImage.getImageHeight()) * footerHeight;
 
-            // Posicionar el pie de página en la parte inferior
-            float bottomMargin = 10f; // Margen inferior, ajusta según necesites
-            footerImage.setFixedPosition((pageWidth - footerWidth) / 2, bottomMargin);
+// Posicionar el pie de página en la parte inferior
+            float footerBottomMargin = 5f; // Posición del pie de página (ajusta según necesites)
+            footerImage.setFixedPosition((pageWidth - footerWidth) / 2, footerBottomMargin);
             footerImage.setWidth(footerWidth);
             footerImage.setHeight(footerHeight);
 
-            // Añadir el pie de página al documento
+// Añadir el pie de página al documento
             document.add(footerImage);
+
+// Crear y añadir imagen de la firma (por ejemplo, un cuadrado pequeño)
+            Image firmaImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.firma))));
+            float firmaHeight = 50f; // Altura de la firma, ajusta según necesites
+            float firmaWidth = (firmaImage.getImageWidth() / firmaImage.getImageHeight()) * firmaHeight;
+
+// Posicionar la imagen de la firma encima del footer
+            float firmaMarginAboveFooter = footerBottomMargin + footerHeight + 9f; // Espacio para separar firma del footer
+
+            firmaImage.setFixedPosition((pageWidth - firmaWidth) / 2, firmaMarginAboveFooter);
+            firmaImage.setWidth(firmaWidth);
+            firmaImage.setHeight(firmaHeight);
+
+// Añadir la firma al documento
+            document.add(firmaImage);
+
 
             document.close();
             Toast.makeText(this, "PDF generado con éxito", Toast.LENGTH_SHORT).show();
@@ -284,10 +507,32 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Toast.makeText(this, "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-    private void addCellToTable(Table table, String label, String value) {
-        table.addCell(new Cell().add(new Paragraph(label)));
-        table.addCell(new Cell().add(new Paragraph(value)));
+
+    private void addCellToTable(Table table, String label, String value, boolean isHeader) {
+        // Crear la celda para el encabezado (columna izquierda)
+        Cell labelCell = new Cell()
+                .add(new Paragraph(label))
+                .setTextAlignment(TextAlignment.LEFT)
+                .setPadding(5);
+
+        // Aplicar estilo celeste y blanco solo si es encabezado
+        if (isHeader) {
+            labelCell.setBackgroundColor(new DeviceRgb(173, 216, 230)); // Fondo celeste
+            labelCell.setFontColor(ColorConstants.BLACK); // Texto blanco
+        }
+
+        // Crear la celda para el valor (columna derecha)
+        Cell valueCell = new Cell()
+                .add(new Paragraph(value))
+                .setTextAlignment(TextAlignment.LEFT)
+                .setPadding(5);
+
+        // Agregar ambas celdas a la tabla
+        table.addCell(labelCell);
+        table.addCell(valueCell);
     }
+
+
 
     private void sharePDF() {
         File file = new File(getExternalFilesDir(null) + "/Cotización_Atlas.pdf");
@@ -323,4 +568,5 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         }
         return buffer.toByteArray();
     }
+
 }

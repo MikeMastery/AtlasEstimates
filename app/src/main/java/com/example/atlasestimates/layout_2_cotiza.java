@@ -21,6 +21,10 @@ public class layout_2_cotiza extends AppCompatActivity {
     private TextView tvSeleccionarProducto;
     private EditText etDescripcion, etMl, etPrecio, etHorasMaquina, etPrecioHora;
     private TextView tvMl, tvPrecio, tvHorasMaquina, tvPrecioHora;
+    private TextView tvDesarrolloProyecto, tvSuperviSion, tvtotaL;
+    private TextView checkSupervision, checkdesarrolloProyecto, checkunidad, checkglobal, tvMedida, tvTopografia,
+            tvCaracteristicas, tvcantidadAgua, tvPrecioAgua, tvcalcular_Dia, tvcalcularPrecio;
+    private EditText edtotalPagar, etCaracteristicas,  ettotalTopogrgafia, etPrecioAgua, etcantidadAgua, edcalcularDia, edcalcularPrecio;
     private Button btnGuardar;
     private ImageButton btnAtras;
     private EditText editex_categoria, edittext_producto;
@@ -53,6 +57,27 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvSeleccionarProducto = findViewById(R.id.tvseleccionar_prodcuto);
         etDescripcion = findViewById(R.id.descripcion);
         etMl = findViewById(R.id.et_ml);
+        tvDesarrolloProyecto = findViewById(R.id.tvdesarrolloProyecto);
+        tvSuperviSion = findViewById(R.id.tvsupervicion);
+        tvtotaL = findViewById(R.id.textviewTotal);
+        checkSupervision = findViewById(R.id.checkboxSupervision);
+        checkdesarrolloProyecto = findViewById(R.id.checkboxdesarrollo);
+        checkunidad = findViewById(R.id.checkbox_Unidad);
+        checkglobal = findViewById(R.id.checkbox_Global);
+        edtotalPagar = findViewById(R.id.ed_totalapagar);
+        tvMedida = findViewById(R.id.Medida);
+        tvTopografia = findViewById(R.id.tvtotalTopografia);
+        ettotalTopogrgafia = findViewById(R.id.ed_totalTopografia);
+        tvCaracteristicas = findViewById(R.id.tv_caracteres);
+        etCaracteristicas = findViewById(R.id.ed_caracteristicas);
+        tvcantidadAgua = findViewById(R.id.tv_abastecimientoAgua);
+        etcantidadAgua = findViewById(R.id.ed_abastecimientoAgua);
+        etPrecioAgua = findViewById(R.id.et_preciometro);
+        tvPrecioAgua = findViewById(R.id.tv_precioLitros);
+        tvcalcular_Dia = findViewById(R.id.tvcalculoDia);
+        tvcalcularPrecio = findViewById(R.id.tvPrecioEquipo);
+        edcalcularDia = findViewById(R.id.ed_calculoDia);
+        edcalcularPrecio = findViewById(R.id.ed_precioEquipo);
         etPrecio = findViewById(R.id.ed_precio);
         etHorasMaquina = findViewById(R.id.et_hm);
         etPrecioHora = findViewById(R.id.ed_precio_hm);
@@ -179,6 +204,10 @@ public class layout_2_cotiza extends AppCompatActivity {
         etPrecio.addTextChangedListener(textWatcher);
         etHorasMaquina.addTextChangedListener(textWatcher);
         etPrecioHora.addTextChangedListener(textWatcher);
+        etcantidadAgua.addTextChangedListener(textWatcher);
+        etPrecioAgua.addTextChangedListener(textWatcher);
+
+
     }
 
     private void configurarBotones() {
@@ -198,26 +227,84 @@ public class layout_2_cotiza extends AppCompatActivity {
     }
 
     private void updateUnidadMedida(String product) {
+        // Primero ocultamos todos los campos
+        hideAllFields();
+
         switch (product) {
             case "Cercos prefabricados":
             case "Cerco cabeza caballo":
                 showMetrosLinealesFields();
                 hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
                 break;
 
             case "Block de concreto":
             case "Poste de concreto":
                 showHorasMaquinaFields();
                 hideMetrosLinealesFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
                 break;
 
+            case "Ingenieria":
+            case "Arquitectura":
+                showcamposIngnieriaArquitectura();
+                hideHorasMaquinaFields();
+                hideMetrosLinealesFields();
+                hideCamposTopografia();
+                break;
+
+            case "Unidad":
+            case "Global":
+                showCamposTopografia();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                break;
+
+            case "Coberturas":
+            case "Puertas":
+            case "Portones":
+            case "Barandas":
+            case "Escaleras":
+                showCamposEstructuras();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                break;
+
+            case "Agua potable":
+            case "Agua no potable":
+                showCamposAbatecimeintoAgua();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
+                hideCamposEstructuras();
+                break;
+
+            case "Generador (10 KW)":
+            case "Cortadora Padimento":
+            case "Mescladora":
+            case "Vibrador Concreto":
+                showcamposEquiposMenores();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
+                hideCamposEstructuras();
+                hideCamposAbastecimientoAgua();
+                break;
+
+            case "Rotomartillo Demoledor":
+                break;
 
             default:
                 hideAllFields();
                 break;
         }
     }
-
     private void showMetrosLinealesFields() {
         etMl.setVisibility(View.VISIBLE);
         etPrecio.setVisibility(View.VISIBLE);
@@ -231,7 +318,6 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvMl.setVisibility(View.GONE);
         tvPrecio.setVisibility(View.GONE);
     }
-
     private void showHorasMaquinaFields() {
         etHorasMaquina.setVisibility(View.VISIBLE);
         etPrecioHora.setVisibility(View.VISIBLE);
@@ -245,10 +331,86 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvHorasMaquina.setVisibility(View.GONE);
         tvPrecioHora.setVisibility(View.GONE);
     }
+    private void showcamposIngnieriaArquitectura(){
+        checkdesarrolloProyecto.setVisibility(View.VISIBLE);
+        checkSupervision.setVisibility(View.VISIBLE);
+        checkunidad.setVisibility(View.VISIBLE);
+        checkglobal.setVisibility(View.VISIBLE);
+        tvSuperviSion.setVisibility(View.VISIBLE);
+        tvtotaL.setVisibility(View.VISIBLE);
+        tvDesarrolloProyecto.setVisibility(View.VISIBLE);
+        tvMedida.setVisibility(View.VISIBLE);
+        edtotalPagar.setVisibility(View.VISIBLE);
+
+    }
+    private void hidecamposIngArqui(){
+        checkdesarrolloProyecto.setVisibility(View.GONE);
+        checkSupervision.setVisibility(View.GONE);
+        checkunidad.setVisibility(View.GONE);
+        checkglobal.setVisibility(View.GONE);
+        tvSuperviSion.setVisibility(View.GONE);
+        tvDesarrolloProyecto.setVisibility(View.GONE);
+        tvtotaL.setVisibility(View.GONE);
+        tvMedida.setVisibility(View.GONE);
+        edtotalPagar.setVisibility(View.GONE);
+    }
+    private void showCamposTopografia(){
+        tvTopografia.setVisibility(View.VISIBLE);
+        ettotalTopogrgafia.setVisibility(View.VISIBLE);
+    }
+
+    private void  hideCamposTopografia(){
+        tvTopografia.setVisibility(View.GONE);
+        ettotalTopogrgafia.setVisibility(View.GONE);
+    }
+    private void showCamposEstructuras(){
+        tvCaracteristicas.setVisibility(View.VISIBLE);
+        etCaracteristicas.setVisibility(View.VISIBLE);
+        tvTopografia.setVisibility(View.VISIBLE);
+        ettotalTopogrgafia.setVisibility(View.VISIBLE);
+    }
+
+    private void hideCamposEstructuras(){
+        tvCaracteristicas.setVisibility(View.GONE);
+        etCaracteristicas.setVisibility(View.GONE);
+
+    }
+    private void showCamposAbatecimeintoAgua(){
+        tvcantidadAgua.setVisibility(View.VISIBLE);
+        etcantidadAgua.setVisibility(View.VISIBLE);
+        tvPrecioAgua.setVisibility(View.VISIBLE);
+        etPrecioAgua.setVisibility(View.VISIBLE);
+    }
+
+    private void hideCamposAbastecimientoAgua(){
+        tvcantidadAgua.setVisibility(View.GONE);
+        etcantidadAgua.setVisibility(View.GONE);
+        tvPrecioAgua.setVisibility(View.GONE);
+        etPrecioAgua.setVisibility(View.GONE);
+    }
+
+    private void showcamposEquiposMenores(){
+        tvcalcular_Dia.setVisibility(View.VISIBLE);
+        tvcalcularPrecio.setVisibility(View.VISIBLE);
+        edcalcularDia.setVisibility(View.VISIBLE);
+        edcalcularPrecio.setVisibility(View.VISIBLE);
+    }
+    private void hidecamposEquiposMenores(){
+        tvcalcular_Dia.setVisibility(View.GONE);
+        tvcalcularPrecio.setVisibility(View.GONE);
+        edcalcularDia.setVisibility(View.GONE);
+        edcalcularPrecio.setVisibility(View.GONE);
+    }
+
 
     private void hideAllFields() {
         hideMetrosLinealesFields();
         hideHorasMaquinaFields();
+        hidecamposIngArqui();
+        hideCamposTopografia();
+        hideCamposEstructuras();
+        hideCamposAbastecimientoAgua();
+        hidecamposEquiposMenores();
     }
 
     private void calculateResult() {
@@ -265,7 +427,14 @@ public class layout_2_cotiza extends AppCompatActivity {
                 precio = Double.parseDouble(etPrecioHora.getText().toString());
                 cotizacion.setHorasMaquina(String.valueOf(cantidad));
                 cotizacion.setPrecioHora(String.valueOf(precio));
-            } else {
+
+            }else if (etcantidadAgua.getVisibility() == View.VISIBLE) {
+                cantidad = Double.parseDouble(etcantidadAgua.getText().toString());
+                precio = Double.parseDouble(etPrecioAgua.getText().toString());
+                cotizacion.setCantidadAgua(String.valueOf(cantidad));
+                cotizacion.setPrecioAgua(String.valueOf(precio));
+
+            }else{
                 return;
             }
 
@@ -296,6 +465,5 @@ public class layout_2_cotiza extends AppCompatActivity {
         intent.putExtra("cotizacion", cotizacion);
         startActivity(intent);
 
-        // Acciones adicionales de guardado aquí, como almacenar en BD o mostrar en pantalla
     }
 }

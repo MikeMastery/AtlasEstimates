@@ -18,7 +18,13 @@ public class Cotizacion implements Serializable {
     private String horasMaquina;
     private String precioHora;
     private String categoria;
-    private String identifica;
+    private String cantidaAgua;
+    private String precioAgua;
+    private String identificacion;
+    private String Ubicacion;
+    private String dni;
+    private String ruc;
+    private String razonsocial;
 
 
     // Getters y Setters
@@ -115,6 +121,7 @@ public class Cotizacion implements Serializable {
     public void setPrecioHora(String obtenerPrecioHora){
         this.precioHora = obtenerPrecioHora;
     }
+
     public String getHorasMaquina() {
         return horasMaquina;
     }
@@ -122,15 +129,69 @@ public class Cotizacion implements Serializable {
     public String getPrecioHora() {
         return precioHora;
     }
+
     public void setCategoria(String obtenerCategoria){
         this.categoria = obtenerCategoria;
     }
+
     public String getCategoria() {
         return categoria;
     }
 
+    public void setPrecioAgua(String obtenerPrecioAgua){
+        this.precioAgua = obtenerPrecioAgua;
+    }
+    public String getPrecioAgua() {
+        return precioAgua;
+    }
 
+    public void setCantidadAgua(String obtenerCantidadAgua){
+        this.cantidaAgua = obtenerCantidadAgua;
+    }
+    public String getCantidadAgua() {
+        return cantidaAgua;
+    }
 
-    // ... resto de la clase ...
+    public void setIdentificacion(String obtenerIdentificacion){
+        this.identificacion = obtenerIdentificacion;
+
+    }
+
+    public String getIdentificacion(){
+        return identificacion;
+    }
+
+    public void setUbicacion(String obtenerUbicacion){
+        this.Ubicacion  = obtenerUbicacion;
+    }
+
+    public String getUbicacion(){
+        return Ubicacion;
+    }
+
+    public void setDni(String obtnerDNI){
+        this.dni = obtnerDNI;
+    }
+
+    public  String getDni(){
+        return dni;
+    }
+
+    public void setRuc(String obtenerRuc){
+        this.ruc = obtenerRuc;
+    }
+
+    public String getRuc(){
+        return ruc;
+    }
+
+    public void setRazonSocial(String obtnerRazonSocial){
+        this.razonsocial = obtnerRazonSocial;
+
+    }
+
+    public String getRazonsocial(){
+        return razonsocial;
+    }
 
 }

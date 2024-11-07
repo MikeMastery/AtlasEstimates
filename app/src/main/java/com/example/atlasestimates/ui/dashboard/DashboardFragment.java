@@ -1,30 +1,19 @@
 package com.example.atlasestimates.ui.dashboard;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 
-import com.example.atlasestimates.Producto;
-import com.example.atlasestimates.ProductoAdapter;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.databinding.FragmentDashboardBinding;
-import com.example.atlasestimates.Activity_nuevoProducto;
-import com.example.atlasestimates.nueva_cotizacion;
-import com.example.atlasestimates.nuevo_servicio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +23,7 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private List<Item> serviciosList; // Lista que contendrá solo los servicios
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,7 +35,17 @@ public class DashboardFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerViewProductos);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        // Crear adapter directamente
+        // Crear la lista de servicios
+        serviciosList = new ArrayList<>();
+
+        // Definir el botón de servicios
+        binding.servicio.setOnClickListener(v -> {
+            // Cargar servicios estáticos
+            cargarServiciosEstaticos();
+            adapter.notifyDataSetChanged();
+        });
+
+        // Configurar el adaptador
         adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             @NonNull
             @Override
@@ -62,61 +62,70 @@ public class DashboardFragment extends Fragment {
                 TextView nameView = holder.itemView.findViewById(R.id.tvProductName);
                 TextView descriptionView = holder.itemView.findViewById(R.id.tvProductDescription);
 
+                // Obtener el item correspondiente
+                Item servicio = serviciosList.get(position);
 
-                // Configurar las vistas con datos estáticos
-                switch (position) {
-                    case 0:
-                        imageView.setImageResource(R.drawable.cercos);
-                        nameView.setText("Cercos Prefabricados");
-                        descriptionView.setText("Permite la visión desde afuera o desde adentro de una propiedad. Los muros prefabricados cuentan con variedad de placas de concreto con diferentes estéticos diseños, este producto aísla totalmente la propiedad, sin permitir la visibilidad.");
-                        break;
-
-                    case 1:
-                        imageView.setImageResource(R.drawable.block);
-                        nameView.setText("Block Concreto");
-                        descriptionView.setText("Los Bloques de concreto son elementos modulares premoldeados diseñados para la albañilería confinada y armada");
-                        break;
-                    case 2:
-                        imageView.setImageResource(R.drawable.murete);
-                        nameView.setText("Murete de Concreto");
-                        descriptionView.setText("Los Bloques de concreto son elementos modulares premoldeados diseñados para la albañilería confinada y armada");
-                        break;
-                    case 3:
-                        imageView.setImageResource(R.drawable.poste);
-                        nameView.setText("Poste de Concreto");
-                        descriptionView.setText("Descripción del producto 4");
-                        break;
-                    // Puedes añadir más casos según necesites
-                }
+                // Configurar las vistas con datos
+                imageView.setImageResource(servicio.getImageResource());
+                nameView.setText(servicio.getName());
+                descriptionView.setText(servicio.getDescription());
             }
 
             @Override
             public int getItemCount() {
-                return 4; // Número de productos estáticos
+                return serviciosList.size(); // El tamaño de la lista de servicios
             }
         };
 
         recyclerView.setAdapter(adapter);
 
-        // Configurar botones
-        ImageButton addProductButton = root.findViewById(R.id.add_product);
-        addProductButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_nuevoProducto.class);
-            startActivity(intent);
-        });
-
-        ImageButton addServicio = root.findViewById(R.id.servicio);
-        addServicio.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), nuevo_servicio.class);
-            startActivity(intent);
-        });
-
         return root;
+    }
+
+    // Método para cargar los servicios estáticos
+    private void cargarServiciosEstaticos() {
+        // Limpiar la lista antes de cargar los servicios
+        serviciosList.clear();
+
+        // Añadir servicios estáticos
+        serviciosList.add(new Item("Ingenieria", "Descripción del servicio de instalación", R.drawable.ingenieria));
+        serviciosList.add(new Item("Arquitectura", "Descripción del servicio de consultoría técnica", R.drawable.arquitectura));
+        serviciosList.add(new Item("Topografia", "Descripción del servicio de mantenimiento", R.drawable.topografia));
+        serviciosList.add(new Item("Maquinaria Pesada", "Descripción del servicio de asesoría legal", R.drawable.maquinaria));
+        serviciosList.add(new Item("Abastecimiento de agua", "Descripción del servicio de asesoría legal", R.drawable.abasagua));
+        serviciosList.add(new Item("Estructuras Metalicas", "Descripción del servicio de asesoría legal", R.drawable.estructuras));
+
+        // Puedes añadir más servicios según sea necesario
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    // Clase que representa los servicios
+    public static class Item {
+        private String name;
+        private String description;
+        private int imageResource;
+
+        public Item(String name, String description, int imageResource) {
+            this.name = name;
+            this.description = description;
+            this.imageResource = imageResource;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public int getImageResource() {
+            return imageResource;
+        }
     }
 }

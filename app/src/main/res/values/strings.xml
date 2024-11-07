@@ -106,13 +106,24 @@
 
         <item>Seleccionar</item>
         <item>Generador (10 KW)</item>
-        <item>Rotomartillo (17 K)</item>
-        <item>Rotomartillo (11 K)</item>
-        <item>Cortadora Padimento</item>
+        <item>Rotomartillo Demoledor</item>
+        <item>Cortadora Pavimento</item>
         <item>Mescladora</item>
         <item>Vibrador Concreto</item>
 
     </string-array>
+
+
+    <string-array name="opciones_identificacion">
+
+        <item>Seleccionar</item>
+        <item>DNI</item>
+        <item>RUC</item>
+
+    </string-array>
+
+
+
 
 
 

@@ -1,6 +1,9 @@
 package com.example.atlasestimates.ui.home;
 
+
+
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,15 +19,24 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.atlasestimates.AppDatabase;
+import com.example.atlasestimates.CotizacionAdapter;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.actividad_ajustes;
 import com.example.atlasestimates.databinding.FragmentHomeBinding;
 import com.example.atlasestimates.nueva_cotizacion;
+import com.example.atlasestimates.table_cotizacion;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private RecyclerView recyclerView;
+    private CotizacionAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -32,14 +44,20 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        recyclerView = binding.recyclerViewCotizaciones;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Cargar datos de la base de datos
+        loadCotizaciones();
+
         // Configurar el Spinner
         Spinner spinner = binding.spinner;
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
                 getContext(),
                 R.array.opciones_spinner,
                 android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -53,7 +71,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Nuevo código agregado para el ImageButton
+        // Configurar el botón para crear una nueva cotización
         ImageButton imageButton = root.findViewById(R.id.file_plus);
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), nueva_cotizacion.class);
@@ -65,6 +83,25 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private void loadCotizaciones() {
+        // Cargar datos en un hilo de fondo
+        new AsyncTask<Void, Void, List<table_cotizacion>>() {
+            @Override
+            protected List<table_cotizacion> doInBackground(Void... voids) {
+                // Obtener la instancia de la base de datos y cargar las cotizaciones
+                AppDatabase db = AppDatabase.getInstance(getContext());
+                return db.cotizacionDao().getAllCotizaciones();
+            }
+
+            @Override
+            protected void onPostExecute(List<table_cotizacion> cotizaciones) {
+                // Configurar el adaptador con los datos obtenidos
+                adapter = new CotizacionAdapter(cotizaciones);
+                recyclerView.setAdapter(adapter);
+            }
+        }.execute();
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.top_nav_menu, menu); // Inflar el menú de la barra de acción
@@ -74,8 +111,7 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            // Maneja el clic en el ítem de ajustes
-            Intent intent = new Intent(getActivity(), actividad_ajustes.class); // Cambia AjustesActivity a la actividad que corresponda
+            Intent intent = new Intent(getActivity(), actividad_ajustes.class);
             startActivity(intent);
             return true;
         }
@@ -85,7 +121,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true); // Indicar que este fragmento tiene un menú de opciones
+        setHasOptionsMenu(true);
     }
 
     @Override

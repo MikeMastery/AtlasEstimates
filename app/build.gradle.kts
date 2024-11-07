@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.room.common)
     implementation(libs.glide)
+    implementation("androidx.room:room-runtime:2.5.2") // Asegúrate de usar la última versión disponible
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
     implementation("com.itextpdf:itext7-core:7.1.15")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")

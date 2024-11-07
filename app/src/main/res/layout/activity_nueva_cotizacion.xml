@@ -26,11 +26,17 @@
         android:textStyle="bold"
         android:textSize="42dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="15dp">
 
     </TextView>
-    
-    <TextView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#94B8B7B7"
+                android:layout_marginTop="10dp"/>
+
+
+            <TextView
 
         android:layout_width="300dp"
         android:layout_height="40dp"
@@ -88,7 +94,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="DNI o RUC:"
+                android:text="Ubicación:"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -98,13 +104,136 @@
             </TextView>
 
             <EditText
-                android:id="@+id/identificacion"
+                android:id="@+id/ubicacion"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/editex"
-                android:hint="Ej. Juan Perez"
+                android:hint="Ingrese una ubicación"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="#5F5F5F"
+                android:textSize="17sp">
+
+            </EditText>
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Tipo de Identificación:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25sp"
+                >
+
+            </TextView>
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/ed_identificacion"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:paddingEnd="40dp"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:paddingStart="12dp"
+                    android:background="@drawable/editex"
+                    android:hint="Elija una opción"
+                    android:focusable="false"
+                    android:clickable="true"/>
+
+                <Spinner
+                    android:id="@+id/spinner_identificacion"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="5dp"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textviewDNI"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="DNI:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                >
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_iden_dni"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:hint="Ingrese el numero"
                 android:inputType="number"
+                android:padding="16dp"
+                android:textColor="#5F5F5F"
+                android:textSize="17sp">
+
+            </EditText>
+
+            <TextView
+                android:id="@+id/textviewRUC"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="RUC:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                >
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_iden_ruc"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:hint="Elija una opción"
+                android:inputType="number"
+                android:padding="16dp"
+                android:textColor="#5F5F5F"
+                android:textSize="17sp">
+
+            </EditText>
+
+            <TextView
+                android:id="@+id/textviewRAZON"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Razon Social:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                >
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/razon_social"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:hint="Opcional"
                 android:padding="16dp"
                 android:textColor="#5F5F5F"
                 android:textSize="17sp">

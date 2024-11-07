@@ -97,9 +97,6 @@
     </FrameLayout>
 
 
-
-
-
             <EditText
                 android:id="@+id/descripcion"
                 android:layout_width="300dp"
@@ -278,7 +275,7 @@
                 android:background="@drawable/editex"/>
 
 
-            <!--Inserción de datos de HM (Horas Maquina) -->
+            <!--Inserción de datos de (blocks concreto) -->
             <TextView
                 android:id="@+id/tv_hm"
                 android:layout_width="300dp"
@@ -331,6 +328,312 @@
                 android:background="@drawable/editex"/>
 
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="45dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20sp">
+
+                <TextView
+                    android:id="@+id/tvdesarrolloProyecto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Desarrollo de Proyecto:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"/>
+
+                <CheckBox
+                    android:id="@+id/checkboxdesarrollo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:layout_marginLeft="-18dp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="45dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/tvsupervicion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Supervisión:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"/>
+
+                <CheckBox
+                    android:id="@+id/checkboxSupervision"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:layout_marginLeft="-18dp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Medida"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Seleccionar una Medida:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18sp">
+
+            </TextView>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:columnCount="3"
+                android:useDefaultMargins="false"
+                android:alignmentMode="alignBounds">
+
+            <CheckBox
+                android:id="@+id/checkbox_Unidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UNIDAD"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <CheckBox
+                android:id="@+id/checkbox_Global"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GLOBAL"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/textviewTotal"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Total:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/ed_totalapagar"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="S/"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+
+
+            <TextView
+                android:id="@+id/tv_caracteres"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Caracteristicas de la Estructura:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="-28dp"
+                >
+
+            </TextView>
+
+
+            <EditText
+                android:id="@+id/ed_caracteristicas"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:hint="Caracteristicas"
+                android:padding="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:minLines="3"
+                android:maxLines="6"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:scrollbars="vertical">
+
+            </EditText>
+
+            <TextView
+                android:id="@+id/tvtotalTopografia"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Total del Servicio:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/ed_totalTopografia"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="S/"
+                android:background="@drawable/editex">
+
+            </EditText>
+            <!--Inserción de datos de (Agua potable) -->
+            <TextView
+                android:id="@+id/tv_abastecimientoAgua"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:text="Metros Cubicos:"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/ed_abastecimientoAgua"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="m3"
+                android:paddingEnd="40dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:paddingStart="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/editex"/>
+
+            <!-- Precio de los metros cubicos -->
+            <TextView
+                android:id="@+id/tv_precioLitros"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:text="Precio:"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"/>
+
+            <EditText
+                android:id="@+id/et_preciometro"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="s/"
+                android:paddingEnd="40dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:paddingStart="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/editex"/>
+
+            <!-- campos de equipos menores-->
+
+            <TextView
+                android:id="@+id/tvcalculoDia"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Dias:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="-15dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/ed_calculoDia"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:inputType="number"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="Ingrese un valor"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+            <TextView
+                android:id="@+id/tvPrecioEquipo"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Precio del Equipo:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/ed_precioEquipo"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:inputType="number"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="Ingrese un valor"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+
+
+
+
     <Button
         android:id="@+id/GuardarButton"
         android:layout_width="235dp"
@@ -340,7 +643,7 @@
         android:textSize="15dp"
         android:textStyle="bold"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="40dp">
 
     </Button>
 

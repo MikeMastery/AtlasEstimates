@@ -10,10 +10,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,9 +28,11 @@ import java.util.Calendar;
 
 public class nueva_cotizacion extends AppCompatActivity {
 
-    private EditText etNombreCotizacion, etNombreCliente, etFecha;
+    private EditText etNombreCotizacion, etNombreCliente, etFecha, et_camposDNI, et_camposRUC, etcamposRazonSocial, etIdentificacion, et_Ubicacion;
     private EditText imageEditText;
     private ImageButton addImageButton;
+    private TextView tv_dni, tv_ruc, tv_razonSocial;
+    private Spinner spinnerIdentificacion;
 
     private Bitmap selectedImageBitmap;
     private Uri imageUri;
@@ -42,6 +48,57 @@ public class nueva_cotizacion extends AppCompatActivity {
         etFecha = findViewById(R.id.fecha);
         imageEditText = findViewById(R.id.imageEditText);
         addImageButton = findViewById(R.id.add_image);
+        et_camposDNI = findViewById(R.id.ed_iden_dni);
+        et_camposRUC = findViewById(R.id.ed_iden_ruc);
+        etcamposRazonSocial = findViewById(R.id.razon_social);
+        etIdentificacion = findViewById(R.id.ed_identificacion);
+        tv_dni = findViewById(R.id.textviewDNI);
+        tv_ruc = findViewById(R.id.textviewRUC);
+        tv_razonSocial = findViewById(R.id.textviewRAZON);
+        spinnerIdentificacion = findViewById(R.id.spinner_identificacion);
+        et_Ubicacion = findViewById(R.id.ubicacion);
+
+
+        // Configurar el Spinner con el ArrayAdapter
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.opciones_identificacion, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdentificacion.setAdapter(adapter);
+
+        // Configura el listener para el Spinner
+        spinnerIdentificacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Verifica el ítem seleccionado en el Spinner
+                String selectedOption = parentView.getItemAtPosition(position).toString();
+                etIdentificacion.setText(selectedOption);
+
+                // Ocultar todos los campos primero
+                tv_dni.setVisibility(View.GONE);
+                et_camposDNI.setVisibility(View.GONE);
+                tv_ruc.setVisibility(View.GONE);
+                et_camposRUC.setVisibility(View.GONE);
+                tv_razonSocial.setVisibility(View.GONE);
+                etcamposRazonSocial.setVisibility(View.GONE);
+
+                // Luego, dependiendo de la opción, muestra los campos correspondientes
+                if (selectedOption.equals("DNI")) {
+                    tv_dni.setVisibility(View.VISIBLE);
+                    et_camposDNI.setVisibility(View.VISIBLE);
+                } else if (selectedOption.equals("RUC")) {
+                    tv_ruc.setVisibility(View.VISIBLE);
+                    et_camposRUC.setVisibility(View.VISIBLE);
+                    tv_razonSocial.setVisibility(View.VISIBLE);
+                    etcamposRazonSocial.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Opcional: ocultar todos los campos si no se selecciona nada
+            }
+        });
+
 
 
         ImageButton imageButton = findViewById(R.id.sisuiente_coti);
@@ -59,6 +116,12 @@ public class nueva_cotizacion extends AppCompatActivity {
         cotizacion.setNombreCotizacion(etNombreCotizacion.getText().toString());
         cotizacion.setNombreCliente(etNombreCliente.getText().toString());
         cotizacion.setFecha(etFecha.getText().toString());
+        cotizacion.setIdentificacion(etIdentificacion.getText().toString());
+        cotizacion.setUbicacion(et_Ubicacion.getText().toString());
+        cotizacion.setDni(et_camposDNI.getText().toString());
+        cotizacion.setRuc(et_camposRUC.getText().toString());
+        cotizacion.setRazonSocial(etcamposRazonSocial.getText().toString());
+
 
         if (imageUri != null) {
             cotizacion.setImagenUri(imageUri.toString()); // Usar URI como String
@@ -128,22 +191,4 @@ public class nueva_cotizacion extends AppCompatActivity {
         return new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, width, height, true));
     }
 
-
-// Método para guardar los datos en la base de datos
-    /*private void guardarDatosCotizacion() {
-        String nombreCotizacion = etNombreCotizacion.getText().toString();
-        String nombreCliente = etNombreCliente.getText().toString();
-        String descripcion = etDescripcion.getText().toString();
-        String fecha = etFecha.getText().toString();
-
-        // Validación básica
-        if (nombreCotizacion.isEmpty() || nombreCliente.isEmpty() || descripcion.isEmpty() || fecha.isEmpty()) {
-            // Aquí puedes mostrar un mensaje de error al usuario
-            return;
-        }
-
-        // Inserta los datos en la base de datos
-        dbHelper.insertCotizacion(nombreCotizacion, nombreCliente, descripcion, fecha, null, null, null);
-    }
-    */
 }
