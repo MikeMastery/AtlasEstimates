@@ -13,6 +13,11 @@ public interface ItemsDao {
     @Insert
     long insert(table_items item);
 
+    // Eliminar un item por ID
+    @Query("DELETE FROM Items WHERE id_items = :idItem")
+    void deleteItemById(int idItem);
+
+
     // Obtener todos los items
     @Query("SELECT * FROM Items")
     List<table_items> getAllItems();

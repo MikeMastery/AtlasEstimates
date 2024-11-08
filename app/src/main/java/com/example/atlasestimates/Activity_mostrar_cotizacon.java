@@ -391,18 +391,33 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     .setMarginTop(113); // Ajusta este valor para bajar más el título
             document.add(title);
 
+            // Obtén los datos de los TextViews
             String tipoidentificacion = mostrarTipoIden.getText().toString();
+            String cliente = textviewCliente.getText().toString();
+            String fecha = textviewFecha.getText().toString();
+            String identificacion = textviewIdentificacion.getText().toString();
+            String ubicacion = textview_mostrarUbicacion.getText().toString();
 
-            // Datos a la derecha con sangría
-            Paragraph rightAlignedData = new Paragraph(
-                    "Cliente: " + textviewCliente.getText().toString() + "\n" +
-                            "Fecha: " + textviewFecha.getText().toString() + "\n" +
-                            tipoidentificacion + ": " + textviewIdentificacion.getText().toString() + "\n" +  // Añade tipo de identificación
-                                "Ubicación: " + textview_mostrarUbicacion.getText().toString())
+            // Verifica si el campo de razón social está vacío y asigna "NO" si es necesario
+            String razonSocial = textviewMostrarRazon.getText().toString().isEmpty() ? "No" : textviewMostrarRazon.getText().toString();
+            String tipoIdentRazonSocial = textviewRazoncial.getText().toString();
+
+            // Crear la cadena de datos del cliente, incluyendo razón social con "NO" si está vacía
+            String datosCliente = "Cliente: " + cliente + "\n" +
+                    "Fecha: " + fecha + "\n" +
+                    tipoidentificacion + ": " + identificacion + "\n" +
+                    tipoIdentRazonSocial + ": " + razonSocial + "\n" +
+                    "Ubicación: " + ubicacion;
+
+            // Crear el Paragraph con los datos
+            Paragraph rightAlignedData = new Paragraph(datosCliente)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
                     .setMarginTop(10);
+
+            // Añadir el Paragraph al documento
             document.add(rightAlignedData);
+
 
             //Añadir un breve texto de agradecimiento
             Paragraph textAgradecimiento = new Paragraph(
@@ -441,8 +456,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 float originalHeight = img.getImageHeight();
 
                 // Definir el ancho máximo de la celda en la tabla
-                float maxWidth = 135f;
-                float maxHeight = 120f;
+                float maxWidth = 155f;
+                float maxHeight = 122f;
 
                 // Calcular ratio para mantener proporción
                 float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
@@ -454,15 +469,18 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 img.setWidth(newWidth);
                 img.setHeight(newHeight);
 
-                // Crear la celda y centrar la imagen tanto horizontal como verticalmente
+                // Crear un Paragraph para la imagen y centrarla
+                Paragraph imageParagraph = new Paragraph().add(img).setTextAlignment(TextAlignment.CENTER);
+
+                // Crear la celda y agregar el Paragraph con la imagen centrada
                 Cell imageCell = new Cell(1, 2)
-                        .add(img)
-                        .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                        .add(imageParagraph)
                         .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                        .setPadding(5);  // Añadir un poco de padding para que no esté pegada a los bordes
+                        .setPadding(5);
 
                 table.addCell(imageCell);
             }
+
 
             addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString(), true);
             addCellToTable(table, "IGV", textviewTotalIGV.getText().toString(), true);

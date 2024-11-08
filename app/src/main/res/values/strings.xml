@@ -12,20 +12,20 @@
     </string-array>
 
 
-        <!-- segmento categorias-->
+    <!-- segmento categorias-->
 
-        <string-array name="spinner_categorias">
-            <item>Seleccione una categoría</item>
-            <item>Materiales</item>
-            <item>Servicios</item>
-            <item>Topografia</item>
-            <item>Estructuras Metálicas</item>
-            <item>Abastecimiento de Agua</item>
-            <item>Maquinaria Pesada</item>
-            <item>Construcción de Obra</item>
-            <item>Equipos menores</item>
+    <string-array name="spinner_categorias">
+        <item>Seleccione una categoría</item>
+        <item>Materiales</item>
+        <item>Servicios</item>
+        <item>Topografia</item>
+        <item>Estructuras Metálicas</item>
+        <item>Abastecimiento de Agua</item>
+        <item>Maquinaria Pesada</item>
+        <item>Construcción de Obra</item>
+        <item>Equipos menores</item>
 
-        </string-array>
+    </string-array>
 
     <!-- segmento de productos-->
 
@@ -121,10 +121,6 @@
         <item>RUC</item>
 
     </string-array>
-
-
-
-
 
 
     <!-- Strings used for fragments for navigation -->

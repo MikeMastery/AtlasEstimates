@@ -14,16 +14,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.atlasestimates.AppDatabase;
 import com.example.atlasestimates.CotizacionAdapter;
+import com.example.atlasestimates.CotizacionDao;
+import com.example.atlasestimates.CotizacionViewModel;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.actividad_ajustes;
 import com.example.atlasestimates.databinding.FragmentHomeBinding;
@@ -70,13 +75,19 @@ public class HomeFragment extends Fragment {
                 // Acción cuando no se selecciona nada, si es necesario
             }
         });
-
-        // Configurar el botón para crear una nueva cotización
         ImageButton imageButton = root.findViewById(R.id.file_plus);
-        imageButton.setOnClickListener(v -> {
+        TextView textView = root.findViewById(R.id.file_plus_text);
+
+        View.OnClickListener clickListener = v -> {
             Intent intent = new Intent(getActivity(), nueva_cotizacion.class);
             startActivity(intent);
-        });
+        };
+
+// Asigna el mismo listener al ImageButton y al TextView
+        imageButton.setOnClickListener(clickListener);
+        textView.setOnClickListener(clickListener);
+
+
 
         setHasOptionsMenu(true); // Indicar que este fragmento tiene un menú de opciones
 
@@ -95,12 +106,17 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onPostExecute(List<table_cotizacion> cotizaciones) {
-                // Configurar el adaptador con los datos obtenidos
-                adapter = new CotizacionAdapter(cotizaciones);
+                // Obtener la instancia del ViewModel
+                CotizacionViewModel cotizacionViewModel = new ViewModelProvider(requireActivity()).get(CotizacionViewModel.class);
+
+                // Configurar el adaptador con los datos y el CotizacionViewModel
+                adapter = new CotizacionAdapter(cotizaciones, cotizacionViewModel);
                 recyclerView.setAdapter(adapter);
             }
         }.execute();
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

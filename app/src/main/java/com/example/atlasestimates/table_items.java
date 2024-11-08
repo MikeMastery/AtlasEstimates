@@ -1,9 +1,18 @@
 package com.example.atlasestimates;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Items")
+@Entity(
+        tableName = "Items",
+        foreignKeys = @ForeignKey(
+                entity = table_categoria.class,
+                parentColumns = "id_categoria",
+                childColumns = "id_categoria",
+                onDelete = ForeignKey.CASCADE
+        )
+)
 public class table_items {
 
     @PrimaryKey(autoGenerate = true)
