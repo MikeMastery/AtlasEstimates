@@ -23,7 +23,7 @@
         android:layout_height="50dp"
         android:text=""
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="30dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
@@ -45,7 +45,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
             android:text="Cliente:"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
@@ -72,7 +72,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="40dp"
                     android:text="Ubicación:"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text=""
-                    android:textColor="#5F5F5F"
+                    android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"/>
@@ -100,7 +100,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="40dp"
                     android:text="Identificación:"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text=""
-                    android:textColor="#5F5F5F"
+                    android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"/>
@@ -128,7 +128,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="40dp"
                     android:text="Razon Social:"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text=""
-                    android:textColor="#5F5F5F"
+                    android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"/>
@@ -154,7 +154,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
             android:text="Fecha:"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
@@ -180,7 +180,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="40dp"
                     android:text="Categoria:"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -189,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text=""
-                    android:textColor="#5F5F5F"
+                    android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"/>
@@ -206,7 +206,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
             android:text="Requerimiento:"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -215,7 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
@@ -233,7 +233,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
             android:text="Metros/Unidades:"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -242,7 +242,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
@@ -260,7 +260,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
             android:text="Precio:"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -269,7 +269,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
@@ -306,6 +306,8 @@
         android:gravity="top|start"
         android:inputType="textMultiLine"
         android:lines="4"
+        android:focusable="false"
+        android:clickable="false"
         android:minLines="3"
         android:maxLines="6"
         android:scrollHorizontally="false"
@@ -331,7 +333,7 @@
             android:layout_marginLeft="45dp"
             android:text="SubTotal S/:"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold"
             >
         </TextView>
@@ -340,7 +342,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
@@ -360,7 +362,7 @@
             android:layout_marginLeft="45dp"
             android:text="IGV S/:"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold"
             >
         </TextView>
@@ -369,7 +371,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textStyle="bold"
             android:textSize="17sp"
             android:layout_marginStart="10dp"/>
@@ -392,7 +394,7 @@
             android:layout_marginLeft="45dp"
             android:text="Total S/:"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold"
             >
         </TextView>
@@ -401,12 +403,18 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text=""
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#94B8B7B7"
+                android:layout_marginTop="10dp"/>
 
 
     <Button
@@ -414,8 +422,8 @@
         android:layout_width="110dp"
         android:layout_height="50dp"
         android:textColor="@color/white"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/black"
         android:text="Guardar"
         android:textSize="12dp"
@@ -423,25 +431,15 @@
         >
 
     </Button>
-    <Button
-        android:layout_width="115dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="-50dp"
-        android:text="Modificar"
-        android:textStyle="bold"
-        android:textSize="12dp"
-        >
 
-    </Button>
     <ImageButton
         android:id="@+id/conpartir_descargarPDF"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/pdf1"
-        android:layout_marginTop="-60dp"
+        android:layout_marginTop="-55dp"
         android:background="@drawable/button_background"
-        android:layout_marginLeft="295dp">
+        android:layout_marginLeft="225dp">
     </ImageButton>
 
         </LinearLayout>

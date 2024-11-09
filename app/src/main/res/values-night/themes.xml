@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">@color/ic_launcher_background</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/ic_launcher_background</item>
+        <item name="colorSecondary">@color/ic_launcher_background</item>,
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">#595757</item>
 
@@ -15,7 +15,9 @@
         <item name="colorOnPrimary2">@color/edit_text_background</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/ic_launcher_background</item>
+        <item name="colorOnPrimary3">@color/edit_text_background</item>
+
+
     </style>
 
     <!-- Base application theme. -->

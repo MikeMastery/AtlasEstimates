@@ -118,111 +118,7 @@
                 android:scrollbars="vertical">
 
             </EditText>
-            <!-- <LinearLayout
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:orientation="horizontal"
-                 android:layout_marginTop="15dp">
 
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="40dp"
-                     android:layout_marginLeft="40dp"
-                     android:text="Unidad de medida:"
-                     android:textColor="@color/black"
-                     android:textSize="20sp"
-                     android:textStyle="bold"/>
-
-                 <TextView
-                     android:id="@+id/tvUnidadMedida"
-                     android:layout_width="wrap_content"
-                     android:layout_height="30dp"
-                     android:text=""
-                     android:textColor="#5F5F5F"
-                     android:textSize="17sp"
-                     android:textStyle="bold"
-                     android:layout_marginStart="10dp"/>
-
-             </LinearLayout>
-
-
-            <GridLayout
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="10dp"
-                 android:layout_gravity="center"
-                 android:columnCount="3"
-                 android:useDefaultMargins="false"
-                 android:alignmentMode="alignBounds">
-
-
-
-                 <CheckBox
-                     android:id="@+id/checkbox_ml"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="ML"
-                     android:textSize="17sp"
-                     android:textColor="#5F5F5F"
-                     android:textStyle="bold"
-                     android:layout_marginEnd="16dp"
-                     android:layout_marginBottom="8dp"/>
-
-                 <CheckBox
-                     android:id="@+id/checkbox_hm"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="HM"
-                     android:textSize="17sp"
-                     android:textColor="#5F5F5F"
-                     android:textStyle="bold"
-                     android:layout_marginBottom="8dp"/>
-
-                 <CheckBox
-                     android:id="@+id/checkbox_global"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="Global"
-                     android:textSize="17sp"
-                     android:textColor="#5F5F5F"
-                     android:textStyle="bold"
-                     android:layout_marginEnd="16dp"
-                     android:layout_marginBottom="8dp"/>
-
-                 <CheckBox
-                     android:id="@+id/checkbox_unidades"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="UNIDADES"
-                     android:textSize="17sp"
-                     android:textColor="#5F5F5F"
-                     android:textStyle="bold"
-                     android:layout_marginBottom="8dp"/>
-
-                 <CheckBox
-                     android:id="@+id/checkbox_planos"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="PLANOS"
-                     android:textSize="17sp"
-                     android:textColor="#5F5F5F"
-                     android:textStyle="bold"
-                     android:layout_marginEnd="16dp"/>
-
-                 <CheckBox
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="OTRO"
-                     android:textColor="#5F5F5F"
-                     android:textStyle="bold"
-                     android:textSize="17sp"/>
-
-             </GridLayout>-->
-
-            <!-- TextView y EditText para cada CheckBox -->
-            <!-- Inicialmente, los elementos están ocultos -->
-
-            <!--Inserción de datos de ML (Metros lineales) -->
             <TextView
                 android:id="@+id/tv_ml"
                 android:layout_width="300dp"
@@ -244,6 +140,7 @@
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:paddingStart="12dp"
+                android:inputType="number"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 android:background="@drawable/editex"/>
@@ -267,6 +164,7 @@
                 android:layout_height="50dp"
                 android:hint="Precio"
                 android:paddingEnd="40dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:paddingStart="12dp"
@@ -295,6 +193,7 @@
                 android:hint="UND"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
+                android:inputType="number"
                 android:textColor="#5F5F5F"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
@@ -322,6 +221,7 @@
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
+                android:inputType="number"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
@@ -528,7 +428,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:text="Metros Cubicos:"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:visibility="gone"
@@ -554,7 +454,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:text="Precio:"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:visibility="gone"

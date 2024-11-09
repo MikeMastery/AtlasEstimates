@@ -89,6 +89,7 @@
             android:layout_height="3dp"
             android:layout_gravity="center"
             android:layout_marginLeft="-1dp"
+            android:textColor="?attr/colorOnPrimary2"
             android:layout_marginTop="-20dp"
             android:background="#94B8B7B7" />
 
@@ -100,7 +101,7 @@
             android:padding="16dp"
             android:text="Cotizaciones"
             android:textStyle="bold"
-            android:textColor="#5F5F5F"
+            android:textColor="?attr/colorOnPrimary2"
             android:textSize="18sp">
         </TextView>
 
@@ -110,6 +111,7 @@
             android:layout_height="3dp"
             android:layout_gravity="center"
             android:layout_marginLeft="-1dp"
+            android:textColor="?attr/colorOnPrimary2"
             android:layout_marginTop="15dp"
             android:background="#94B8B7B7" />
     </FrameLayout>
