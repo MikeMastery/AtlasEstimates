@@ -8,8 +8,8 @@
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="10dp">
 
     <LinearLayout
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fecha"
-                android:textColor="#5F5F5F"
+                android:textColor="?attr/colorOnPrimary2"
                 android:textSize="14sp" />
         </LinearLayout>
 

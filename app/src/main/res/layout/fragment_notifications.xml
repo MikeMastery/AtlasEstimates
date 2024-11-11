@@ -25,6 +25,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:src="@drawable/logoatlas"
                 android:layout_gravity="center_vertical" />
 
             <LinearLayout
@@ -37,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nueva Cotización Creada"
+                    android:text="Nueva cotización creada"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -79,6 +80,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:src="@drawable/logoatlas"
                 android:layout_gravity="center_vertical" />
 
             <LinearLayout
@@ -133,6 +135,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:src="@drawable/logoatlas"
                 android:layout_gravity="center_vertical" />
 
             <LinearLayout
@@ -145,7 +148,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cotización Rechazada"
+                    android:text="Nueva cotización creada"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />

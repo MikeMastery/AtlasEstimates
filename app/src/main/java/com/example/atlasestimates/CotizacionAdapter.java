@@ -10,17 +10,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.Filter;
+import android.widget.Filterable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.CotizacionViewHolder> {
+public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.CotizacionViewHolder> implements Filterable {
 
     private List<table_cotizacion> cotizaciones;
+    private List<table_cotizacion> cotizacionesFull; // Lista completa para el filtro
     private CotizacionViewModel cotizacionViewModel;
 
     public CotizacionAdapter(List<table_cotizacion> cotizaciones, CotizacionViewModel cotizacionViewModel) {
         this.cotizaciones = cotizaciones;
         this.cotizacionViewModel = cotizacionViewModel;
+        this.cotizacionesFull = new ArrayList<>(cotizaciones); // Inicializar la lista completa para el filtro
     }
 
     @NonNull
@@ -54,14 +59,49 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         });
     }
 
-
     @Override
     public int getItemCount() {
         return cotizaciones.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return cotizacionFilter;
+    }
+
+    private final Filter cotizacionFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<table_cotizacion> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(cotizacionesFull); // Muestra la lista completa si no hay filtro
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (table_cotizacion item : cotizacionesFull) {
+                    // Filtra por el título o cualquier otro campo de `table_cotizacion`
+                    if (item.getTitulo().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            cotizaciones.clear();
+            cotizaciones.addAll((List) results.values); // Actualiza la lista de cotizaciones filtrada
+            notifyDataSetChanged();
+        }
+    };
+
     public static class CotizacionViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitulo, tvFecha, tvTotal, mostrarcliente;
+        TextView tvTitulo, tvFecha, tvTotal;
         Button btnEliminar;
 
         public CotizacionViewHolder(@NonNull View itemView) {

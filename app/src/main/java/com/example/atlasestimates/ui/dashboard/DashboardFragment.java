@@ -23,7 +23,7 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private List<Item> serviciosList; // Lista que contendrá solo los servicios
+    private List<Item> itemsList; // Lista que contendrá servicios o productos
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -35,13 +35,18 @@ public class DashboardFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerViewProductos);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        // Crear la lista de servicios
-        serviciosList = new ArrayList<>();
+        // Inicializar la lista
+        itemsList = new ArrayList<>();
 
         // Definir el botón de servicios
         binding.servicio.setOnClickListener(v -> {
-            // Cargar servicios estáticos
             cargarServiciosEstaticos();
+            adapter.notifyDataSetChanged();
+        });
+
+        // Definir el botón de productos
+        binding.addProduct.setOnClickListener(v -> {
+            cargarProductosEstaticos();
             adapter.notifyDataSetChanged();
         });
 
@@ -57,45 +62,56 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                // Encontrar las vistas en el layout
                 ImageView imageView = holder.itemView.findViewById(R.id.ivProductImage);
                 TextView nameView = holder.itemView.findViewById(R.id.tvProductName);
                 TextView descriptionView = holder.itemView.findViewById(R.id.tvProductDescription);
 
-                // Obtener el item correspondiente
-                Item servicio = serviciosList.get(position);
+                Item item = itemsList.get(position);
 
-                // Configurar las vistas con datos
-                imageView.setImageResource(servicio.getImageResource());
-                nameView.setText(servicio.getName());
-                descriptionView.setText(servicio.getDescription());
+                imageView.setImageResource(item.getImageResource());
+                nameView.setText(item.getName());
+                descriptionView.setText(item.getDescription());
             }
 
             @Override
             public int getItemCount() {
-                return serviciosList.size(); // El tamaño de la lista de servicios
+                return itemsList.size();
             }
         };
 
         recyclerView.setAdapter(adapter);
+
+        // Cargar productos por defecto
+        cargarProductosEstaticos();
 
         return root;
     }
 
     // Método para cargar los servicios estáticos
     private void cargarServiciosEstaticos() {
-        // Limpiar la lista antes de cargar los servicios
-        serviciosList.clear();
+        itemsList.clear();
 
         // Añadir servicios estáticos
-        serviciosList.add(new Item("Ingenieria", "Descripción del servicio de instalación", R.drawable.ingenieria));
-        serviciosList.add(new Item("Arquitectura", "Descripción del servicio de consultoría técnica", R.drawable.arquitectura));
-        serviciosList.add(new Item("Topografia", "Descripción del servicio de mantenimiento", R.drawable.topografia));
-        serviciosList.add(new Item("Maquinaria Pesada", "Descripción del servicio de asesoría legal", R.drawable.maquinaria));
-        serviciosList.add(new Item("Abastecimiento de agua", "Descripción del servicio de asesoría legal", R.drawable.abasagua));
-        serviciosList.add(new Item("Estructuras Metalicas", "Descripción del servicio de asesoría legal", R.drawable.estructuras));
+        itemsList.add(new Item("Ingenieria", "Descripción del servicio de instalación", R.drawable.ingenieria));
+        itemsList.add(new Item("Arquitectura", "Descripción del servicio de consultoría técnica", R.drawable.arquitectura));
+        itemsList.add(new Item("Topografia", "Descripción del servicio de mantenimiento", R.drawable.topografia));
+        itemsList.add(new Item("Maquinaria Pesada", "Descripción del servicio de asesoría legal", R.drawable.maquinaria));
+        itemsList.add(new Item("Abastecimiento de agua", "Descripción del servicio de asesoría legal", R.drawable.abasagua));
+        itemsList.add(new Item("Estructuras Metalicas", "Descripción del servicio de asesoría legal", R.drawable.estructuras));
+    }
 
-        // Puedes añadir más servicios según sea necesario
+    // Nuevo método para cargar los productos estáticos
+    private void cargarProductosEstaticos() {
+        itemsList.clear();
+
+        // Añadir productos estáticos
+        itemsList.add(new Item("Cercos Prefabricados", "Permite la visión desde afuera o desde adentro de una propiedad. Los muros prefabricados cuentan con variedad de placas de concreto con diferentes estéticos diseños, este producto aísla totalmente la propiedad, sin permitir la visibilidad.", R.drawable.cercos));
+        itemsList.add(new Item("Block Concreto", "Los Bloques de concreto son elementos modulares premoldeados diseñados para la albañilería confinada y armada", R.drawable.block));
+        itemsList.add(new Item("Murete de Concreto", "Los Bloques de concreto son elementos modulares premoldeados diseñados para la albañilería confinada y armada", R.drawable.murete));
+        itemsList.add(new Item("Poste de Concreto", "Son productos prefabricados de concreto, formados por la mezcla de cemento, agregado grueso, fino, agua y aditivos dentro de esta mezcla se ha colocado una estructura de acero que le da la resistencia a la flexión del poste", R.drawable.poste));
+        // Puedes añadir más productos según necesites
+
+
     }
 
     @Override
@@ -104,7 +120,7 @@ public class DashboardFragment extends Fragment {
         binding = null;
     }
 
-    // Clase que representa los servicios
+    // Clase que representa los items (productos o servicios)
     public static class Item {
         private String name;
         private String description;

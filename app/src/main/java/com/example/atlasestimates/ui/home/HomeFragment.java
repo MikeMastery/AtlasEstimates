@@ -1,21 +1,23 @@
 package com.example.atlasestimates.ui.home;
 
-
-
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.atlasestimates.AppDatabase;
 import com.example.atlasestimates.CotizacionAdapter;
-import com.example.atlasestimates.CotizacionDao;
 import com.example.atlasestimates.CotizacionViewModel;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.actividad_ajustes;
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private RecyclerView recyclerView;
     private CotizacionAdapter adapter;
+    private boolean isSearchBarVisible = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,32 +51,25 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Inicializar RecyclerView
         recyclerView = binding.recyclerViewCotizaciones;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Cargar datos de la base de datos
         loadCotizaciones();
 
-        // Configurar el Spinner
-        Spinner spinner = binding.spinner;
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
-                getContext(),
-                R.array.opciones_spinner,
-                android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
+        // Configurar el botón de nueva cotización
+        setupNewQuoteButton(root);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // No hacer nada al seleccionar un ítem
-            }
+        // Configurar la búsqueda
+        setupSearch(root);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acción cuando no se selecciona nada, si es necesario
-            }
-        });
+        setHasOptionsMenu(true);
+
+        return root;
+    }
+
+    private void setupNewQuoteButton(View root) {
         ImageButton imageButton = root.findViewById(R.id.file_plus);
         TextView textView = root.findViewById(R.id.file_plus_text);
 
@@ -83,44 +78,106 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         };
 
-// Asigna el mismo listener al ImageButton y al TextView
         imageButton.setOnClickListener(clickListener);
         textView.setOnClickListener(clickListener);
+    }
 
+    private void setupSearch(View root) {
+        ImageButton searchButton = root.findViewById(R.id.filter);
+        TextView searchText = root.findViewById(R.id.search_text);
+        EditText searchBar = root.findViewById(R.id.search_bar);
 
+        View.OnClickListener showSearchBar = v -> toggleSearchBar();
+        searchButton.setOnClickListener(showSearchBar);
+        searchText.setOnClickListener(showSearchBar);
 
-        setHasOptionsMenu(true); // Indicar que este fragmento tiene un menú de opciones
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        return root;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (adapter != null) {
+                    adapter.getFilter().filter(s);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void toggleSearchBar() {
+        isSearchBarVisible = !isSearchBarVisible;
+
+        // Obtener la altura del EditText
+        float displacement = getResources().getDimensionPixelSize(R.dimen.search_bar_height);
+
+        // Animación para el EditText de búsqueda
+        ObjectAnimator searchBarAnimation = ObjectAnimator.ofFloat(
+                binding.searchBar,
+                "alpha",
+                isSearchBarVisible ? 0f : 1f,
+                isSearchBarVisible ? 1f : 0f
+        );
+
+        // Animación para el FrameLayout del medio
+        ObjectAnimator middleFrameAnimation = ObjectAnimator.ofFloat(
+                binding.middleFrame,
+                "translationY",
+                isSearchBarVisible ? 0f : displacement,
+                isSearchBarVisible ? displacement : 0f
+        );
+
+        // Animación para el RecyclerView
+        ObjectAnimator recyclerViewAnimation = ObjectAnimator.ofFloat(
+                binding.recyclerViewCotizaciones,
+                "translationY",
+                isSearchBarVisible ? 0f : displacement,
+                isSearchBarVisible ? displacement : 0f
+        );
+
+        // Configurar el conjunto de animaciones
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(searchBarAnimation, middleFrameAnimation, recyclerViewAnimation);
+        animatorSet.setDuration(300);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        // Manejar la visibilidad del EditText
+        binding.searchBar.setVisibility(View.VISIBLE);
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!isSearchBarVisible) {
+                    binding.searchBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        animatorSet.start();
     }
 
     private void loadCotizaciones() {
-        // Cargar datos en un hilo de fondo
         new AsyncTask<Void, Void, List<table_cotizacion>>() {
             @Override
             protected List<table_cotizacion> doInBackground(Void... voids) {
-                // Obtener la instancia de la base de datos y cargar las cotizaciones
                 AppDatabase db = AppDatabase.getInstance(getContext());
                 return db.cotizacionDao().getAllCotizaciones();
             }
 
             @Override
             protected void onPostExecute(List<table_cotizacion> cotizaciones) {
-                // Obtener la instancia del ViewModel
                 CotizacionViewModel cotizacionViewModel = new ViewModelProvider(requireActivity()).get(CotizacionViewModel.class);
-
-                // Configurar el adaptador con los datos y el CotizacionViewModel
                 adapter = new CotizacionAdapter(cotizaciones, cotizacionViewModel);
                 recyclerView.setAdapter(adapter);
             }
         }.execute();
     }
 
-
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.top_nav_menu, menu); // Inflar el menú de la barra de acción
+        inflater.inflate(R.menu.top_nav_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
