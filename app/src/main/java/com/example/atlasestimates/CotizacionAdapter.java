@@ -1,5 +1,7 @@
 package com.example.atlasestimates;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -21,6 +22,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
     private List<table_cotizacion> cotizaciones;
     private List<table_cotizacion> cotizacionesFull; // Lista completa para el filtro
     private CotizacionViewModel cotizacionViewModel;
+    private Context context;
 
     public CotizacionAdapter(List<table_cotizacion> cotizaciones, CotizacionViewModel cotizacionViewModel) {
         this.cotizaciones = cotizaciones;
@@ -32,6 +34,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
     @Override
     public CotizacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cotizacion, parent, false);
+        context = parent.getContext(); // Guardar el contexto para usarlo en el Intent
         return new CotizacionViewHolder(view);
     }
 
@@ -42,20 +45,23 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         holder.tvFecha.setText(cotizacion.getFecha());
         holder.tvTotal.setText("Total: " + cotizacion.getTotal());
 
-        // Al hacer clic en el botón de eliminar
+        // Configurar el botón de "Eliminar"
         holder.btnEliminar.setOnClickListener(v -> {
-            // Obtén el ID del cliente asociado a esta cotización
             int clienteId = cotizacion.getId_cliente();
-
-            // Llama al ViewModel para eliminar el cliente y relaciones
             cotizacionViewModel.deleteClienteYRelaciones(clienteId);
-
-            // Remueve el elemento de la lista y notifica el cambio
             cotizaciones.remove(position);
             notifyItemRemoved(position);
-
-            // Mostrar un Toast indicando éxito
             Toast.makeText(v.getContext(), "Registro eliminado correctamente.", Toast.LENGTH_SHORT).show();
+        });
+
+        // Configurar el botón de "Ver detalles"
+        holder.btnViewDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(context, mostrardetalles.class);
+            // Pasar datos adicionales a la actividad de detalles, si es necesario
+            intent.putExtra("titulo", cotizacion.getTitulo());
+            intent.putExtra("fecha", cotizacion.getFecha());
+            intent.putExtra("total", cotizacion.getTotal());
+            context.startActivity(intent);
         });
     }
 
@@ -75,12 +81,10 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             List<table_cotizacion> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(cotizacionesFull); // Muestra la lista completa si no hay filtro
+                filteredList.addAll(cotizacionesFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
                 for (table_cotizacion item : cotizacionesFull) {
-                    // Filtra por el título o cualquier otro campo de `table_cotizacion`
                     if (item.getTitulo().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
@@ -95,14 +99,14 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             cotizaciones.clear();
-            cotizaciones.addAll((List) results.values); // Actualiza la lista de cotizaciones filtrada
+            cotizaciones.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
 
     public static class CotizacionViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitulo, tvFecha, tvTotal;
-        Button btnEliminar;
+        Button btnEliminar, btnViewDetails;
 
         public CotizacionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +114,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             tvFecha = itemView.findViewById(R.id.tvFecha);
             tvTotal = itemView.findViewById(R.id.tvTotal);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
+            btnViewDetails = itemView.findViewById(R.id.btnViewDetails); // Enlazar btnViewDetails
         }
     }
 }

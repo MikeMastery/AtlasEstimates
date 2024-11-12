@@ -25,6 +25,11 @@ public class Cotizacion implements Serializable {
     private String dni;
     private String ruc;
     private String razonsocial;
+    private String medida;
+    private String desarrolloProyecto;
+    private String textviewDesarrollo;
+    private String supervison;
+    private String TotalIngeArqui;
 
 
     // Getters y Setters
@@ -193,5 +198,49 @@ public class Cotizacion implements Serializable {
     public String getRazonsocial(){
         return razonsocial;
     }
+
+    // Métodos getter y setter para 'medida'
+    public String getMedida() {
+        return medida;
+    }
+
+    public void setMedida(String medida) {
+        this.medida = medida;
+    }
+
+    public String getDesarrolloProyecto(){
+        return  desarrolloProyecto;
+    }
+
+    public void setDesarrolloProyecto(String obtenerDesarrollo){
+        this.desarrolloProyecto = obtenerDesarrollo;
+    }
+
+    public String gettextodesarrollo(){
+        return  textviewDesarrollo;
+    }
+
+    public void setTextodesarrollo(String obtenertextoDesarrollo){
+        this.textviewDesarrollo = obtenertextoDesarrollo;
+    }
+
+    public String getsupersionSINO (){
+        return  supervison;
+
+
+    }
+
+    public void  setSupervisonSINO (String obtnerSupervision){
+        this.supervison = obtnerSupervision;
+    }
+
+    public String gettotalInAr(){
+        return TotalIngeArqui;
+    }
+
+    public void setTotalIngeArqui(String obtenerTotalIngeArqui){
+        this.TotalIngeArqui = obtenerTotalIngeArqui;
+    }
+
 
 }

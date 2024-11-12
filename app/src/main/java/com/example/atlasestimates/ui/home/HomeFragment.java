@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.example.atlasestimates.CotizacionViewModel;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.actividad_ajustes;
 import com.example.atlasestimates.databinding.FragmentHomeBinding;
+import com.example.atlasestimates.mostrardetalles;
 import com.example.atlasestimates.nueva_cotizacion;
 import com.example.atlasestimates.table_cotizacion;
 
@@ -44,6 +46,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private CotizacionAdapter adapter;
     private boolean isSearchBarVisible = false;
+    private Button btnViewDetails ;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,9 +54,11 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
         // Inicializar RecyclerView
         recyclerView = binding.recyclerViewCotizaciones;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         // Cargar datos de la base de datos
         loadCotizaciones();

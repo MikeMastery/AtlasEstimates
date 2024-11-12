@@ -8,10 +8,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class layout_2_cotiza extends AppCompatActivity {
@@ -22,13 +28,16 @@ public class layout_2_cotiza extends AppCompatActivity {
     private EditText etDescripcion, etMl, etPrecio, etHorasMaquina, etPrecioHora;
     private TextView tvMl, tvPrecio, tvHorasMaquina, tvPrecioHora;
     private TextView tvDesarrolloProyecto, tvSuperviSion, tvtotaL;
-    private TextView checkSupervision, checkdesarrolloProyecto, checkunidad, checkglobal, tvMedida, tvTopografia,
+    private TextView  tvMedida, tvTopografia,
             tvCaracteristicas, tvcantidadAgua, tvPrecioAgua, tvcalcular_Dia, tvcalcularPrecio;
     private EditText edtotalPagar, etCaracteristicas,  ettotalTopogrgafia, etPrecioAgua, etcantidadAgua, edcalcularDia, edcalcularPrecio;
     private Button btnGuardar;
     private ImageButton btnAtras;
-    private EditText editex_categoria, edittext_producto;
+    private EditText editex_categoria, edittext_producto, edtotalingenieria;
     private Cotizacion cotizacion;
+    private RadioGroup radioGroup, radioGroupSINO, radioGroupSupervision;
+    private RadioButton radioButtonUnidad, radioButtonGlobal, radioButtonSI, radioButtonNO, radioSupervisionSI, radioSupervisionNO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,9 @@ public class layout_2_cotiza extends AppCompatActivity {
 
         // Configurar botones
         configurarBotones();
+
+
+
     }
 
     private void inicializarVistas() {
@@ -58,12 +70,11 @@ public class layout_2_cotiza extends AppCompatActivity {
         etDescripcion = findViewById(R.id.descripcion);
         etMl = findViewById(R.id.et_ml);
         tvDesarrolloProyecto = findViewById(R.id.tvdesarrolloProyecto);
+        radioButtonSI = findViewById(R.id.radiobutton_SI);
+        radioButtonNO = findViewById(R.id.radiobutton_NO);
+        radioGroupSINO = findViewById(R.id.radioGroup2);
         tvSuperviSion = findViewById(R.id.tvsupervicion);
         tvtotaL = findViewById(R.id.textviewTotal);
-        checkSupervision = findViewById(R.id.checkboxSupervision);
-        checkdesarrolloProyecto = findViewById(R.id.checkboxdesarrollo);
-        checkunidad = findViewById(R.id.checkbox_Unidad);
-        checkglobal = findViewById(R.id.checkbox_Global);
         edtotalPagar = findViewById(R.id.ed_totalapagar);
         tvMedida = findViewById(R.id.Medida);
         tvTopografia = findViewById(R.id.tvtotalTopografia);
@@ -89,7 +100,16 @@ public class layout_2_cotiza extends AppCompatActivity {
         btnAtras = findViewById(R.id.atras_coti1);
         editex_categoria = findViewById(R.id.editText1);
         edittext_producto = findViewById(R.id.editText2);
+        radioGroup = findViewById(R.id.radioGroup);
+        radioButtonUnidad = findViewById(R.id.radiobutton_Unidad);
+        radioButtonGlobal = findViewById(R.id.radiobutton_Global);
+        radioGroupSupervision = findViewById(R.id.radioGroup3);
+        radioSupervisionSI = findViewById(R.id.radiosupervision_SI);
+        radioSupervisionNO = findViewById(R.id.radiosupervision_NO);
+
+
     }
+
 
     private void configurarSpinnerCategoria() {
         ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(this,
@@ -111,6 +131,7 @@ public class layout_2_cotiza extends AppCompatActivity {
             }
         });
     }
+
 
     private void manejarCategoriaSeleccionada(String selectedCategoria) {
         switch (selectedCategoria) {
@@ -332,10 +353,12 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvPrecioHora.setVisibility(View.GONE);
     }
     private void showcamposIngnieriaArquitectura(){
-        checkdesarrolloProyecto.setVisibility(View.VISIBLE);
-        checkSupervision.setVisibility(View.VISIBLE);
-        checkunidad.setVisibility(View.VISIBLE);
-        checkglobal.setVisibility(View.VISIBLE);
+        radioButtonSI.setVisibility(View.VISIBLE);
+        radioButtonNO.setVisibility(View.VISIBLE);
+        radioButtonGlobal.setVisibility(View.VISIBLE);
+        radioButtonUnidad.setVisibility(View.VISIBLE);
+        radioSupervisionNO.setVisibility(View.VISIBLE);
+        radioSupervisionSI.setVisibility(View.VISIBLE);
         tvSuperviSion.setVisibility(View.VISIBLE);
         tvtotaL.setVisibility(View.VISIBLE);
         tvDesarrolloProyecto.setVisibility(View.VISIBLE);
@@ -344,10 +367,12 @@ public class layout_2_cotiza extends AppCompatActivity {
 
     }
     private void hidecamposIngArqui(){
-        checkdesarrolloProyecto.setVisibility(View.GONE);
-        checkSupervision.setVisibility(View.GONE);
-        checkunidad.setVisibility(View.GONE);
-        checkglobal.setVisibility(View.GONE);
+        radioButtonSI.setVisibility(View.GONE);
+        radioButtonNO.setVisibility(View.GONE);
+        radioButtonGlobal.setVisibility(View.GONE);
+        radioButtonUnidad.setVisibility(View.GONE);
+        radioSupervisionNO.setVisibility(View.GONE);
+        radioSupervisionSI.setVisibility(View.GONE);
         tvSuperviSion.setVisibility(View.GONE);
         tvDesarrolloProyecto.setVisibility(View.GONE);
         tvtotaL.setVisibility(View.GONE);
@@ -460,6 +485,32 @@ public class layout_2_cotiza extends AppCompatActivity {
         cotizacion.setDescripcion(etDescripcion.getText().toString());
         cotizacion.setCategoria(editex_categoria.getText().toString());
         cotizacion.setProducto(edittext_producto.getText().toString());
+        cotizacion.setTextodesarrollo(tvDesarrolloProyecto.getText().toString());
+        cotizacion.setTotalIngeArqui(edtotalPagar.getText().toString());
+
+
+        // Recuperar el valor seleccionado del RadioGroup
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        if (selectedId == R.id.radiobutton_Unidad) {
+            cotizacion.setMedida("Unidad");
+        } else if (selectedId == R.id.radiobutton_Global) {
+            cotizacion.setMedida("Global");
+        }
+
+        int seleccionarSINO = radioGroupSINO.getCheckedRadioButtonId();
+        if (seleccionarSINO == R.id.radiobutton_SI){
+            cotizacion.setDesarrolloProyecto("SI");
+        }else if (seleccionarSINO == R.id.radiobutton_NO){
+            cotizacion.setDesarrolloProyecto("NO");
+        }
+        int seleccionarSupervision = radioGroupSupervision.getCheckedRadioButtonId();
+        if (seleccionarSupervision == R.id.radiosupervision_SI){
+            cotizacion.setSupervisonSINO("SI");
+        }else if (seleccionarSupervision == R.id.radiosupervision_NO){
+            cotizacion.setSupervisonSINO("NO");
+        }
+
+
 
         Intent intent = new Intent(this,Activity_mostrar_cotizacon.class);
         intent.putExtra("cotizacion", cotizacion);

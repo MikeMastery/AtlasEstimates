@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,10 +51,11 @@ import java.util.concurrent.Executors;
 
 public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
-    private TextView textViewTitulo, textviewCliente, textviewFecha, textviewRequerimiento, textviewDescripcion;
+    private TextView textViewTitulo, textviewCliente, textviewFecha, textviewRequerimiento, textviewDescripcion, mostrartotalInAR;
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
-            textviewRazoncial, textviewMostrarRazon;
+            textviewRazoncial, textviewMostrarRazon, tvmostrarvalor, textmostrarsupervision, textmostrarsupervisionSINO,
+            totaldeIngenieriayArquitectura ;
     private EditText editextImagen;
     private String imagePath;
     private AppDatabase db;
@@ -63,6 +65,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private DetalleCotizacionDao detalleDao;
     private CategoriaDao categoriaDao;
     private ItemsDao  itemsDao;
+    private LinearLayout layoutTotal,layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,16 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         mostrarTipoIden = findViewById(R.id.mostrar_tipo_ident);
         textviewRazoncial = findViewById(R.id.mostrar_razonSocial);
         textviewMostrarRazon = findViewById(R.id.tv_mostrar_razonSocial);
+        tvmostrarvalor = findViewById(R.id.label_mostrar_precio);
+        textmostrarsupervision = findViewById(R.id.tv_mostrarsupervicion);
+        textmostrarsupervisionSINO = findViewById(R.id.mostrar_supersion);
+        mostrartotalInAR = findViewById(R.id.totalIngeArqui);
+        totaldeIngenieriayArquitectura = findViewById(R.id.tvtotalInAr);
+        layoutTotal = findViewById(R.id.layoutTotal);
+        layoutIGV = findViewById(R.id.layoutIGV);
+        layoutSubTotal = findViewById(R.id.layoutSubTotal);
+        ocultarRazonSocial = findViewById(R.id.ocultarrazon);
+        ocultarTotalServicios = findViewById(R.id.ocultartotalServicios);
     }
 
     private void mostrarDatosTemporales() {
@@ -132,7 +145,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             if ("DNI".equals(sub)){
                 mostrarTipoIden.setText("DNI:");
                 textviewIdentificacion.setText(cotizacion.getDni());
-                textviewRazoncial.setVisibility(View.GONE);
+                ocultarRazonSocial.setVisibility(View.GONE);
             } else if ("RUC".equals(sub)) {
                 mostrarTipoIden.setText("RUC:");
                 textviewIdentificacion.setText(cotizacion.getRuc());
@@ -150,36 +163,47 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             // Ajustes condicionales basados en la subcategoría
             String subcategoria = cotizacion.getProducto(); // Usar el campo adecuado para la subcategoría
 
-            if ("Block de concreto".equals(subcategoria)) {
+            if ("Block de concreto".equals(subcategoria) || "Poste de concreto".equals(subcategoria)) {
                 // Muestra unidades en lugar de metros
                 mostrarMedida.setText("Unidades:");
                 textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
                 textviewPrecio.setText(cotizacion.getPrecioHora());
-            } else if ("Poste de concreto".equals(subcategoria)) {
-                mostrarMedida.setText("Unidades");
-                textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
-                textviewPrecio.setText(cotizacion.getPrecioHora());
+                textmostrarsupervision.setVisibility(View.GONE);
+                ocultarTotalServicios.setVisibility(View.GONE);
 
-            } else if ("Cercos prefabricados".equals(subcategoria)) {
+            } else if ("Cercos prefabricados".equals(subcategoria) || "Cerco cabeza caballo".equals(subcategoria)) {
                 // Muestra metros en lugar de metros/unidades
                 mostrarMedida.setText("Metros:");
                 textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
                 textviewPrecio.setText(cotizacion.getPrecio());
-            } else if ("Cerco cabeza caballo".equals(subcategoria)) {
-                mostrarMedida.setText("Metros");
-                textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
-                textviewPrecio.setText(cotizacion.getPrecio());
+                textmostrarsupervision.setVisibility(View.GONE);
+                ocultarTotalServicios.setVisibility(View.GONE);;
 
             } else if ("Agua potable".equals(subcategoria)) {
-                mostrarMedida.setText("Metros Cubicos");
+                mostrarMedida.setText("Metros Cubicos:");
                 textviewUnidadMedida.setText(cotizacion.getCantidadAgua());
                 textviewPrecio.setText(cotizacion.getPrecioAgua());
+                textmostrarsupervision.setVisibility(View.GONE);
+                ocultarTotalServicios.setVisibility(View.GONE);
             } else if ("Agua no potable".equals(subcategoria)) {
-                mostrarMedida.setText("Metros Cubicos");
+                mostrarMedida.setText("Metros Cubicos:");
                 textviewUnidadMedida.setText(cotizacion.getCantidadAgua());
                 textviewPrecio.setText(cotizacion.getPrecioAgua());
+                textmostrarsupervision.setVisibility(View.GONE);
+                ocultarTotalServicios.setVisibility(View.GONE);
 
-            } else {
+            }else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
+                mostrarMedida.setText("Tipo de Medida:");
+                textviewUnidadMedida.setText(cotizacion.getMedida());
+                textviewPrecio.setText(cotizacion.getDesarrolloProyecto());
+                tvmostrarvalor.setText(cotizacion.gettextodesarrollo());
+                textmostrarsupervisionSINO.setText(cotizacion.getsupersionSINO());
+                mostrartotalInAR.setText(cotizacion.gettotalInAr());
+                // Ocultar los LinearLayouts completos en lugar de solo los TextViews
+                layoutTotal.setVisibility(View.GONE);
+                layoutIGV.setVisibility(View.GONE);
+                layoutSubTotal.setVisibility(View.GONE);
+            }else{
                 return;
 
             }

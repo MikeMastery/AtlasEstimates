@@ -228,64 +228,87 @@
                 android:background="@drawable/editex"/>
 
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvdesarrolloProyecto"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Desarrollo de Proyecto:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18sp">
+
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/radioGroup2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginLeft="45dp"
-                android:gravity="center_vertical"
-                android:layout_marginTop="20sp">
+                android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/tvdesarrolloProyecto"
+                <RadioButton
+                    android:id="@+id/radiobutton_SI"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Desarrollo de Proyecto:"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="16dp"/>
-
-                <CheckBox
-                    android:id="@+id/checkboxdesarrollo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="SI"
                     android:textSize="17sp"
-                    android:layout_marginLeft="-18dp"
                     android:textColor="#5F5F5F"
                     android:textStyle="bold"/>
-            </LinearLayout>
 
+                <RadioButton
+                    android:id="@+id/radiobutton_NO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+            </RadioGroup>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvsupervicion"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Supervisión:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18sp">
+
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/radioGroup3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginLeft="45dp"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8sp">
+                android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/tvsupervicion"
+                <RadioButton
+                    android:id="@+id/radiosupervision_SI"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Supervisión:"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="16dp"/>
-
-                <CheckBox
-                    android:id="@+id/checkboxSupervision"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="SI"
                     android:textSize="17sp"
-                    android:layout_marginLeft="-18dp"
                     android:textColor="#5F5F5F"
                     android:textStyle="bold"/>
-            </LinearLayout>
+
+                <RadioButton
+                    android:id="@+id/radiosupervision_NO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+            </RadioGroup>
+
+
 
             <TextView
                 android:id="@+id/Medida"
@@ -300,37 +323,34 @@
 
             </TextView>
 
-            <GridLayout
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:columnCount="3"
-                android:useDefaultMargins="false"
-                android:alignmentMode="alignBounds">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
-            <CheckBox
-                android:id="@+id/checkbox_Unidad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UNIDAD"
-                android:textSize="17sp"
-                android:textColor="#5F5F5F"
-                android:textStyle="bold"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"/>
+                <RadioButton
+                    android:id="@+id/radiobutton_Unidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UNIDAD"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_Global"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GLOBAL"
-                android:textSize="17sp"
-                android:textColor="#5F5F5F"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                <RadioButton
+                    android:id="@+id/radiobutton_Global"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GLOBAL"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+            </RadioGroup>
 
-            </GridLayout>
+
 
             <TextView
                 android:id="@+id/textviewTotal"

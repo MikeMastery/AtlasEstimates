@@ -117,6 +117,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ocultarrazon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -275,6 +276,34 @@
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_mostrarsupervicion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:text="Supervición:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/mostrar_supersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -322,12 +351,14 @@
                 android:layout_marginTop="10dp"/>
 
     <LinearLayout
+        android:id="@+id/layoutSubTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="15dp">
 
         <TextView
+            android:id="@+id/tvsub"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="45dp"
@@ -351,12 +382,14 @@
 
 
     <LinearLayout
+        android:id="@+id/layoutIGV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="2dp">
 
         <TextView
+            android:id="@+id/tvigv"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="45dp"
@@ -381,6 +414,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -389,6 +423,7 @@
 
 
         <TextView
+            android:id="@+id/tvtotal"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="45dp"
@@ -408,13 +443,50 @@
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
 
+
+
+
     </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ocultartotalServicios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/tvtotalInAr"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="45dp"
+                android:text="Total S/:"
+                android:textSize="25sp"
+                android:textColor="?attr/colorOnPrimary"
+                android:textStyle="bold"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/totalIngeArqui"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text=""
+                android:textColor="?attr/colorOnPrimary3"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"/>
+
+
+
+        </LinearLayout>
+
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#94B8B7B7"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="5dp"/>
 
 
     <Button
