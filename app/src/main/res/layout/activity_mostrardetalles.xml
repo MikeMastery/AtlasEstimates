@@ -9,20 +9,21 @@
     android:background="#F5F5F5"
     tools:context=".mostrardetalles">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="55dp"
+        android:gravity="center">  <!-- Añadido android:gravity aquí -->
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            app:title="Cotizacion 1123"
-            app:titleTextColor="?attr/colorOnPrimary"
-            app:titleCentered="true"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        <TextView
+            android:id="@+id/tvtitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="30sp"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -41,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:layout_marginTop="55dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
-                            tools:text="Juan Pérez"/>
+                            tools:text=""/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -116,7 +118,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
-                            android:id="@+id/categoriaMstrar"
+                            android:id="@+id/MostrarRuc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -138,7 +140,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
-                            android:id="@+id/categoiaMostrar"
+                            android:id="@+id/mostrarRazon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -213,7 +215,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
-                            android:id="@+id/categoriaMostrr"
+                            android:id="@+id/mostrarItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"

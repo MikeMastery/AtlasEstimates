@@ -96,6 +96,20 @@
             android:layout_marginEnd="5dp"/>
     </FrameLayout>
 
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Descripción:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
+
+            </TextView>
+
+
 
             <EditText
                 android:id="@+id/descripcion"
@@ -106,6 +120,42 @@
                 android:hint="Ingrese una descripción"
                 android:padding="16dp"
                 android:layout_marginTop="8dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:minLines="3"
+                android:maxLines="6"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:scrollbars="vertical">
+
+            </EditText>
+            <TextView
+                android:id="@+id/tv_comentarios"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Comentarios:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
+
+            </TextView>
+
+
+            <EditText
+                android:id="@+id/ed_comentarios"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:hint="Comentario de costos"
+                android:padding="16dp"
+                android:layout_marginTop="-1dp"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
                 android:lines="4"
@@ -379,43 +429,63 @@
             </EditText>
 
 
-
             <TextView
-                android:id="@+id/tv_caracteres"
+                android:id="@+id/textTotalObra"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="Caracteristicas de la Estructura:"
+                android:text="Total:"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="-28dp"
+                android:layout_marginTop="18dp"
+                >
+
+
+
+            </TextView>
+            <EditText
+                android:id="@+id/ed_totalObra"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="S/"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+
+
+            <TextView
+                android:id="@+id/textTotalEstructura"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Total de la estructura:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp"
                 >
 
             </TextView>
-
-
             <EditText
-                android:id="@+id/ed_caracteristicas"
+                android:id="@+id/ed_totalEstructura"
                 android:layout_width="300dp"
-                android:layout_height="120dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@drawable/editex"
-                android:hint="Caracteristicas"
                 android:padding="16dp"
-                android:layout_marginTop="8dp"
-                android:gravity="top|start"
-                android:inputType="textMultiLine"
-                android:lines="4"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
-                android:minLines="3"
-                android:maxLines="6"
-                android:scrollHorizontally="false"
-                android:overScrollMode="always"
-                android:scrollbars="vertical">
+                android:hint="S/"
+                android:background="@drawable/editex">
 
             </EditText>
+
+
 
             <TextView
                 android:id="@+id/tvtotalTopografia"
@@ -442,12 +512,14 @@
                 android:background="@drawable/editex">
 
             </EditText>
+
+
             <!--Inserción de datos de (Agua potable) -->
             <TextView
                 android:id="@+id/tv_abastecimientoAgua"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
-                android:text="Metros Cubicos:"
+                android:text="Dias de alquiler:"
                 android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -459,7 +531,7 @@
                 android:id="@+id/ed_abastecimientoAgua"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:hint="m3"
+                android:hint="Días"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
@@ -473,7 +545,7 @@
                 android:id="@+id/tv_precioLitros"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
-                android:text="Precio:"
+                android:text="Precio por día:"
                 android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -485,7 +557,7 @@
                 android:id="@+id/et_preciometro"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:hint="s/"
+                android:hint="S/"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
@@ -494,58 +566,235 @@
                 android:visibility="gone"
                 android:background="@drawable/editex"/>
 
-            <!-- campos de equipos menores-->
+            <!--Verdaderos campos de abastecimiento de agua-->
+
 
             <TextView
-                android:id="@+id/tvcalculoDia"
+                android:id="@+id/tvAgua"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="Dias:"
+                android:text="M3 Cisterna:"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="-15dp"
+                android:layout_marginTop="25sp"
+                >
+
+            </TextView>
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/frame_abasAgua"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editextTipoAgua"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:paddingEnd="40dp"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:paddingStart="12dp"
+                    android:background="@drawable/editex"
+                    android:hint="Value" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoAgua"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="5dp"/>
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/textviewTotalAgua"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Total del Servicio:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
                 >
 
             </TextView>
             <EditText
-                android:id="@+id/ed_calculoDia"
+                android:id="@+id/edTotalAgua"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:inputType="number"
                 android:padding="16dp"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
-                android:hint="Ingrese un valor"
+                android:hint="S/"
                 android:background="@drawable/editex">
 
             </EditText>
 
+
+            <!-- campos de maquinaria pesada-->
+
             <TextView
-                android:id="@+id/tvPrecioEquipo"
+                android:id="@+id/tvseleccionar_maquina"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="Precio del Equipo:"
+                android:text="Tipo de Maquina:"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25sp"
+                >
+
+            </TextView>
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/framelayoutTipoMaquina"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editextTipoMaquina"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:paddingEnd="40dp"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:paddingStart="12dp"
+                    android:background="@drawable/editex"
+                    android:hint="Value" />
+
+                <Spinner
+                    android:id="@+id/spinnerMaquina"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="5dp"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textviewMovilizaciónEquipo"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Movilización y Desmovilización:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp">
+
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/radioGroupMovilizar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <RadioButton
+                    android:id="@+id/radioMovilizar_SI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SI"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+
+                <RadioButton
+                    android:id="@+id/radioMovilizar_NO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO"
+                    android:textSize="17sp"
+                    android:textColor="#5F5F5F"
+                    android:textStyle="bold"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textviewmovilizarSi"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Monto:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
                 >
 
             </TextView>
             <EditText
-                android:id="@+id/ed_precioEquipo"
+                android:id="@+id/edMontoMaquinaria"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:inputType="number"
                 android:padding="16dp"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
-                android:hint="Ingrese un valor"
+                android:hint="S/"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+
+            <TextView
+                android:id="@+id/textviewHorasAlquiler"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Horas de Alquiler:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/edMontodeAlquiler"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="S/"
+                android:background="@drawable/editex">
+
+            </EditText>
+
+
+            <TextView
+                android:id="@+id/textviewCostoHora"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Costo por Hora:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
+
+            </TextView>
+            <EditText
+                android:id="@+id/edCostoAlquiler"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="S/"
                 android:background="@drawable/editex">
 
             </EditText>
@@ -554,7 +803,12 @@
 
 
 
-    <Button
+
+
+
+
+
+            <Button
         android:id="@+id/GuardarButton"
         android:layout_width="235dp"
         android:layout_height="60dp"

@@ -1,8 +1,10 @@
 package com.example.atlasestimates;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ public interface CotizacionDao {
 
     @Query("SELECT nombre_cliente FROM clientes WHERE id_cliente = :clienteId")
     String getNombreCliente(int clienteId);
+
+    @Query("SELECT * FROM cotizacion WHERE id_cotizacion = :cotizacionId")
+    LiveData<table_cotizacion> getCotizacionById(int cotizacionId);
 
     // Obtener todas las cotizaciones
     @Query("SELECT * FROM cotizacion")

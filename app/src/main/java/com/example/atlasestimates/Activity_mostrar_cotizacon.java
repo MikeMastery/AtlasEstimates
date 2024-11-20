@@ -1,16 +1,13 @@
 package com.example.atlasestimates;
 
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +19,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
-import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -46,6 +43,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,7 +55,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
             textviewRazoncial, textviewMostrarRazon, tvmostrarvalor, textmostrarsupervision, textmostrarsupervisionSINO,
-            totaldeIngenieriayArquitectura ;
+            totaldeIngenieriayArquitectura, textviewTotalTopografia, tv_comentario, ed_comentario ;
     private EditText editextImagen;
     private String imagePath;
     private AppDatabase db;
@@ -65,7 +65,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private DetalleCotizacionDao detalleDao;
     private CategoriaDao categoriaDao;
     private ItemsDao  itemsDao;
-    private LinearLayout layoutTotal,layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios;
+    private LinearLayout layoutTotal,layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios, layoutMetrosUnidadees, layoutprecio, layoutsupervision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +132,12 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         layoutSubTotal = findViewById(R.id.layoutSubTotal);
         ocultarRazonSocial = findViewById(R.id.ocultarrazon);
         ocultarTotalServicios = findViewById(R.id.ocultartotalServicios);
+        textviewTotalTopografia = findViewById(R.id.MedidaTopografia);
+        layoutprecio = findViewById(R.id.tv_precio);
+        layoutsupervision = findViewById(R.id.tv_super);
+        layoutMetrosUnidadees = findViewById(R.id.tv_metrounidades);
+        tv_comentario = findViewById(R.id.mostrarComentario);
+        ed_comentario = findViewById(R.id.cajaComentario);
     }
 
     private void mostrarDatosTemporales() {
@@ -159,6 +165,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewRequerimiento.setText(cotizacion.getProducto());
             textviewDescripcion.setText(cotizacion.getDescripcion());
             textviewCategoria.setText(cotizacion.getCategoria());
+            ed_comentario.setText(cotizacion.getcoementarioTopografia());
 
             // Ajustes condicionales basados en la subcategoría
             String subcategoria = cotizacion.getProducto(); // Usar el campo adecuado para la subcategoría
@@ -170,6 +177,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textviewPrecio.setText(cotizacion.getPrecioHora());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
+                layoutsupervision.setVisibility(View.GONE);
+
 
             } else if ("Cercos prefabricados".equals(subcategoria) || "Cerco cabeza caballo".equals(subcategoria)) {
                 // Muestra metros en lugar de metros/unidades
@@ -177,20 +186,31 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
                 textviewPrecio.setText(cotizacion.getPrecio());
                 textmostrarsupervision.setVisibility(View.GONE);
-                ocultarTotalServicios.setVisibility(View.GONE);;
+                ocultarTotalServicios.setVisibility(View.GONE);
+                layoutsupervision.setVisibility(View.GONE);
 
-            } else if ("Agua potable".equals(subcategoria)) {
-                mostrarMedida.setText("Metros Cubicos:");
-                textviewUnidadMedida.setText(cotizacion.getCantidadAgua());
-                textviewPrecio.setText(cotizacion.getPrecioAgua());
+            } else if ("Generador (10 KW)".equals(subcategoria) || "Rotomartillo Demoledor (17 K)".equals(subcategoria) ||
+                    "Rotomartillo Demoledor (11 K)".equals(subcategoria) || "Cortadora Pavimento".equals(subcategoria) ||
+                    "Mezcladora".equals(subcategoria) || "Vibrador Concreto".equals(subcategoria)) {
+                mostrarMedida.setText("Dias:");
+                textviewUnidadMedida.setText(cotizacion.getEquipoMenor());
+                textviewPrecio.setText(cotizacion.getPrecioEquiposMenores());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
-            } else if ("Agua no potable".equals(subcategoria)) {
-                mostrarMedida.setText("Metros Cubicos:");
-                textviewUnidadMedida.setText(cotizacion.getCantidadAgua());
-                textviewPrecio.setText(cotizacion.getPrecioAgua());
+                layoutsupervision.setVisibility(View.GONE);
+
+            } else if ("Coberturas".equals(subcategoria) || "Puertas".equals(subcategoria) ||
+                    "Portones".equals(subcategoria) || "Barandas".equals(subcategoria) ||
+                    "Escaleras".equals(subcategoria)) {
+                mostrartotalInAR.setText("S/ " + cotizacion.getCampoEstructura());
                 textmostrarsupervision.setVisibility(View.GONE);
-                ocultarTotalServicios.setVisibility(View.GONE);
+                layoutsupervision.setVisibility(View.GONE);
+                layoutprecio.setVisibility(View.GONE);
+                layoutMetrosUnidadees.setVisibility(View.GONE);
+                layoutTotal.setVisibility(View.GONE);
+                layoutIGV.setVisibility(View.GONE);
+                layoutSubTotal.setVisibility(View.GONE);
+
 
             }else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
                 mostrarMedida.setText("Tipo de Medida:");
@@ -198,19 +218,65 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textviewPrecio.setText(cotizacion.getDesarrolloProyecto());
                 tvmostrarvalor.setText(cotizacion.gettextodesarrollo());
                 textmostrarsupervisionSINO.setText(cotizacion.getsupersionSINO());
-                mostrartotalInAR.setText(cotizacion.gettotalInAr());
+                mostrartotalInAR.setText("S/ " + cotizacion.gettotalInAr());
                 // Ocultar los LinearLayouts completos en lugar de solo los TextViews
                 layoutTotal.setVisibility(View.GONE);
                 layoutIGV.setVisibility(View.GONE);
                 layoutSubTotal.setVisibility(View.GONE);
+
+            }else if ("Unidad".equals(subcategoria) || "Global".equals(subcategoria)) {
+                textviewTotalTopografia.setText("Medida:");
+                mostrartotalInAR.setText("S/ " + cotizacion.getTotalTopogrgafia());
+                layoutMetrosUnidadees.setVisibility(View.GONE);
+                layoutprecio.setVisibility(View.GONE);
+                layoutsupervision.setVisibility(View.GONE);
+                layoutTotal.setVisibility(View.GONE);
+                layoutIGV.setVisibility(View.GONE);
+                layoutSubTotal.setVisibility(View.GONE);
+
+            }else if ("Medida Global".equals(subcategoria)) {
+                textviewTotalTopografia.setText("Medida:");
+                mostrartotalInAR.setText("S/ " + cotizacion.getCampoConstruccionObra());
+                layoutMetrosUnidadees.setVisibility(View.GONE);
+                layoutprecio.setVisibility(View.GONE);
+                layoutsupervision.setVisibility(View.GONE);
+                layoutTotal.setVisibility(View.GONE);
+                layoutIGV.setVisibility(View.GONE);
+                layoutSubTotal.setVisibility(View.GONE);
+
+            }else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
+                mostrarMedida.setText("Metro Cubicos:");
+                textviewUnidadMedida.setText(cotizacion.getCantidaAgua());
+                textviewPrecio.setVisibility(View.GONE);
+                tvmostrarvalor.setVisibility(View.GONE);
+                layoutsupervision.setVisibility(View.GONE);
+                mostrartotalInAR.setText("S/ " + cotizacion.getCampoTotalAgua());
+                // Ocultar los LinearLayouts completos en lugar de solo los TextViews
+                layoutTotal.setVisibility(View.GONE);
+                layoutIGV.setVisibility(View.GONE);
+                layoutSubTotal.setVisibility(View.GONE);
+
+            }else if ("Alquiler".equals(subcategoria)) {
+                textviewTotalTopografia.setText("Medida:");
+                textviewUnidadMedida.setText(cotizacion.getMaquina());
+                mostrarMedida.setText("Maquina:");
+                textviewPrecio.setText(cotizacion.getHorasAlquiler());
+                tvmostrarvalor.setText("Horas Alquiladas:");
+                textmostrarsupervision.setText("Costo Hora:");
+                textmostrarsupervisionSINO.setText(cotizacion.getCostoHora());
+                ocultarTotalServicios.setVisibility(View.GONE);
+
+
+
             }else{
                 return;
 
             }
 
-            textviewTotal.setText(cotizacion.getTotal());
-            textviewTotalIGV.setText(cotizacion.getIgv());
-            textviewSubTotal.setText(cotizacion.getSubTotal());
+            textviewTotal.setText("S/ " + cotizacion.getTotal());
+            textviewTotalIGV.setText("S/ " + cotizacion.getIgv());
+            textviewSubTotal.setText("S/ " + cotizacion.getSubTotal());
+
 
             manejarImagenCotizacion(cotizacion);
         }
@@ -249,6 +315,13 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void limpiarCamposOcultos() {
+        // Limpia los campos de texto que podrían estar ocultos
+        textviewSubTotal.setText("");
+        textviewTotalIGV.setText("");
+        textviewTotal.setText("");
     }
 
     private void guardarCotizacionEnRoom() {
@@ -325,14 +398,25 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                         // Guardar detalle usando DetalleCotizacionDao
                         detalleDao.insert(nuevoDetalle);
 
-                        // Notificar en la UI el éxito de la operación
+                        // ** NOTIFICACIÓN DESPUÉS DE GUARDAR LA COTIZACIÓN **
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                // Mostrar mensaje de éxito
                                 Toast.makeText(Activity_mostrar_cotizacon.this,
-                                        "Cotización y datos adicionales guardados exitosamente",
+                                        "Cotización guardada exitosamente",
                                         Toast.LENGTH_SHORT).show();
-                                finish();
+
+                                // Obtener la fecha actual en formato String
+                                String fechaActual = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
+                                // Obtener la instancia del ViewModel
+                                NotificationsViewModel notificationsViewModel = new ViewModelProvider(Activity_mostrar_cotizacon.this).get(NotificationsViewModel.class);
+
+                                // Llamar al método agregarNotificacion con la fecha actual
+                                notificationsViewModel.agregarNotificacion(fechaActual);
+
+
                             }
                         });
                     } catch (Exception e) {
@@ -354,6 +438,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     private void configurarImageButton() {
         ImageButton imageButton = findViewById(R.id.conpartir_descargarPDF);
@@ -464,12 +549,30 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             // Recuperar el texto actual de mostrarMedida
             String unidadMedidaTexto = mostrarMedida.getText().toString();
-            // Añadir datos a la tabla
+
+            String requerimiento = textviewTotalTopografia.getText().toString();
+
+            String precio = tvmostrarvalor.getText().toString();
+
+            String supervision =  textmostrarsupervision.getText().toString();
+
+// Añadir datos a la tabla
             addCellToTable(table, "Categoría", textviewCategoria.getText().toString(), true);
-            addCellToTable(table, "Producto", textviewRequerimiento.getText().toString(), true);
+            addCellToTable(table, requerimiento, textviewRequerimiento.getText().toString(), true);
             addCellToTable(table, "Descripción", textviewDescripcion.getText().toString(), true);
-            addCellToTable(table, unidadMedidaTexto, textviewUnidadMedida.getText().toString(), true);
-            addCellToTable(table, "Precio", textviewPrecio.getText().toString(), true);
+
+            if (!textviewUnidadMedida.getText().toString().isEmpty()) {
+                addCellToTable(table, unidadMedidaTexto, textviewUnidadMedida.getText().toString(), true);
+            }
+
+            if (!textviewPrecio.getText().toString().isEmpty()) {
+                addCellToTable(table, precio, textviewPrecio.getText().toString(), true);
+            }
+
+            if (!textmostrarsupervisionSINO.getText().toString().isEmpty()) {
+                addCellToTable(table, supervision, textmostrarsupervisionSINO.getText().toString(), true);
+            }
+
 
             // Agregar imagen dentro de la tabla
             if (imagePath != null) {
@@ -506,9 +609,22 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             }
 
 
-            addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString(), true);
-            addCellToTable(table, "IGV", textviewTotalIGV.getText().toString(), true);
-            addCellToTable(table, "Total", textviewTotal.getText().toString(), true);
+            if (!textviewSubTotal.getText().toString().trim().isEmpty()) {
+                addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString(), true);
+            }
+
+            if (!textviewTotalIGV.getText().toString().trim().isEmpty()) {
+                addCellToTable(table, "IGV", textviewTotalIGV.getText().toString(), true);
+            }
+
+            if (!textviewTotal.getText().toString().trim().isEmpty()) {
+                addCellToTable(table, "Total", textviewTotal.getText().toString(), true);
+            }
+
+            if (! mostrartotalInAR.getText().toString().trim().isEmpty()) {
+                addCellToTable(table, "Total",  mostrartotalInAR.getText().toString(), true);
+            }
+
 
             document.add(table);
 

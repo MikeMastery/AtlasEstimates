@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,20 +21,30 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
+
 public class layout_2_cotiza extends AppCompatActivity {
 
+
+    private TextView textviewMonto, tvmovilización, tvHorasAlquiler, tvcostoMaquina;
+    private EditText edMontoMaquinaria, ed_horasAlquiler, ed_costoMaquina;
+    private RadioGroup radioGroupMovilizar;
     private Spinner spinnerCategoria;
-    private Spinner spinnerProducto;
-    private TextView tvSeleccionarProducto;
+    private Spinner spinnerProducto, spinnerTipodemaquina, spinnerAbastecimientoAgua;
+    private EditText edCantidadAgua, edTotalAgua;
+    private TextView tvSeleccionarProducto, tvseleccionarTipoMaquina, textviewAgua, textviewTotalAgua;
     private EditText etDescripcion, etMl, etPrecio, etHorasMaquina, etPrecioHora;
     private TextView tvMl, tvPrecio, tvHorasMaquina, tvPrecioHora;
     private TextView tvDesarrolloProyecto, tvSuperviSion, tvtotaL;
-    private TextView  tvMedida, tvTopografia,
-            tvCaracteristicas, tvcantidadAgua, tvPrecioAgua, tvcalcular_Dia, tvcalcularPrecio;
-    private EditText edtotalPagar, etCaracteristicas,  ettotalTopogrgafia, etPrecioAgua, etcantidadAgua, edcalcularDia, edcalcularPrecio;
+    private TextView tvMedida, tvTopografia, textviewcomentario,
+            tvcantidadAgua, tvPrecioAgua, tvcalcularPrecio, textviewObra, editextObra,
+            tv_estructurametalica;
+    private EditText edtotalPagar, ettotalTopogrgafia, etPrecioAgua, etcantidadAgua, edcalcularDia, edcalcularPrecio, editextestructura,
+            editext_maquinapesada;
     private Button btnGuardar;
+    private FrameLayout frame_TipoMaquina, frame_CantidadAgua;
     private ImageButton btnAtras;
-    private EditText editex_categoria, edittext_producto, edtotalingenieria;
+    private EditText editex_categoria, edittext_producto, editextcomentario, edtotalingenieria;
     private Cotizacion cotizacion;
     private RadioGroup radioGroup, radioGroupSINO, radioGroupSupervision;
     private RadioButton radioButtonUnidad, radioButtonGlobal, radioButtonSI, radioButtonNO, radioSupervisionSI, radioSupervisionNO;
@@ -53,19 +64,42 @@ public class layout_2_cotiza extends AppCompatActivity {
         // Configurar Spinners
         configurarSpinnerCategoria();
 
+        // Configurar el RadioGroup
+        configurarRadioGroupMovilizar();
+
+        configurarSpinnerAbastecimientoAgua();
+
         // Configurar TextWatcher para los cálculos
         configurarTextWatcher();
 
         // Configurar botones
         configurarBotones();
 
+        // Configurar el Spinner
+        configurarSpinnerMaquinaria();
 
 
     }
 
     private void inicializarVistas() {
+
+        textviewMonto = findViewById(R.id.textviewmovilizarSi);
+        tvmovilización = findViewById(R.id.textviewMovilizaciónEquipo);
+        ed_horasAlquiler = findViewById(R.id.edMontodeAlquiler);
+        tvHorasAlquiler = findViewById(R.id.textviewHorasAlquiler);
+        ed_costoMaquina = findViewById(R.id.edCostoAlquiler);
+        tvcostoMaquina = findViewById(R.id.textviewCostoHora);
+        edMontoMaquinaria = findViewById(R.id.edMontoMaquinaria);
+        radioGroupMovilizar = findViewById(R.id.radioGroupMovilizar);
         spinnerCategoria = findViewById(R.id.spinner1);
         spinnerProducto = findViewById(R.id.spinner2);
+        spinnerTipodemaquina = findViewById(R.id.spinnerMaquina);
+        spinnerAbastecimientoAgua = findViewById(R.id.spinnerTipoAgua);
+        edCantidadAgua = findViewById(R.id.editextTipoAgua);
+        textviewTotalAgua = findViewById(R.id.textviewTotalAgua);
+        edTotalAgua = findViewById(R.id.edTotalAgua);
+        textviewAgua = findViewById(R.id.tvAgua);
+        frame_CantidadAgua = findViewById(R.id.frame_abasAgua);
         tvSeleccionarProducto = findViewById(R.id.tvseleccionar_prodcuto);
         etDescripcion = findViewById(R.id.descripcion);
         etMl = findViewById(R.id.et_ml);
@@ -79,16 +113,10 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvMedida = findViewById(R.id.Medida);
         tvTopografia = findViewById(R.id.tvtotalTopografia);
         ettotalTopogrgafia = findViewById(R.id.ed_totalTopografia);
-        tvCaracteristicas = findViewById(R.id.tv_caracteres);
-        etCaracteristicas = findViewById(R.id.ed_caracteristicas);
         tvcantidadAgua = findViewById(R.id.tv_abastecimientoAgua);
         etcantidadAgua = findViewById(R.id.ed_abastecimientoAgua);
         etPrecioAgua = findViewById(R.id.et_preciometro);
         tvPrecioAgua = findViewById(R.id.tv_precioLitros);
-        tvcalcular_Dia = findViewById(R.id.tvcalculoDia);
-        tvcalcularPrecio = findViewById(R.id.tvPrecioEquipo);
-        edcalcularDia = findViewById(R.id.ed_calculoDia);
-        edcalcularPrecio = findViewById(R.id.ed_precioEquipo);
         etPrecio = findViewById(R.id.ed_precio);
         etHorasMaquina = findViewById(R.id.et_hm);
         etPrecioHora = findViewById(R.id.ed_precio_hm);
@@ -106,10 +134,84 @@ public class layout_2_cotiza extends AppCompatActivity {
         radioGroupSupervision = findViewById(R.id.radioGroup3);
         radioSupervisionSI = findViewById(R.id.radiosupervision_SI);
         radioSupervisionNO = findViewById(R.id.radiosupervision_NO);
+        editextcomentario = findViewById(R.id.ed_comentarios);
+        textviewcomentario = findViewById(R.id.tv_comentarios);
+        textviewObra = findViewById(R.id.textTotalObra);
+        editextObra = findViewById(R.id.ed_totalObra);
+        tv_estructurametalica = findViewById(R.id.textTotalEstructura);
+        editextestructura = findViewById(R.id.ed_totalEstructura);
+        editext_maquinapesada = findViewById(R.id.editextTipoMaquina);
+        tvseleccionarTipoMaquina = findViewById(R.id.tvseleccionar_maquina);
+        frame_TipoMaquina = findViewById(R.id.framelayoutTipoMaquina);
+
+
 
 
     }
 
+
+
+    private void configurarSpinnerMaquinaria() {
+        // Crear un ArrayAdapter usando el recurso de string-array y el diseño predeterminado
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.spinner_TipodeMaquinariaPesads,
+                android.R.layout.simple_spinner_item
+        );
+
+        // Configurar el diseño desplegable
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Asignar el adaptador al Spinner
+        spinnerTipodemaquina.setAdapter(adapter);
+
+        // Configurar el manejador de selección
+        spinnerTipodemaquina.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Obtener el elemento seleccionado
+                String seleccion = parent.getItemAtPosition(position).toString();
+                // Actualizar el EditText con la selección
+                editext_maquinapesada.setText(seleccion);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada si no se selecciona una opción
+            }
+        });
+    }
+
+    private void configurarSpinnerAbastecimientoAgua() {
+        // Crear un ArrayAdapter usando el recurso de string-array y el diseño predeterminado
+        ArrayAdapter<CharSequence> adapterAgua = ArrayAdapter.createFromResource(
+                this,
+                R.array.spinner_tipoCisterna,
+                android.R.layout.simple_spinner_item
+        );
+
+        // Configurar el diseño desplegable
+        adapterAgua.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Asignar el adaptador al Spinner
+        spinnerAbastecimientoAgua.setAdapter(adapterAgua);
+
+        // Configurar el manejador de selección
+        spinnerAbastecimientoAgua.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Obtener el elemento seleccionado
+                String seleccionAgua = parent.getItemAtPosition(position).toString();
+                // Actualizar el EditText con la selección
+                edCantidadAgua.setText(seleccionAgua);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada si no se selecciona una opción
+            }
+        });
+    }
 
     private void configurarSpinnerCategoria() {
         ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(this,
@@ -135,6 +237,8 @@ public class layout_2_cotiza extends AppCompatActivity {
 
     private void manejarCategoriaSeleccionada(String selectedCategoria) {
         switch (selectedCategoria) {
+
+
             case "Materiales":
                 tvSeleccionarProducto.setText("Materiales");
                 setSpinnerSubcategorias(R.array.spinner_productos);
@@ -200,6 +304,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 updateUnidadMedida(selectedSubcategoria);
             }
 
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // No hacer nada si no se selecciona ninguna opción
@@ -210,10 +315,12 @@ public class layout_2_cotiza extends AppCompatActivity {
     private void configurarTextWatcher() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -227,6 +334,9 @@ public class layout_2_cotiza extends AppCompatActivity {
         etPrecioHora.addTextChangedListener(textWatcher);
         etcantidadAgua.addTextChangedListener(textWatcher);
         etPrecioAgua.addTextChangedListener(textWatcher);
+        edMontoMaquinaria.addTextChangedListener(textWatcher);
+        ed_horasAlquiler.addTextChangedListener(textWatcher);
+        ed_costoMaquina.addTextChangedListener(textWatcher);
 
 
     }
@@ -247,6 +357,7 @@ public class layout_2_cotiza extends AppCompatActivity {
         });
     }
 
+
     private void updateUnidadMedida(String product) {
         // Primero ocultamos todos los campos
         hideAllFields();
@@ -258,6 +369,9 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideHorasMaquinaFields();
                 hidecamposIngArqui();
                 hideCamposTopografia();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Block de concreto":
@@ -266,6 +380,9 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideMetrosLinealesFields();
                 hidecamposIngArqui();
                 hideCamposTopografia();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Ingenieria":
@@ -274,6 +391,9 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideHorasMaquinaFields();
                 hideMetrosLinealesFields();
                 hideCamposTopografia();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Unidad":
@@ -282,6 +402,9 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideMetrosLinealesFields();
                 hideHorasMaquinaFields();
                 hidecamposIngArqui();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Coberturas":
@@ -293,6 +416,9 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideMetrosLinealesFields();
                 hideHorasMaquinaFields();
                 hidecamposIngArqui();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Agua potable":
@@ -303,11 +429,26 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposIngArqui();
                 hideCamposTopografia();
                 hideCamposEstructuras();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                break;
+
+            case "Medida Global":
+                showCampoConstruccionObra();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
+                hideCamposEstructuras();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Generador (10 KW)":
-            case "Cortadora Padimento":
-            case "Mescladora":
+            case "Rotomartillo Demoledor (17 K)":
+            case "Rotomartillo Demoledor (11 K)":
+            case "Cortadora Pavimento":
+            case "Mezcladora":
             case "Vibrador Concreto":
                 showcamposEquiposMenores();
                 hideMetrosLinealesFields();
@@ -316,29 +457,64 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCamposTopografia();
                 hideCamposEstructuras();
                 hideCamposAbastecimientoAgua();
+                hideCampoConstruccionObra();
+                hidecamposMaquinariaPesada();
+                hideCamposAbastecimientoAgua();
                 break;
 
             case "Rotomartillo Demoledor":
                 break;
+
+            case "Alquiler":
+                showcamposMaquinariaPesasa();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
+                hideCamposEstructuras();
+                hideCamposAbastecimientoAgua();
+                hideCampoConstruccionObra();
+                hidecamposEquiposMenores();
+                hideCamposAbastecimientoAgua();
+                break;
+
+            case "Global MP":
+                showcamposMaquinariaGlobal();
+                hideMetrosLinealesFields();
+                hideHorasMaquinaFields();
+                hidecamposIngArqui();
+                hideCamposTopografia();
+                hideCamposEstructuras();
+                hideCamposAbastecimientoAgua();
+                hideCampoConstruccionObra();
+                hidecamposEquiposMenores();
+                hideCamposAbastecimientoAgua();
+                break;
+
 
             default:
                 hideAllFields();
                 break;
         }
     }
+
     private void showMetrosLinealesFields() {
         etMl.setVisibility(View.VISIBLE);
         etPrecio.setVisibility(View.VISIBLE);
         tvMl.setVisibility(View.VISIBLE);
         tvPrecio.setVisibility(View.VISIBLE);
+
     }
 
     private void hideMetrosLinealesFields() {
         etMl.setVisibility(View.GONE);
+        etMl.setText("");
         etPrecio.setVisibility(View.GONE);
+        etPrecio.setText("");
         tvMl.setVisibility(View.GONE);
         tvPrecio.setVisibility(View.GONE);
     }
+
     private void showHorasMaquinaFields() {
         etHorasMaquina.setVisibility(View.VISIBLE);
         etPrecioHora.setVisibility(View.VISIBLE);
@@ -351,8 +527,10 @@ public class layout_2_cotiza extends AppCompatActivity {
         etPrecioHora.setVisibility(View.GONE);
         tvHorasMaquina.setVisibility(View.GONE);
         tvPrecioHora.setVisibility(View.GONE);
+
     }
-    private void showcamposIngnieriaArquitectura(){
+
+    private void showcamposIngnieriaArquitectura() {
         radioButtonSI.setVisibility(View.VISIBLE);
         radioButtonNO.setVisibility(View.VISIBLE);
         radioButtonGlobal.setVisibility(View.VISIBLE);
@@ -366,65 +544,149 @@ public class layout_2_cotiza extends AppCompatActivity {
         edtotalPagar.setVisibility(View.VISIBLE);
 
     }
-    private void hidecamposIngArqui(){
+
+    private void hidecamposIngArqui() {
         radioButtonSI.setVisibility(View.GONE);
+        radioButtonSI.setChecked(false); // Limpia selección
         radioButtonNO.setVisibility(View.GONE);
+        radioButtonNO.setChecked(false); // Limpia selección
         radioButtonGlobal.setVisibility(View.GONE);
+        radioButtonGlobal.setChecked(false); // Limpia selección
         radioButtonUnidad.setVisibility(View.GONE);
+        radioButtonUnidad.setChecked(false); // Limpia selección
         radioSupervisionNO.setVisibility(View.GONE);
+        radioSupervisionNO.setChecked(false); // Limpia selección
         radioSupervisionSI.setVisibility(View.GONE);
+        radioSupervisionSI.setChecked(false); // Limpia selección
         tvSuperviSion.setVisibility(View.GONE);
         tvDesarrolloProyecto.setVisibility(View.GONE);
         tvtotaL.setVisibility(View.GONE);
         tvMedida.setVisibility(View.GONE);
         edtotalPagar.setVisibility(View.GONE);
+        edtotalPagar.setText(""); // Limpia el contenido
     }
-    private void showCamposTopografia(){
+
+    private void showCamposTopografia() {
         tvTopografia.setVisibility(View.VISIBLE);
         ettotalTopogrgafia.setVisibility(View.VISIBLE);
     }
 
-    private void  hideCamposTopografia(){
+    private void hideCamposTopografia() {
         tvTopografia.setVisibility(View.GONE);
         ettotalTopogrgafia.setVisibility(View.GONE);
-    }
-    private void showCamposEstructuras(){
-        tvCaracteristicas.setVisibility(View.VISIBLE);
-        etCaracteristicas.setVisibility(View.VISIBLE);
-        tvTopografia.setVisibility(View.VISIBLE);
-        ettotalTopogrgafia.setVisibility(View.VISIBLE);
+        ettotalTopogrgafia.setText(""); // Limpia el contenido
     }
 
-    private void hideCamposEstructuras(){
-        tvCaracteristicas.setVisibility(View.GONE);
-        etCaracteristicas.setVisibility(View.GONE);
+    private void showCamposEstructuras() {
+        tv_estructurametalica.setVisibility(View.VISIBLE);
+        editextestructura.setVisibility(View.VISIBLE);
 
     }
-    private void showCamposAbatecimeintoAgua(){
+
+
+    private void hideCamposEstructuras() {
+        tv_estructurametalica.setVisibility(View.GONE);
+        editextestructura.setVisibility(View.GONE);
+        editextestructura.setText(""); // Limpia el contenido
+    }
+
+    private void showCamposAbatecimeintoAgua() {
+        textviewAgua.setVisibility(View.VISIBLE);
+        frame_CantidadAgua.setVisibility(View.VISIBLE);
+        textviewTotalAgua.setVisibility(View.VISIBLE);
+        edTotalAgua.setVisibility(View.VISIBLE);
+
+
+    }
+
+    private void hideCamposAbastecimientoAgua() {
+        textviewAgua.setVisibility(View.GONE);
+        frame_CantidadAgua.setVisibility(View.GONE);
+        textviewTotalAgua.setVisibility(View.GONE);
+        edTotalAgua.setVisibility(View.GONE);
+
+    }
+
+    private void showcamposMaquinariaPesasa() {
+        tvseleccionarTipoMaquina.setVisibility(View.VISIBLE);
+        frame_TipoMaquina.setVisibility(View.VISIBLE);
+        radioGroupMovilizar.setVisibility(View.VISIBLE);
+        tvmovilización.setVisibility(View.VISIBLE);
+        ed_horasAlquiler.setVisibility(View.VISIBLE);
+        tvHorasAlquiler.setVisibility(View.VISIBLE);
+        tvcostoMaquina.setVisibility(View.VISIBLE);
+        ed_costoMaquina.setVisibility(View.VISIBLE);
+
+
+    }
+
+
+    private void configurarRadioGroupMovilizar() {
+        radioGroupMovilizar.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.radioMovilizar_SI) {
+                // Mostrar campos relacionados
+                textviewMonto.setVisibility(View.VISIBLE);
+                edMontoMaquinaria.setVisibility(View.VISIBLE);
+            } else if (checkedId == R.id.radioMovilizar_NO) {
+                // Ocultar campos relacionados
+                textviewMonto.setVisibility(View.GONE);
+                edMontoMaquinaria.setVisibility(View.GONE);
+                edMontoMaquinaria.setText(""); // Limpia el campo si existía contenido
+            }
+        });
+    }
+
+
+    private void hidecamposMaquinariaPesada() {
+        tvseleccionarTipoMaquina.setVisibility(View.GONE);
+        frame_TipoMaquina.setVisibility(View.GONE);
+        textviewMonto.setVisibility(View.GONE);
+        edMontoMaquinaria.setVisibility(View.GONE);
+        radioGroupMovilizar.setVisibility(View.GONE);
+        tvmovilización.setVisibility(View.GONE);
+        ed_horasAlquiler.setVisibility(View.GONE);
+        tvHorasAlquiler.setVisibility(View.GONE);
+        tvcostoMaquina.setVisibility(View.GONE);
+        ed_costoMaquina.setVisibility(View.GONE);
+
+    }
+
+    private void showcamposMaquinariaGlobal(){
+        tvseleccionarTipoMaquina.setVisibility(View.VISIBLE);
+        frame_TipoMaquina.setVisibility(View.VISIBLE);
+
+    }
+    private void hidecamposMaquinariaGlobal() {
+        tvseleccionarTipoMaquina.setVisibility(View.GONE);
+        frame_TipoMaquina.setVisibility(View.GONE);
+
+    }
+
+    private void showCampoConstruccionObra(){
+        editextObra.setVisibility(View.VISIBLE);
+        textviewObra.setVisibility(View.VISIBLE);
+    }
+
+    private void hideCampoConstruccionObra() {
+        editextObra.setVisibility(View.GONE);
+        editextObra.setText(""); // Limpia el contenido
+        textviewObra.setVisibility(View.GONE);
+    }
+
+
+    private void showcamposEquiposMenores(){
         tvcantidadAgua.setVisibility(View.VISIBLE);
         etcantidadAgua.setVisibility(View.VISIBLE);
         tvPrecioAgua.setVisibility(View.VISIBLE);
         etPrecioAgua.setVisibility(View.VISIBLE);
     }
-
-    private void hideCamposAbastecimientoAgua(){
+    private void hidecamposEquiposMenores(){
         tvcantidadAgua.setVisibility(View.GONE);
         etcantidadAgua.setVisibility(View.GONE);
+        etcantidadAgua.setText("");
         tvPrecioAgua.setVisibility(View.GONE);
         etPrecioAgua.setVisibility(View.GONE);
-    }
-
-    private void showcamposEquiposMenores(){
-        tvcalcular_Dia.setVisibility(View.VISIBLE);
-        tvcalcularPrecio.setVisibility(View.VISIBLE);
-        edcalcularDia.setVisibility(View.VISIBLE);
-        edcalcularPrecio.setVisibility(View.VISIBLE);
-    }
-    private void hidecamposEquiposMenores(){
-        tvcalcular_Dia.setVisibility(View.GONE);
-        tvcalcularPrecio.setVisibility(View.GONE);
-        edcalcularDia.setVisibility(View.GONE);
-        edcalcularPrecio.setVisibility(View.GONE);
+        etPrecioAgua.setText("");
     }
 
 
@@ -436,40 +698,67 @@ public class layout_2_cotiza extends AppCompatActivity {
         hideCamposEstructuras();
         hideCamposAbastecimientoAgua();
         hidecamposEquiposMenores();
+        hideCampoConstruccionObra();
+        hidecamposMaquinariaPesada();
+        hidecamposMaquinariaGlobal();
     }
-
     private void calculateResult() {
         try {
             double cantidad, precio, subtotal, igv, total;
+            subtotal = 0; // Inicializar el subtotal
 
+            // Verificar si el campo de metros lineales está visible
             if (etMl.getVisibility() == View.VISIBLE) {
                 cantidad = Double.parseDouble(etMl.getText().toString());
                 precio = Double.parseDouble(etPrecio.getText().toString());
-                cotizacion.setMetrosLineales(String.valueOf(cantidad));
-                cotizacion.setPrecio(String.valueOf(precio));
+                cotizacion.setMetrosLineales(formatNumber(cantidad));
+                cotizacion.setPrecio(formatearNumeroConComas(precio));
+                subtotal = cantidad * precio;
+
+                // Verificar si el campo de horas de máquina está visible
             } else if (etHorasMaquina.getVisibility() == View.VISIBLE) {
                 cantidad = Double.parseDouble(etHorasMaquina.getText().toString());
                 precio = Double.parseDouble(etPrecioHora.getText().toString());
-                cotizacion.setHorasMaquina(String.valueOf(cantidad));
-                cotizacion.setPrecioHora(String.valueOf(precio));
+                cotizacion.setHorasMaquina(formatNumber(cantidad));
+                cotizacion.setPrecioHora(formatearNumeroConComas(precio));
+                subtotal = cantidad * precio;
 
-            }else if (etcantidadAgua.getVisibility() == View.VISIBLE) {
+                // Verificar si el campo de cantidad de agua está visible
+            } else if (etcantidadAgua.getVisibility() == View.VISIBLE) {
                 cantidad = Double.parseDouble(etcantidadAgua.getText().toString());
                 precio = Double.parseDouble(etPrecioAgua.getText().toString());
-                cotizacion.setCantidadAgua(String.valueOf(cantidad));
-                cotizacion.setPrecioAgua(String.valueOf(precio));
+                cotizacion.setEquipoMenor(formatNumber(cantidad));
+                cotizacion.setPrecioEquiposMenores(formatearNumeroConComas(precio));
+                subtotal = cantidad * precio;
 
-            }else{
-                return;
+                // Verificar si el campo de maquinaria pesada está visible
+            } else if (ed_horasAlquiler.getVisibility() == View.VISIBLE && ed_costoMaquina.getVisibility() == View.VISIBLE) {
+                cantidad = Double.parseDouble(ed_horasAlquiler.getText().toString());
+                precio = Double.parseDouble(ed_costoMaquina.getText().toString());
+                cotizacion.setHorasAlquiler(formatNumber(cantidad));
+                cotizacion.setCostoHora(formatearNumeroConComas(precio));
+                subtotal = cantidad * precio;
+
+                // Si la movilización es "Sí", agregar el monto de movilización al subtotal
+                if (radioGroupMovilizar.getCheckedRadioButtonId() == R.id.radioMovilizar_SI) {
+                    double montoMovilizacion = 0.0;
+                    if (!edMontoMaquinaria.getText().toString().isEmpty()) {
+                        montoMovilizacion = Double.parseDouble(edMontoMaquinaria.getText().toString());
+                    }
+                    // Asegurarse de sumar el monto de movilización al subtotal correctamente
+                    subtotal += montoMovilizacion;
+                    cotizacion.setMontoMovilizacion(String.valueOf(montoMovilizacion));
+                }
             }
 
-            subtotal = cantidad * precio;
+            // Calcular IGV y total
             igv = subtotal * 0.18;
             total = subtotal + igv;
 
-            cotizacion.setSubtotal(String.format("%.2f", subtotal));
-            cotizacion.setIgv(String.format("%.2f", igv));
-            cotizacion.setTotal(String.format("%.2f", total));
+            // Formateamos los valores con comas
+            cotizacion.setSubtotal(formatearNumeroConComas(subtotal));
+            cotizacion.setIgv(formatearNumeroConComas(igv));
+            cotizacion.setTotal(formatearNumeroConComas(total));
 
         } catch (NumberFormatException e) {
             // Manejar error si los campos están vacíos o tienen formato incorrecto
@@ -478,8 +767,30 @@ public class layout_2_cotiza extends AppCompatActivity {
             cotizacion.setTotal("0.0");
             cotizacion.setMetrosLineales("0");
             cotizacion.setPrecio("0");
+            cotizacion.setHorasAlquiler("0");
+            cotizacion.setPrecioHora("0");
+            cotizacion.setMontoMovilizacion("0");
         }
     }
+
+    private String formatNumber(double number) {
+        if (number % 1 == 0) {
+            // Si es un número entero, devolverlo como entero
+            return String.format("%.0f", number);
+        } else {
+            // Si tiene decimales, devolverlo con 2 decimales
+            return String.format("%.2f", number);
+        }
+    }
+
+    private String formatearNumeroConComas(double numero) {
+        DecimalFormat formato = new DecimalFormat("#,###");
+        return formato.format(numero);
+    }
+
+
+
+
 
     private void guardarCotizacion() {
         cotizacion.setDescripcion(etDescripcion.getText().toString());
@@ -487,6 +798,14 @@ public class layout_2_cotiza extends AppCompatActivity {
         cotizacion.setProducto(edittext_producto.getText().toString());
         cotizacion.setTextodesarrollo(tvDesarrolloProyecto.getText().toString());
         cotizacion.setTotalIngeArqui(edtotalPagar.getText().toString());
+        cotizacion.settotaltopografia(ettotalTopogrgafia.getText().toString());
+        cotizacion.setComentarioTopografia(editextcomentario.getText().toString());
+        cotizacion.setCampoConstruccionObra(editextObra.getText().toString());
+        cotizacion.setCampoEstructura(editextestructura.getText().toString());
+        cotizacion.setCampoTotalAgua(edTotalAgua.getText().toString());
+        cotizacion.setCantidadAgua(edCantidadAgua.getText().toString());
+        cotizacion.setMaquina(editext_maquinapesada.getText().toString());
+
 
 
         // Recuperar el valor seleccionado del RadioGroup

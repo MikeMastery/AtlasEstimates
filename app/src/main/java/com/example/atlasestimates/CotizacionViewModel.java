@@ -1,21 +1,49 @@
 package com.example.atlasestimates;
 
 import android.app.Application;
+import android.content.Context;
+import android.os.AsyncTask;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class CotizacionViewModel extends AndroidViewModel {
     private final AppDatabase appDatabase;
     private final Executor executor = Executors.newSingleThreadExecutor();
+    private final MutableLiveData<List<table_cotizacion>> cotizaciones = new MutableLiveData<>();
 
     public CotizacionViewModel(@NonNull Application application) {
         super(application);
         appDatabase = AppDatabase.getInstance(application);
     }
+
+    public LiveData<List<table_cotizacion>> getCotizaciones() {
+        return cotizaciones;
+    }
+
+    public void loadCotizaciones(Context context) {
+        // Usar AsyncTask ya que estás en Java
+        new AsyncTask<Void, Void, List<table_cotizacion>>() {
+            @Override
+            protected List<table_cotizacion> doInBackground(Void... voids) {
+                AppDatabase db = AppDatabase.getInstance(context);
+                return db.cotizacionDao().getAllCotizaciones();
+            }
+
+            @Override
+            protected void onPostExecute(List<table_cotizacion> result) {
+                cotizaciones.setValue(result);
+            }
+        }.execute();
+    }
+
+
 
 
     public void deleteClienteYRelaciones(int clienteId) {
@@ -32,5 +60,30 @@ public class CotizacionViewModel extends AndroidViewModel {
             appDatabase.itemsDao().deleteItemById(clienteId);  // Ejemplo si es necesario
             appDatabase.categoriaDao().deleteCategoriaById(clienteId);
         });
+    }
+
+    // Obtener una cotización por su ID
+    public LiveData<table_cotizacion> getCotizacion(int cotizacionId) {
+        return appDatabase.cotizacionDao().getCotizacionById(cotizacionId);
+    }
+
+    // Obtener los detalles de una cotización por su ID
+    public LiveData<List<table_detalleCotizacion>> getDetalles(int cotizacionId) {
+        return appDatabase.detalleCotizacionDao().getDetalleByCotizacionId(cotizacionId);
+    }
+
+    // Obtener los ítems por su ID de detalle
+    public LiveData<List<table_items>> getItems(int detalleId) {
+        return appDatabase.itemsDao().getItemsByDetalleId(detalleId);
+    }
+
+    // Obtener un cliente relacionado a la cotización
+    public LiveData<table_clientes> getCliente(int cotizacionId) {
+        return appDatabase.clienteDao().getClientesById(cotizacionId);
+    }
+
+    // Obtener la categoría de los ítems
+    public LiveData<table_categoria> getCategoria(int categoriaId) {
+        return appDatabase.categoriaDao().getCategoriaById(categoriaId);
     }
 }

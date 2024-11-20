@@ -1,5 +1,6 @@
 package com.example.atlasestimates;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -16,6 +17,9 @@ public interface ItemsDao {
     // Eliminar un item por ID
     @Query("DELETE FROM Items WHERE id_items = :idItem")
     void deleteItemById(int idItem);
+
+    @Query("SELECT * FROM Items WHERE id_categoria = :detalleId")
+    LiveData<List<table_items>> getItemsByDetalleId(int detalleId);
 
 
     // Obtener todos los items

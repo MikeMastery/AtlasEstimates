@@ -85,7 +85,7 @@
     <FrameLayout
         android:id="@+id/middle_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@id/top_frame"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,19 +99,21 @@
             android:layout_gravity="center"
             android:layout_marginLeft="-1dp"
             android:textColor="?attr/colorOnPrimary2"
-            android:layout_marginTop="-20dp"
+            android:layout_marginTop="-28dp"
             android:background="#94B8B7B7" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="-9dp"
+            android:layout_marginTop="-1dp"
             android:padding="16dp"
             android:text="Cotizaciones"
             android:textStyle="bold"
             android:textColor="?attr/colorOnPrimary2"
             android:textSize="18sp" />
+
+
 
         <View
             android:id="@+id/view_line"
@@ -120,7 +122,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="-1dp"
             android:textColor="?attr/colorOnPrimary2"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             android:background="#94B8B7B7" />
     </FrameLayout>
 

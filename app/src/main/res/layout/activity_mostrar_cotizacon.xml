@@ -35,275 +35,330 @@
         android:layout_marginTop="2dp"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="16dp"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Cliente:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:gravity="start"/>
 
         <TextView
             android:id="@+id/nombre_cliente"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
+            android:layout_height="wrap_content"
+            android:text="Alejandro Garcia "
             android:textColor="?attr/colorOnPrimary3"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
+            android:gravity="end" />
 
     </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Ubicación:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
                 <TextView
                     android:id="@+id/tv_mostrar_ubi"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text=""
+                    android:layout_height="wrap_content"
+                    android:text="Los algarrobos "
                     android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="10dp"/>
+                    android:gravity="end" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/mostrar_tipo_ident"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Identificación:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
                 <TextView
                     android:id="@+id/tv_mostrar_ident"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text=""
+                    android:layout_height="wrap_content"
+                    android:text="23445555"
                     android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="10dp"/>
+                    android:gravity="end" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ocultarrazon"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/mostrar_razonSocial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Razon Social:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
                 <TextView
                     android:id="@+id/tv_mostrar_razonSocial"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="10dp"/>
+                    android:gravity="end" />
 
             </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:text="Fecha:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/fecha_coti"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
-
-    </LinearLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
                 <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fecha:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:id="@+id/fecha_coti"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="20/11/2024"
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Categoria:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
                 <TextView
                     android:id="@+id/categoriaMostrar"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cercos"
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/MedidaTopografia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Requerimiento:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:id="@+id/producto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="10dp"/>
+                    android:gravity="end" />
 
             </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:text="Requerimiento:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/producto"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/label_unidad_medida"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:text="Metros/Unidades:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/un_medida"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/label_mostrar_precio"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:text="Precio:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/mostrar_precio"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
-
-    </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_metrounidades"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/label_unidad_medida"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Medida:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:id="@+id/un_medida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tv_precio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/label_mostrar_precio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Precio:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="start"/>
+
+                <TextView
+                    android:id="@+id/mostrar_precio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/tv_super"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tv_mostrarsupervicion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Supervición:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
                 <TextView
                     android:id="@+id/mostrar_supersion"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="?attr/colorOnPrimary3"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="10dp"/>
+                    android:gravity="end" />
 
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -321,6 +376,26 @@
         android:drawablePadding="8dp"
         android:background="@android:color/transparent"/>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_Descripción"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Descripción del Requerimiento:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+
+
     <EditText
         android:id="@+id/descripcion_cotizacion"
         android:layout_width="300dp"
@@ -331,7 +406,7 @@
         android:textStyle="bold"
         android:textSize="17sp"
         android:textColor="#5F5F5F"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:gravity="top|start"
         android:inputType="textMultiLine"
         android:lines="4"
@@ -344,124 +419,176 @@
         android:scrollbars="vertical">
 
     </EditText>
+
+            <LinearLayout
+                android:id="@+id/textoComentario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/mostrarComentario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Comentarios de Costos:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/cajaComentario"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:padding="16dp"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:layout_marginTop="10dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:focusable="false"
+                android:clickable="false"
+                android:minLines="3"
+                android:maxLines="6"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:scrollbars="vertical">
+
+            </EditText>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#94B8B7B7"
                 android:layout_marginTop="10dp"/>
+            <LinearLayout
+                android:id="@+id/layoutSubTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
-    <LinearLayout
-        android:id="@+id/layoutSubTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/tvsub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SubTotal:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:gravity="start"/>
 
-        <TextView
-            android:id="@+id/tvsub"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="45dp"
-            android:text="SubTotal S/:"
-            android:textSize="20sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:textStyle="bold"
-            >
-        </TextView>
-        <TextView
-            android:id="@+id/ed_SubTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
+                <TextView
+                    android:id="@+id/ed_SubTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:gravity="end"/>
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutIGV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:id="@+id/tvigv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="IGV:"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
-    <LinearLayout
-        android:id="@+id/layoutIGV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="2dp">
+                <TextView
+                    android:id="@+id/mostrar_igv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="357dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:background="#94B8B7B7"
+                android:layout_marginTop="6dp"/>
 
-        <TextView
-            android:id="@+id/tvigv"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="45dp"
-            android:text="IGV S/:"
-            android:textSize="20sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:textStyle="bold"
-            >
-        </TextView>
-        <TextView
-            android:id="@+id/mostrar_igv"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textStyle="bold"
-            android:textSize="17sp"
-            android:layout_marginStart="10dp"/>
+            <LinearLayout
+                android:id="@+id/layoutTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="14dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:id="@+id/tvtotal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total:"
+                    android:textSize="23sp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textStyle="bold"
+                    android:gravity="start"/>
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="2dp">
-
-
-
-        <TextView
-            android:id="@+id/tvtotal"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="45dp"
-            android:text="Total S/:"
-            android:textSize="20sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:textStyle="bold"
-            >
-        </TextView>
-        <TextView
-            android:id="@+id/ed_total"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text=""
-            android:textColor="?attr/colorOnPrimary3"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_marginStart="10dp"/>
+                <TextView
+                    android:id="@+id/ed_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="?attr/colorOnPrimary3"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    />
+            </LinearLayout>
 
 
-
-
-    </LinearLayout>
-
-        <LinearLayout
+            <LinearLayout
             android:id="@+id/ocultartotalServicios"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/tvtotalInAr"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="45dp"
-                android:text="Total S/:"
-                android:textSize="25sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total:"
+                android:textSize="23sp"
                 android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold"
                 >
@@ -472,9 +599,9 @@
                 android:layout_height="30dp"
                 android:text=""
                 android:textColor="?attr/colorOnPrimary3"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginStart="10dp"/>
+                android:gravity="end"/>
 
 
 

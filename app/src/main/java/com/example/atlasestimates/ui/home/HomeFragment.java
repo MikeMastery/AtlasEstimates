@@ -20,10 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,7 @@ import com.example.atlasestimates.mostrardetalles;
 import com.example.atlasestimates.nueva_cotizacion;
 import com.example.atlasestimates.table_cotizacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -46,6 +49,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private CotizacionAdapter adapter;
     private boolean isSearchBarVisible = false;
+    private CotizacionViewModel cotizacionViewModel;
     private Button btnViewDetails ;
 
     @Override
@@ -54,14 +58,29 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        cotizacionViewModel = new ViewModelProvider(requireActivity()).get(CotizacionViewModel.class);
+
 
         // Inicializar RecyclerView
         recyclerView = binding.recyclerViewCotizaciones;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Crear adapter con lista vacía inicial
+        adapter = new CotizacionAdapter(new ArrayList<>(), cotizacionViewModel, requireContext());
+        recyclerView.setAdapter(adapter);
 
-        // Cargar datos de la base de datos
-        loadCotizaciones();
+        // Observar cambios en las cotizaciones
+        cotizacionViewModel.getCotizaciones().observe(getViewLifecycleOwner(), new Observer<List<table_cotizacion>>() {
+            @Override
+            public void onChanged(List<table_cotizacion> cotizaciones) {
+                adapter.updateCotizaciones(cotizaciones);
+            }
+        });
+
+
+
+
+        // Cargar datos de la base de datos loadCotizaciones();
 
         // Configurar el botón de nueva cotización
         setupNewQuoteButton(root);
@@ -73,6 +92,15 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Recargar datos cuando el fragmento se vuelve visible
+        cotizacionViewModel.loadCotizaciones(requireContext());
+    }
+
+
 
     private void setupNewQuoteButton(View root) {
         ImageButton imageButton = root.findViewById(R.id.file_plus);
@@ -163,22 +191,9 @@ public class HomeFragment extends Fragment {
         animatorSet.start();
     }
 
-    private void loadCotizaciones() {
-        new AsyncTask<Void, Void, List<table_cotizacion>>() {
-            @Override
-            protected List<table_cotizacion> doInBackground(Void... voids) {
-                AppDatabase db = AppDatabase.getInstance(getContext());
-                return db.cotizacionDao().getAllCotizaciones();
-            }
 
-            @Override
-            protected void onPostExecute(List<table_cotizacion> cotizaciones) {
-                CotizacionViewModel cotizacionViewModel = new ViewModelProvider(requireActivity()).get(CotizacionViewModel.class);
-                adapter = new CotizacionAdapter(cotizaciones, cotizacionViewModel);
-                recyclerView.setAdapter(adapter);
-            }
-        }.execute();
-    }
+
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

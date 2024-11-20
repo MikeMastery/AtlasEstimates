@@ -1,5 +1,6 @@
 package com.example.atlasestimates;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,6 +17,9 @@ public interface CategoriaDao {
     // Eliminar una categoría por ID
     @Query("DELETE FROM Categorias WHERE id_categoria = :idCategoria")
     void deleteCategoriaById(int idCategoria);
+
+    @Query("SELECT * FROM Categorias WHERE id_categoria = :categoriaId")
+    LiveData<table_categoria> getCategoriaById(int categoriaId);
 
     // Otros métodos, si es necesario
     @Query("SELECT * FROM Categorias")

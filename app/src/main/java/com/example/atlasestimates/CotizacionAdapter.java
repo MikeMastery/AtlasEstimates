@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -17,24 +18,34 @@ import android.widget.Filterable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.AsyncTask;
+
 public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.CotizacionViewHolder> implements Filterable {
 
     private List<table_cotizacion> cotizaciones;
-    private List<table_cotizacion> cotizacionesFull; // Lista completa para el filtro
+    private List<table_cotizacion> cotizacionesFull;
     private CotizacionViewModel cotizacionViewModel;
     private Context context;
+    private AppDatabase appDatabase; // Agregar referencia a la base de datos
 
-    public CotizacionAdapter(List<table_cotizacion> cotizaciones, CotizacionViewModel cotizacionViewModel) {
+    public CotizacionAdapter(List<table_cotizacion> cotizaciones, CotizacionViewModel cotizacionViewModel, Context context) {
         this.cotizaciones = cotizaciones;
         this.cotizacionViewModel = cotizacionViewModel;
-        this.cotizacionesFull = new ArrayList<>(cotizaciones); // Inicializar la lista completa para el filtro
+        this.context = context;
+        this.cotizacionesFull = new ArrayList<>(cotizaciones);
+        this.appDatabase = AppDatabase.getInstance(context); // Inicializar la base de datos
     }
+
+        public void updateCotizaciones(List<table_cotizacion> newCotizaciones) {
+            this.cotizaciones = newCotizaciones;
+            notifyDataSetChanged();
+        }
+
 
     @NonNull
     @Override
     public CotizacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cotizacion, parent, false);
-        context = parent.getContext(); // Guardar el contexto para usarlo en el Intent
         return new CotizacionViewHolder(view);
     }
 
@@ -45,26 +56,52 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         holder.tvFecha.setText(cotizacion.getFecha());
         holder.tvTotal.setText("Total: " + cotizacion.getTotal());
 
+        // Obtener el nombre del cliente en segundo plano
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                table_clientes cliente = appDatabase.clienteDao().getClienteById(cotizacion.getId_cliente());
+                return cliente != null ? cliente.getNombre_cliente() : "Cliente desconocido";
+            }
+
+            @Override
+            protected void onPostExecute(String nombreCliente) {
+                holder.tvNombreCliente.setText("Cliente: " + nombreCliente);
+            }
+        }.execute();
+
+
         // Configurar el botón de "Eliminar"
         holder.btnEliminar.setOnClickListener(v -> {
-            int clienteId = cotizacion.getId_cliente();
-            cotizacionViewModel.deleteClienteYRelaciones(clienteId);
-            cotizaciones.remove(position);
-            notifyItemRemoved(position);
-            Toast.makeText(v.getContext(), "Registro eliminado correctamente.", Toast.LENGTH_SHORT).show();
+            // Crear el AlertDialog de confirmación
+            new AlertDialog.Builder(context)
+                    .setMessage("¿Seguro que quieres eliminar el registro?")
+                    .setCancelable(false)  // Para que no se pueda cerrar sin responder
+                    .setPositiveButton("Sí", (dialog, id) -> {
+                        // Si el usuario confirma, eliminar el registro
+                        int clienteId = cotizacion.getId_cliente();
+                        cotizacionViewModel.deleteClienteYRelaciones(clienteId);
+                        cotizaciones.remove(position);  // Elimina la cotización de la lista
+                        notifyItemRemoved(position);  // Notifica que el item fue eliminado
+                        Toast.makeText(v.getContext(), "Registro eliminado correctamente.", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("No", (dialog, id) -> {
+                        // Si el usuario cancela, no hacer nada
+                        dialog.dismiss();
+                    })
+                    .create()
+                    .show();  // Muestra el diálogo
         });
 
-        // Configurar el botón de "Ver detalles"
-        holder.btnViewDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(context, mostrardetalles.class);
-            // Pasar datos adicionales a la actividad de detalles, si es necesario
-            intent.putExtra("titulo", cotizacion.getTitulo());
-            intent.putExtra("fecha", cotizacion.getFecha());
-            intent.putExtra("total", cotizacion.getTotal());
-            context.startActivity(intent);
-        });
-    }
 
+            // Configurar el botón de "Ver detalles"
+            holder.btnViewDetails.setOnClickListener(v -> {
+                // Al hacer clic en el botón, pasamos el id de la cotización
+                Intent intent = new Intent(context, mostrardetalles.class);
+                intent.putExtra("cotizacionId", cotizacion.getId_cotizacion()); // Pasar solo el ID de la cotización
+                context.startActivity(intent); // Iniciar la actividad de detalles
+            });
+        }
     @Override
     public int getItemCount() {
         return cotizaciones.size();
@@ -79,13 +116,30 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<table_cotizacion> filteredList = new ArrayList<>();
-
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(cotizacionesFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (table_cotizacion item : cotizacionesFull) {
+                    boolean matches = false;
+
+                    // Filtrar por título
                     if (item.getTitulo().toLowerCase().contains(filterPattern)) {
+                        matches = true;
+                    }
+
+                    // Filtrar por monto (asumiendo que el monto es un número decimal)
+                    if (!matches && String.valueOf(item.getTotal()).contains(filterPattern)) {
+                        matches = true;
+                    }
+
+                    // Filtrar por fecha (asumiendo que la fecha está en formato de texto)
+                    if (!matches && item.getFecha().toLowerCase().contains(filterPattern)) {
+                        matches = true;
+                    }
+
+                    // Si cualquiera de los campos coincide, agregar el elemento a la lista filtrada
+                    if (matches) {
                         filteredList.add(item);
                     }
                 }
@@ -104,8 +158,9 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         }
     };
 
+
     public static class CotizacionViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitulo, tvFecha, tvTotal;
+        TextView tvTitulo, tvFecha, tvTotal, tvNombreCliente;
         Button btnEliminar, btnViewDetails;
 
         public CotizacionViewHolder(@NonNull View itemView) {
@@ -113,8 +168,9 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
             tvFecha = itemView.findViewById(R.id.tvFecha);
             tvTotal = itemView.findViewById(R.id.tvTotal);
+            tvNombreCliente = itemView.findViewById(R.id.tvCliente); // TextView para nombre del cliente
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
-            btnViewDetails = itemView.findViewById(R.id.btnViewDetails); // Enlazar btnViewDetails
+            btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
         }
     }
 }

@@ -82,21 +82,43 @@
 
     </string-array>
 
+    <string-array name="spinner_tipoCisterna">
+
+        <item>Seleccionar</item>
+        <item>10000 Litros</item>
+        <item>15000 Litros</item>
+        <item>12000 Litros</item>
+
+    </string-array>
+
     <!-- segmento d maquinaria pesada -->
 
     <string-array name="spinner_MaquinariaPesada">
 
         <item>Seleccionar</item>
         <item>Alquiler</item>
-        <item>Global</item>
+        <item>Global MP</item>
 
     </string-array>
+
+    <string-array name="spinner_TipodeMaquinariaPesads">
+
+        <item>Seleccionar</item>
+        <item>Retroexcabadora</item>
+        <item>Excabadora</item>
+        <item>Cargador Frontal</item>
+        <item>Moto Niveladora</item>
+        <item>Rodillo 10 TN</item>
+        <item>Tractor Oruga</item>
+
+    </string-array>
+
 
     <!-- segmento de construcción de Obra  -->
 
     <string-array name="spinner_Constru_Obra">
 
-        <item>Global</item>
+        <item>Medida Global</item>
 
     </string-array>
 
@@ -106,9 +128,10 @@
 
         <item>Seleccionar</item>
         <item>Generador (10 KW)</item>
-        <item>Rotomartillo Demoledor</item>
+        <item>Rotomartillo Demoledor (17 K)</item>
+        <item>Rotomartillo Demoledor (11 K)</item>
         <item>Cortadora Pavimento</item>
-        <item>Mescladora</item>
+        <item>Mezcladora</item>
         <item>Vibrador Concreto</item>
 
     </string-array>

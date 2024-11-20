@@ -15,6 +15,7 @@ import androidx.room.PrimaryKey;
         )
 )
 
+
 public class table_cotizacion {
     @PrimaryKey(autoGenerate = true)
     private int id_cotizacion;

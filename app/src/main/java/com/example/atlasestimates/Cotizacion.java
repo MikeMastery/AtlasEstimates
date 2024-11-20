@@ -30,6 +30,16 @@ public class Cotizacion implements Serializable {
     private String textviewDesarrollo;
     private String supervison;
     private String TotalIngeArqui;
+    private String totalTopogrgafia;
+    private String comentarioTopografia;
+    private String totalconstruccionObra;
+    private String totalEstructura;
+    private String TotaldAgua;
+    private String CantidadAgua;
+    private String MontoMovilizacion;
+    private String TipoMaquina;
+    private String HorasAlquiler;
+    private String CostoHora;
 
 
     // Getters y Setters
@@ -143,17 +153,17 @@ public class Cotizacion implements Serializable {
         return categoria;
     }
 
-    public void setPrecioAgua(String obtenerPrecioAgua){
+    public void setPrecioEquiposMenores(String obtenerPrecioAgua){
         this.precioAgua = obtenerPrecioAgua;
     }
-    public String getPrecioAgua() {
+    public String getPrecioEquiposMenores() {
         return precioAgua;
     }
 
-    public void setCantidadAgua(String obtenerCantidadAgua){
+    public void setEquipoMenor(String obtenerCantidadAgua){
         this.cantidaAgua = obtenerCantidadAgua;
     }
-    public String getCantidadAgua() {
+    public String getEquipoMenor() {
         return cantidaAgua;
     }
 
@@ -241,6 +251,88 @@ public class Cotizacion implements Serializable {
     public void setTotalIngeArqui(String obtenerTotalIngeArqui){
         this.TotalIngeArqui = obtenerTotalIngeArqui;
     }
+
+    public void settotaltopografia(String obtenertotaltopografia){
+        this.totalTopogrgafia = obtenertotaltopografia;
+    }
+
+    public String getTotalTopogrgafia(){
+        return totalTopogrgafia;
+    }
+
+    public void setComentarioTopografia(String obtenercomentario){
+        this.comentarioTopografia = obtenercomentario;
+    }
+
+    public String getcoementarioTopografia(){
+        return comentarioTopografia;
+    }
+
+    public void setCampoConstruccionObra(String obtenercampoObra){
+        this.totalconstruccionObra = obtenercampoObra;
+    }
+
+    public String getCampoConstruccionObra(){
+        return totalconstruccionObra;
+    }
+
+    public void setCampoEstructura(String obtenerestructura){
+        this.totalEstructura = obtenerestructura;
+    }
+
+    public String getCampoEstructura(){
+        return totalEstructura;
+    }
+    public void setCampoTotalAgua(String obtenerTotalAgua){
+        this.TotaldAgua = obtenerTotalAgua;
+    }
+
+    public String getCampoTotalAgua(){
+        return TotaldAgua;
+    }
+
+    public void setCantidadAgua(String obteneresCantidadAgua){
+        this.CantidadAgua = obteneresCantidadAgua;
+    }
+
+    public String getCantidaAgua(){
+        return CantidadAgua;
+    }
+
+
+    public void setMontoMovilizacion(String obteneresMontoMovilizacion){
+        this.MontoMovilizacion = obteneresMontoMovilizacion;
+    }
+
+    public String getMovilizacion(){
+        return MontoMovilizacion;
+    }
+    public void setMaquina(String obteneresMaquinaria){
+        this.TipoMaquina = obteneresMaquinaria;
+    }
+
+    public String getMaquina(){
+        return TipoMaquina;
+    }
+
+
+    public void setHorasAlquiler(String obteneresHoras){
+        this.HorasAlquiler = obteneresHoras;
+    }
+
+    public String getHorasAlquiler(){
+        return HorasAlquiler;
+    }
+
+    public void setCostoHora(String obtenererCosto){
+        this.CostoHora = obtenererCosto;
+    }
+
+    public String getCostoHora(){
+        return CostoHora;
+    }
+
+
 
 
 }

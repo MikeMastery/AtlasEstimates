@@ -41,7 +41,7 @@
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:text="Nombre:"
+        android:text="Titulo de la Cotización:"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
