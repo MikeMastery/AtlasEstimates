@@ -174,7 +174,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 // Muestra unidades en lugar de metros
                 mostrarMedida.setText("Unidades:");
                 textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
-                textviewPrecio.setText(cotizacion.getPrecioHora());
+                textviewPrecio.setText("S/ " +  cotizacion.getPrecioHora());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
@@ -184,7 +184,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 // Muestra metros en lugar de metros/unidades
                 mostrarMedida.setText("Metros:");
                 textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
-                textviewPrecio.setText(cotizacion.getPrecio());
+                textviewPrecio.setText("S/ " +  cotizacion.getPrecio());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
@@ -194,7 +194,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     "Mezcladora".equals(subcategoria) || "Vibrador Concreto".equals(subcategoria)) {
                 mostrarMedida.setText("Dias:");
                 textviewUnidadMedida.setText(cotizacion.getEquipoMenor());
-                textviewPrecio.setText(cotizacion.getPrecioEquiposMenores());
+                textviewPrecio.setText("S/ " +  cotizacion.getPrecioEquiposMenores());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
@@ -245,7 +245,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutSubTotal.setVisibility(View.GONE);
 
             }else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
-                mostrarMedida.setText("Metro Cubicos:");
+                mostrarMedida.setText("Metros Cubicos:");
                 textviewUnidadMedida.setText(cotizacion.getCantidaAgua());
                 textviewPrecio.setVisibility(View.GONE);
                 tvmostrarvalor.setVisibility(View.GONE);
@@ -263,7 +263,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textviewPrecio.setText(cotizacion.getHorasAlquiler());
                 tvmostrarvalor.setText("Horas Alquiladas:");
                 textmostrarsupervision.setText("Costo Hora:");
-                textmostrarsupervisionSINO.setText(cotizacion.getCostoHora());
+                textmostrarsupervisionSINO.setText("S/ " +  cotizacion.getCostoHora());
                 ocultarTotalServicios.setVisibility(View.GONE);
 
 
@@ -317,12 +317,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         }
     }
 
-    private void limpiarCamposOcultos() {
-        // Limpia los campos de texto que podrían estar ocultos
-        textviewSubTotal.setText("");
-        textviewTotalIGV.setText("");
-        textviewTotal.setText("");
-    }
+
 
     private void guardarCotizacionEnRoom() {
         try {
@@ -363,7 +358,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             // Crear objeto de item
             table_items nuevoItem = new table_items();
             nuevoItem.setNombre_Item(textviewRequerimiento.getText().toString());
-            nuevoItem.setPrecio(Double.parseDouble(textviewPrecio.getText().toString()));
+            nuevoItem.setPrecio(textviewPrecio.getText().toString());
             nuevoItem.setDescripcion_product("Descripción estática"); // Descripción estática
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -607,23 +602,25 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
                 table.addCell(imageCell);
             }
-
-
-            if (!textviewSubTotal.getText().toString().trim().isEmpty()) {
+            if (!textviewSubTotal.getText().toString().isEmpty()
+                    && !"S/ 0".equals(textviewSubTotal.getText().toString())) {
                 addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString(), true);
             }
-
-            if (!textviewTotalIGV.getText().toString().trim().isEmpty()) {
+            if (!textviewTotalIGV.getText().toString().isEmpty()
+                    && !"S/ 0".equals(textviewTotalIGV.getText().toString())) {
                 addCellToTable(table, "IGV", textviewTotalIGV.getText().toString(), true);
             }
 
-            if (!textviewTotal.getText().toString().trim().isEmpty()) {
+            if (!textviewTotal.getText().toString().isEmpty()
+                    && !"S/ 0".equals(textviewTotal.getText().toString())) {
                 addCellToTable(table, "Total", textviewTotal.getText().toString(), true);
             }
 
-            if (! mostrartotalInAR.getText().toString().trim().isEmpty()) {
-                addCellToTable(table, "Total",  mostrartotalInAR.getText().toString(), true);
+            if (!mostrartotalInAR.getText().toString().isEmpty()
+                    && !"S/ 0".equals(mostrartotalInAR.getText().toString())) {
+                addCellToTable(table, "Total", mostrartotalInAR.getText().toString(), true);
             }
+
 
 
             document.add(table);

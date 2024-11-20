@@ -20,7 +20,7 @@ public class table_items {
     private int id_categoria;  // Foreign Key a subCategoria
     private String nombre_Item;
     private String descripcion_product;
-    private double precio;
+    private String precio;
     private String stock;
 
     // Getter y Setter para id_items
@@ -60,11 +60,11 @@ public class table_items {
     }
 
     // Getter y Setter para precio
-    public double getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 

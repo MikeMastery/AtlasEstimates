@@ -524,7 +524,9 @@ public class layout_2_cotiza extends AppCompatActivity {
 
     private void hideHorasMaquinaFields() {
         etHorasMaquina.setVisibility(View.GONE);
+        etHorasMaquina.setText("");
         etPrecioHora.setVisibility(View.GONE);
+        etPrecioHora.setText("");
         tvHorasMaquina.setVisibility(View.GONE);
         tvPrecioHora.setVisibility(View.GONE);
 
@@ -563,7 +565,7 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvtotaL.setVisibility(View.GONE);
         tvMedida.setVisibility(View.GONE);
         edtotalPagar.setVisibility(View.GONE);
-        edtotalPagar.setText(""); // Limpia el contenido
+
     }
 
     private void showCamposTopografia() {
@@ -574,7 +576,7 @@ public class layout_2_cotiza extends AppCompatActivity {
     private void hideCamposTopografia() {
         tvTopografia.setVisibility(View.GONE);
         ettotalTopogrgafia.setVisibility(View.GONE);
-        ettotalTopogrgafia.setText(""); // Limpia el contenido
+
     }
 
     private void showCamposEstructuras() {
@@ -587,7 +589,7 @@ public class layout_2_cotiza extends AppCompatActivity {
     private void hideCamposEstructuras() {
         tv_estructurametalica.setVisibility(View.GONE);
         editextestructura.setVisibility(View.GONE);
-        editextestructura.setText(""); // Limpia el contenido
+
     }
 
     private void showCamposAbatecimeintoAgua() {
@@ -631,7 +633,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 // Ocultar campos relacionados
                 textviewMonto.setVisibility(View.GONE);
                 edMontoMaquinaria.setVisibility(View.GONE);
-                edMontoMaquinaria.setText(""); // Limpia el campo si existía contenido
+
             }
         });
     }
@@ -669,7 +671,7 @@ public class layout_2_cotiza extends AppCompatActivity {
 
     private void hideCampoConstruccionObra() {
         editextObra.setVisibility(View.GONE);
-        editextObra.setText(""); // Limpia el contenido
+         // Limpia el contenido
         textviewObra.setVisibility(View.GONE);
     }
 
@@ -683,10 +685,10 @@ public class layout_2_cotiza extends AppCompatActivity {
     private void hidecamposEquiposMenores(){
         tvcantidadAgua.setVisibility(View.GONE);
         etcantidadAgua.setVisibility(View.GONE);
-        etcantidadAgua.setText("");
+
         tvPrecioAgua.setVisibility(View.GONE);
         etPrecioAgua.setVisibility(View.GONE);
-        etPrecioAgua.setText("");
+
     }
 
 
@@ -761,15 +763,15 @@ public class layout_2_cotiza extends AppCompatActivity {
             cotizacion.setTotal(formatearNumeroConComas(total));
 
         } catch (NumberFormatException e) {
-            // Manejar error si los campos están vacíos o tienen formato incorrecto
-            cotizacion.setSubtotal("0.0");
-            cotizacion.setIgv("0.0");
-            cotizacion.setTotal("0.0");
-            cotizacion.setMetrosLineales("0");
-            cotizacion.setPrecio("0");
-            cotizacion.setHorasAlquiler("0");
-            cotizacion.setPrecioHora("0");
-            cotizacion.setMontoMovilizacion("0");
+            // Manejar error si los campos están vacíos o tienen formato incorrec
+            cotizacion.setSubtotal("");
+            cotizacion.setIgv("");
+            cotizacion.setTotal("");
+            cotizacion.setMetrosLineales("");
+            cotizacion.setPrecio("");
+            cotizacion.setHorasAlquiler("");
+            cotizacion.setPrecioHora("");
+            cotizacion.setMontoMovilizacion("");
         }
     }
 
