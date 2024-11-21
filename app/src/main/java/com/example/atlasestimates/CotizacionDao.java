@@ -24,6 +24,7 @@ public interface CotizacionDao {
     @Query("SELECT * FROM cotizacion WHERE id_cotizacion = :cotizacionId")
     LiveData<table_cotizacion> getCotizacionById(int cotizacionId);
 
+
     // Obtener todas las cotizaciones
     @Query("SELECT * FROM cotizacion")
     List<table_cotizacion> getAllCotizaciones();

@@ -68,6 +68,7 @@
             android:layout_marginTop="10dp" />
 
         <!-- Botones de Acción: Editar y Eliminar -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,8 +82,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="#2196F3"
+                android:backgroundTint="#D5AF0E"
                 android:text="Ver Detalles"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:textAllCaps="false"/>
 
@@ -91,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="#FFFBCC05"
+                android:backgroundTint="#050505"
                 android:text="Editar"
                 android:textColor="#FFFFFF"
                 android:textAllCaps="false" />
@@ -100,7 +102,7 @@
                 android:id="@+id/btnEliminar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF1744"
+                android:backgroundTint="#D5042C"
                 android:text="Eliminar"
                 android:textColor="#FFFFFF"
                 android:textAllCaps="false" />

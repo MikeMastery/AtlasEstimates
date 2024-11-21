@@ -19,7 +19,7 @@ public class table_items {
     private int id_items;
     private int id_categoria;  // Foreign Key a subCategoria
     private String nombre_Item;
-    private String descripcion_product;
+    private String Supervision;
     private String precio;
     private String stock;
 
@@ -50,15 +50,16 @@ public class table_items {
         this.nombre_Item = nombre_Item;
     }
 
-    // Getter y Setter para descripcion_product
-    public String getDescripcion_product() {
-        return descripcion_product;
+    // Getter y Setter para descripcion_p
+    // Getter para Supervision
+    public String getSupervision() {
+        return Supervision;
     }
 
-    public void setDescripcion_product(String descripcion_product) {
-        this.descripcion_product = descripcion_product;
+    // Setter para Supervision (si no existe)
+    public void setSupervision(String supervision) {
+        this.Supervision = supervision;
     }
-
     // Getter y Setter para precio
     public String getPrecio() {
         return precio;

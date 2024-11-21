@@ -29,17 +29,17 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
     private AppDatabase appDatabase; // Agregar referencia a la base de datos
 
     public CotizacionAdapter(List<table_cotizacion> cotizaciones, CotizacionViewModel cotizacionViewModel, Context context) {
-        this.cotizaciones = cotizaciones;
+        this.cotizaciones = new ArrayList<>(cotizaciones); // Lista filtrada
+        this.cotizacionesFull = new ArrayList<>(cotizaciones); // Lista original
         this.cotizacionViewModel = cotizacionViewModel;
         this.context = context;
-        this.cotizacionesFull = new ArrayList<>(cotizaciones);
         this.appDatabase = AppDatabase.getInstance(context); // Inicializar la base de datos
     }
-
-        public void updateCotizaciones(List<table_cotizacion> newCotizaciones) {
-            this.cotizaciones = newCotizaciones;
-            notifyDataSetChanged();
-        }
+    public void updateCotizaciones(List<table_cotizacion> newCotizaciones) {
+        this.cotizaciones = new ArrayList<>(newCotizaciones); // Actualiza la lista filtrada
+        this.cotizacionesFull = new ArrayList<>(newCotizaciones); // Actualiza la lista completa
+        notifyDataSetChanged(); // Refresca la vista
+    }
 
 
     @NonNull
@@ -109,54 +109,38 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
 
     @Override
     public Filter getFilter() {
-        return cotizacionFilter;
-    }
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<table_cotizacion> filteredList = new ArrayList<>();
 
-    private final Filter cotizacionFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<table_cotizacion> filteredList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(cotizacionesFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (table_cotizacion item : cotizacionesFull) {
-                    boolean matches = false;
+                if (constraint == null || constraint.length() == 0) {
+                    filteredList.addAll(cotizacionesFull); // Si no hay filtro, usa la lista completa
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
 
-                    // Filtrar por título
-                    if (item.getTitulo().toLowerCase().contains(filterPattern)) {
-                        matches = true;
-                    }
-
-                    // Filtrar por monto (asumiendo que el monto es un número decimal)
-                    if (!matches && String.valueOf(item.getTotal()).contains(filterPattern)) {
-                        matches = true;
-                    }
-
-                    // Filtrar por fecha (asumiendo que la fecha está en formato de texto)
-                    if (!matches && item.getFecha().toLowerCase().contains(filterPattern)) {
-                        matches = true;
-                    }
-
-                    // Si cualquiera de los campos coincide, agregar el elemento a la lista filtrada
-                    if (matches) {
-                        filteredList.add(item);
+                    for (table_cotizacion item : cotizacionesFull) {
+                        if (item.getTitulo().toLowerCase().contains(filterPattern) ||
+                                item.getFecha().toLowerCase().contains(filterPattern) ||
+                                String.valueOf(item.getTotal()).contains(filterPattern)) {
+                            filteredList.add(item); // Agregar elementos que coincidan con el filtro
+                        }
                     }
                 }
+
+                FilterResults results = new FilterResults();
+                results.values = filteredList; // Pasar la lista filtrada
+                return results;
             }
 
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            cotizaciones.clear();
-            cotizaciones.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                cotizaciones.clear();
+                cotizaciones.addAll((List<table_cotizacion>) results.values); // Actualizar la lista filtrada
+                notifyDataSetChanged(); // Refrescar el RecyclerView
+            }
+        };
+    }
 
 
     public static class CotizacionViewHolder extends RecyclerView.ViewHolder {

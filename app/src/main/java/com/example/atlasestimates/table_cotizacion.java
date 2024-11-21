@@ -19,13 +19,14 @@ import androidx.room.PrimaryKey;
 public class table_cotizacion {
     @PrimaryKey(autoGenerate = true)
     private int id_cotizacion;
-    private int id_cliente;  // Foreign Key a clientes
+    private int id_cliente ;  // Foreign Key a clientes
     private String titulo;
     private String fecha;
     private double total;
     private String descripcion;
     private String imagen;
     private String ubicacion;
+    private String Total_Servicio;
 
     // Getters y Setters
     public int getId_cotizacion() {
@@ -67,6 +68,15 @@ public class table_cotizacion {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public String getTotal_Servicio() {
+        return Total_Servicio;
+    }
+
+    public void setTotal_Servicio(String total_Servicio) {
+        Total_Servicio = total_Servicio;
+    }
+
 
     public String getDescripcion() {
         return descripcion;

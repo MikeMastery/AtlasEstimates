@@ -15,12 +15,14 @@ import java.util.concurrent.Executors;
 
 public class CotizacionViewModel extends AndroidViewModel {
     private final AppDatabase appDatabase;
+
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final MutableLiveData<List<table_cotizacion>> cotizaciones = new MutableLiveData<>();
 
     public CotizacionViewModel(@NonNull Application application) {
         super(application);
         appDatabase = AppDatabase.getInstance(application);
+
     }
 
     public LiveData<List<table_cotizacion>> getCotizaciones() {
@@ -59,6 +61,11 @@ public class CotizacionViewModel extends AndroidViewModel {
 
             appDatabase.itemsDao().deleteItemById(clienteId);  // Ejemplo si es necesario
             appDatabase.categoriaDao().deleteCategoriaById(clienteId);
+
+            // Recargar la lista de cotizaciones y actualizar el LiveData
+            List<table_cotizacion> updatedCotizaciones = appDatabase.cotizacionDao().getAllCotizaciones();
+            cotizaciones.postValue(updatedCotizaciones); // Actualiza el LiveData
+
         });
     }
 

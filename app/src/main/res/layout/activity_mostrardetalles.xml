@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:id="@+id/main"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+
     tools:context=".mostrardetalles">
 
     <LinearLayout
@@ -375,6 +375,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PDF"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:backgroundTint="#D5042C"
                     />
             </LinearLayout>
         </LinearLayout>

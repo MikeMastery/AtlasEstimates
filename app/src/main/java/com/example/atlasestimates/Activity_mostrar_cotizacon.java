@@ -319,6 +319,51 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
 
 
+
+
+
+    private void configurarImageButton() {
+        ImageButton imageButton = findViewById(R.id.conpartir_descargarPDF);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(Activity_mostrar_cotizacon.this, v);
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(android.view.MenuItem item) {
+                        if (item.getItemId() == R.id.action_download) {
+                            createPDFWithIText();
+                            return true;
+                        } else if (item.getItemId() == R.id.action_share) {
+                            sharePDF();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+    }
+
+    // Método auxiliar para manejar la visibilidad y asignación de valores
+    private Double obtenerValorSiVisible(TextView textView, String valorDefault) {
+        if (textView.getVisibility() == View.VISIBLE) {
+            return Double.parseDouble(valorDefault.replaceAll("[^\\d.]", ""));
+        } else {
+            return 0.0; // Asignar 0.0 si el campo no es visible
+        }
+    }
+
+    private String obtenerTextoSiVisible(TextView textView) {
+        if (textView.getVisibility() == View.VISIBLE) {
+            return textView.getText().toString();
+        } else {
+            return ""; // Asignar cadena vacía si el campo no es visible
+        }
+    }
+
     private void guardarCotizacionEnRoom() {
         try {
             // Crear objeto de cotización
@@ -327,9 +372,10 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             nuevaCotizacion.setFecha(textviewFecha.getText().toString());
             nuevaCotizacion.setDescripcion(textviewDescripcion.getText().toString());
             nuevaCotizacion.setUbicacion(textview_mostrarUbicacion.getText().toString());
+            nuevaCotizacion.setTotal_Servicio(mostrartotalInAR.getText().toString());
 
             String totalText = textviewTotal.getText().toString().replaceAll("[^\\d.]", "");
-            double total = Double.parseDouble(totalText);
+            double total = totalText.isEmpty() ? 0.0 : Double.parseDouble(totalText);  // Valor por defecto 0.0
             nuevaCotizacion.setTotal(total);
 
             if (imagePath != null && !imagePath.isEmpty()) {
@@ -344,12 +390,21 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             // Crear objeto de detalle de cotización
             table_detalleCotizacion nuevoDetalle = new table_detalleCotizacion();
-            String subtotalText = textviewSubTotal.getText().toString().replaceAll("[^\\d.]", "");
-            String igvText = textviewTotalIGV.getText().toString().replaceAll("[^\\d.]", "");
-            String cantidad = textviewUnidadMedida.getText().toString().replaceAll("[^\\d.]", "");
-            nuevoDetalle.setCantidad(Double.parseDouble(cantidad));
-            nuevoDetalle.setSubtotal(Double.parseDouble(subtotalText));
-            nuevoDetalle.setIgv(Double.parseDouble(igvText));
+
+            // Verificamos si el campo Subtotal es visible antes de obtener su valor
+            String subtotalText = textviewSubTotal.getVisibility() == View.VISIBLE ? textviewSubTotal.getText().toString().replaceAll("[^\\d.]", "") : "";
+            double subtotal = subtotalText.isEmpty() ? 0.0 : Double.parseDouble(subtotalText);
+            nuevoDetalle.setSubtotal(subtotal);
+
+            // Verificamos si el campo IGV es visible antes de obtener su valor
+            String igvText = textviewTotalIGV.getVisibility() == View.VISIBLE ? textviewTotalIGV.getText().toString().replaceAll("[^\\d.]", "") : "";
+            double igv = igvText.isEmpty() ? 0.0 : Double.parseDouble(igvText);
+            nuevoDetalle.setIgv(igv);
+
+            // Verificamos si el campo Unidad de Medida es visible antes de obtener su valor
+            String cantidad = textviewUnidadMedida.getVisibility() == View.VISIBLE ? textviewUnidadMedida.getText().toString().replaceAll("[^\\d.]", "") : "";
+            double cantidadValor = cantidad.isEmpty() ? 0.0 : Double.parseDouble(cantidad);
+            nuevoDetalle.setCantidad(cantidadValor);
 
             // Crear objeto de categoría
             table_categoria nuevaCategoria = new table_categoria();
@@ -357,9 +412,18 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             // Crear objeto de item
             table_items nuevoItem = new table_items();
-            nuevoItem.setNombre_Item(textviewRequerimiento.getText().toString());
-            nuevoItem.setPrecio(textviewPrecio.getText().toString());
-            nuevoItem.setDescripcion_product("Descripción estática"); // Descripción estática
+
+            // Verificamos si el campo Requerimiento es visible antes de obtener su valor
+            String requerimiento = textviewRequerimiento.getVisibility() == View.VISIBLE ? textviewRequerimiento.getText().toString() : "";
+            nuevoItem.setNombre_Item(requerimiento);
+
+            // Verificamos si el campo Precio es visible antes de obtener su valor
+            String precio = textviewPrecio.getVisibility() == View.VISIBLE ? textviewPrecio.getText().toString() : "";
+            nuevoItem.setPrecio(precio);
+
+            // Verificamos si el campo Supervision es visible antes de obtener su valor
+            String supervision = textmostrarsupervisionSINO.getVisibility() == View.VISIBLE ? textmostrarsupervisionSINO.getText().toString() : "";
+            nuevoItem.setSupervision(supervision);
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(new Runnable() {
@@ -410,8 +474,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
                                 // Llamar al método agregarNotificacion con la fecha actual
                                 notificationsViewModel.agregarNotificacion(fechaActual);
-
-
                             }
                         });
                     } catch (Exception e) {
@@ -435,30 +497,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     }
 
 
-    private void configurarImageButton() {
-        ImageButton imageButton = findViewById(R.id.conpartir_descargarPDF);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(Activity_mostrar_cotizacon.this, v);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(android.view.MenuItem item) {
-                        if (item.getItemId() == R.id.action_download) {
-                            createPDFWithIText();
-                            return true;
-                        } else if (item.getItemId() == R.id.action_share) {
-                            sharePDF();
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
-    }
     // Método para crear el PDF con iText7
     public void createPDFWithIText() {
         // Ruta del archivo PDF

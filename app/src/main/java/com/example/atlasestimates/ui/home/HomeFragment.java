@@ -78,8 +78,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
-
         // Cargar datos de la base de datos loadCotizaciones();
 
         // Configurar el botón de nueva cotización
@@ -92,6 +90,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
 
     @Override
     public void onResume() {
