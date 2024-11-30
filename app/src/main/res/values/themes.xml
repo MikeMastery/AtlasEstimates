@@ -16,6 +16,10 @@
 
         <item name="colorOnPrimary3">#5F5F5F</item>
 
+        <item name="colorbuttons">#000000</item>
+
+
+
 
         <item name="android:statusBarColor">#444347</item>
         <!-- Customize your theme here. -->

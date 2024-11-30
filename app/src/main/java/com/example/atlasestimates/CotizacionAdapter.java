@@ -42,6 +42,8 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
     }
 
 
+
+
     @NonNull
     @Override
     public CotizacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,8 +56,20 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         table_cotizacion cotizacion = cotizaciones.get(position);
         holder.tvTitulo.setText(cotizacion.getTitulo());
         holder.tvFecha.setText(cotizacion.getFecha());
-        holder.tvTotal.setText("Total: " + cotizacion.getTotal());
 
+        double total = cotizacion.getTotal();
+        String totalServicio = cotizacion.getTotal_Servicio();
+
+        // Mostrar el total adecuado según las condiciones
+        if (total > 0.0 && (totalServicio == null || totalServicio.isEmpty())) {
+            holder.tvTotal.setText("Total: S/ " + total);
+        } else if (total == 0.0 && totalServicio != null && !totalServicio.isEmpty()) {
+            holder.tvTotal.setText("Total Servicio: " + totalServicio);
+        } else if (total > 0.0 && totalServicio != null && !totalServicio.isEmpty()) {
+            holder.tvTotal.setText("Total: S/ " + total + "\nTotal Servicio: S/ " + totalServicio);
+        } else {
+            holder.tvTotal.setText("Sin total disponible");
+        }
         // Obtener el nombre del cliente en segundo plano
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -83,7 +97,19 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
                         cotizacionViewModel.deleteClienteYRelaciones(clienteId);
                         cotizaciones.remove(position);  // Elimina la cotización de la lista
                         notifyItemRemoved(position);  // Notifica que el item fue eliminado
-                        Toast.makeText(v.getContext(), "Registro eliminado correctamente.", Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(v.getContext(), "Registro eliminado correctamente.", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        // Reducir el tiempo de duración del Toast
+                        new Thread(() -> {
+                            try {
+                                // Hacer que el Toast dure solo 2 segundos
+                                Thread.sleep(1500);  // 1500 ms (1.5 segundos)
+                                toast.cancel();  // Cancelar el Toast
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
                     })
                     .setNegativeButton("No", (dialog, id) -> {
                         // Si el usuario cancela, no hacer nada
@@ -94,14 +120,25 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         });
 
 
-            // Configurar el botón de "Ver detalles"
+
+        // Configurar el botón de "Ver detalles"
             holder.btnViewDetails.setOnClickListener(v -> {
                 // Al hacer clic en el botón, pasamos el id de la cotización
                 Intent intent = new Intent(context, mostrardetalles.class);
                 intent.putExtra("cotizacionId", cotizacion.getId_cotizacion()); // Pasar solo el ID de la cotización
                 context.startActivity(intent); // Iniciar la actividad de detalles
             });
+
+        // Configurar el botón de "Editar"
+        holder.btneditar.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CrearEditarCotizacionActivity.class);
+            intent.putExtra("cotizacionId", cotizacion.getId_cotizacion());
+            context.startActivity(intent);
+        });
+
         }
+
+
     @Override
     public int getItemCount() {
         return cotizaciones.size();
@@ -145,7 +182,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
 
     public static class CotizacionViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitulo, tvFecha, tvTotal, tvNombreCliente;
-        Button btnEliminar, btnViewDetails;
+        Button btnEliminar, btnViewDetails, btneditar;
 
         public CotizacionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -155,6 +192,8 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             tvNombreCliente = itemView.findViewById(R.id.tvCliente); // TextView para nombre del cliente
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+            btneditar = itemView.findViewById(R.id.btnEditar);
         }
     }
+
 }

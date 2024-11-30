@@ -25,8 +25,9 @@ import java.text.DecimalFormat;
 
 public class layout_2_cotiza extends AppCompatActivity {
 
-
-    private TextView textviewMonto, tvmovilización, tvHorasAlquiler, tvcostoMaquina;
+    private TextView tv_costoGobal_Maquinaria, tv_cantidadMaquina;
+    private EditText ed_costoGlobal_Maquinaria, ed_cantidadMaquina;
+    private TextView textviewMonto, tvmovilizacion, tvHorasAlquiler, tvcostoMaquina;
     private EditText edMontoMaquinaria, ed_horasAlquiler, ed_costoMaquina;
     private RadioGroup radioGroupMovilizar;
     private Spinner spinnerCategoria;
@@ -83,8 +84,12 @@ public class layout_2_cotiza extends AppCompatActivity {
 
     private void inicializarVistas() {
 
+        tv_costoGobal_Maquinaria = findViewById(R.id.textviewMedidaGlobal);
+        ed_costoGlobal_Maquinaria = findViewById(R.id.edCostoTotalGlobal);
+        tv_cantidadMaquina = findViewById(R.id.textviewCantidad);
+        ed_cantidadMaquina = findViewById(R.id.edCantidadMaquinas);
         textviewMonto = findViewById(R.id.textviewmovilizarSi);
-        tvmovilización = findViewById(R.id.textviewMovilizaciónEquipo);
+        tvmovilizacion = findViewById(R.id.textviewMovilizacionEquipo);
         ed_horasAlquiler = findViewById(R.id.edMontodeAlquiler);
         tvHorasAlquiler = findViewById(R.id.textviewHorasAlquiler);
         ed_costoMaquina = findViewById(R.id.edCostoAlquiler);
@@ -372,6 +377,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Block de concreto":
@@ -383,6 +389,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Ingenieria":
@@ -394,6 +401,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Unidad":
@@ -405,6 +413,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Coberturas":
@@ -419,6 +428,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Agua potable":
@@ -431,6 +441,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCamposEstructuras();
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Medida Global":
@@ -442,6 +453,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCamposEstructuras();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
             case "Generador (10 KW)":
@@ -460,10 +472,9 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
+                hidecamposMaquinariaGlobal();
                 break;
 
-            case "Rotomartillo Demoledor":
-                break;
 
             case "Alquiler":
                 showcamposMaquinariaPesasa();
@@ -476,6 +487,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposEquiposMenores();
                 hideCamposAbastecimientoAgua();
+
                 break;
 
             case "Global MP":
@@ -613,7 +625,7 @@ public class layout_2_cotiza extends AppCompatActivity {
         tvseleccionarTipoMaquina.setVisibility(View.VISIBLE);
         frame_TipoMaquina.setVisibility(View.VISIBLE);
         radioGroupMovilizar.setVisibility(View.VISIBLE);
-        tvmovilización.setVisibility(View.VISIBLE);
+        tvmovilizacion.setVisibility(View.VISIBLE);
         ed_horasAlquiler.setVisibility(View.VISIBLE);
         tvHorasAlquiler.setVisibility(View.VISIBLE);
         tvcostoMaquina.setVisibility(View.VISIBLE);
@@ -645,7 +657,7 @@ public class layout_2_cotiza extends AppCompatActivity {
         textviewMonto.setVisibility(View.GONE);
         edMontoMaquinaria.setVisibility(View.GONE);
         radioGroupMovilizar.setVisibility(View.GONE);
-        tvmovilización.setVisibility(View.GONE);
+        tvmovilizacion.setVisibility(View.GONE);
         ed_horasAlquiler.setVisibility(View.GONE);
         tvHorasAlquiler.setVisibility(View.GONE);
         tvcostoMaquina.setVisibility(View.GONE);
@@ -656,11 +668,20 @@ public class layout_2_cotiza extends AppCompatActivity {
     private void showcamposMaquinariaGlobal(){
         tvseleccionarTipoMaquina.setVisibility(View.VISIBLE);
         frame_TipoMaquina.setVisibility(View.VISIBLE);
+        tv_costoGobal_Maquinaria.setVisibility(View.VISIBLE);
+        ed_costoGlobal_Maquinaria.setVisibility(View.VISIBLE);
+        tv_cantidadMaquina.setVisibility(View.VISIBLE);
+        ed_cantidadMaquina.setVisibility(View.VISIBLE);
+
 
     }
     private void hidecamposMaquinariaGlobal() {
         tvseleccionarTipoMaquina.setVisibility(View.GONE);
         frame_TipoMaquina.setVisibility(View.GONE);
+        tv_costoGobal_Maquinaria.setVisibility(View.GONE);
+        ed_costoGlobal_Maquinaria.setVisibility(View.GONE);
+        tv_cantidadMaquina.setVisibility(View.GONE);
+        ed_cantidadMaquina.setVisibility(View.GONE);
 
     }
 
@@ -807,6 +828,9 @@ public class layout_2_cotiza extends AppCompatActivity {
         cotizacion.setCampoTotalAgua(edTotalAgua.getText().toString());
         cotizacion.setCantidadAgua(edCantidadAgua.getText().toString());
         cotizacion.setMaquina(editext_maquinapesada.getText().toString());
+        cotizacion.setCantidadMaquinaGlobal(ed_cantidadMaquina.getText().toString());
+        cotizacion.setCostoMaquinaGlobal(ed_costoGlobal_Maquinaria.getText().toString());
+        cotizacion.setMontoMovilizacion(edMontoMaquinaria.getText().toString());
 
 
 

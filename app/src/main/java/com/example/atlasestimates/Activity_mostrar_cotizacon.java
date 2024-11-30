@@ -28,9 +28,11 @@ import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.LineSeparator;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
@@ -55,7 +57,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
             textviewRazoncial, textviewMostrarRazon, tvmostrarvalor, textmostrarsupervision, textmostrarsupervisionSINO,
-            totaldeIngenieriayArquitectura, textviewTotalTopografia, tv_comentario, ed_comentario ;
+            totaldeIngenieriayArquitectura, textviewTotalTopografia, Mostrar_Maquina, ed_comentario ;
     private EditText editextImagen;
     private String imagePath;
     private AppDatabase db;
@@ -65,7 +67,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private DetalleCotizacionDao detalleDao;
     private CategoriaDao categoriaDao;
     private ItemsDao  itemsDao;
-    private LinearLayout layoutTotal,layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios, layoutMetrosUnidadees, layoutprecio, layoutsupervision;
+    private LinearLayout layoutTotal,layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios, layoutMaquina, layoutMetrosUnidadees, layoutprecio, layoutsupervision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +138,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         layoutprecio = findViewById(R.id.tv_precio);
         layoutsupervision = findViewById(R.id.tv_super);
         layoutMetrosUnidadees = findViewById(R.id.tv_metrounidades);
-        tv_comentario = findViewById(R.id.mostrarComentario);
+        Mostrar_Maquina = findViewById(R.id.mostrar_maquina);
         ed_comentario = findViewById(R.id.cajaComentario);
+        layoutMaquina = findViewById(R.id.tv_maquina);
     }
 
     private void mostrarDatosTemporales() {
@@ -178,6 +181,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
 
             } else if ("Cercos prefabricados".equals(subcategoria) || "Cerco cabeza caballo".equals(subcategoria)) {
@@ -188,6 +192,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
             } else if ("Generador (10 KW)".equals(subcategoria) || "Rotomartillo Demoledor (17 K)".equals(subcategoria) ||
                     "Rotomartillo Demoledor (11 K)".equals(subcategoria) || "Cortadora Pavimento".equals(subcategoria) ||
@@ -198,6 +203,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
             } else if ("Coberturas".equals(subcategoria) || "Puertas".equals(subcategoria) ||
                     "Portones".equals(subcategoria) || "Barandas".equals(subcategoria) ||
@@ -210,6 +216,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutTotal.setVisibility(View.GONE);
                 layoutIGV.setVisibility(View.GONE);
                 layoutSubTotal.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
 
             }else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
@@ -223,6 +230,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutTotal.setVisibility(View.GONE);
                 layoutIGV.setVisibility(View.GONE);
                 layoutSubTotal.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
             }else if ("Unidad".equals(subcategoria) || "Global".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
@@ -233,6 +241,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutTotal.setVisibility(View.GONE);
                 layoutIGV.setVisibility(View.GONE);
                 layoutSubTotal.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
             }else if ("Medida Global".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
@@ -243,6 +252,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutTotal.setVisibility(View.GONE);
                 layoutIGV.setVisibility(View.GONE);
                 layoutSubTotal.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
             }else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
                 mostrarMedida.setText("Metros Cubicos:");
@@ -255,16 +265,30 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutTotal.setVisibility(View.GONE);
                 layoutIGV.setVisibility(View.GONE);
                 layoutSubTotal.setVisibility(View.GONE);
+                layoutMaquina.setVisibility(View.GONE);
 
             }else if ("Alquiler".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
-                textviewUnidadMedida.setText(cotizacion.getMaquina());
-                mostrarMedida.setText("Maquina:");
+                Mostrar_Maquina.setText(cotizacion.getMaquina());
                 textviewPrecio.setText(cotizacion.getHorasAlquiler());
+                textviewUnidadMedida.setText(cotizacion.getMovilizacion());
+                mostrarMedida.setText("Movilización / Desmovilización:");
                 tvmostrarvalor.setText("Horas Alquiladas:");
                 textmostrarsupervision.setText("Costo Hora:");
                 textmostrarsupervisionSINO.setText("S/ " +  cotizacion.getCostoHora());
                 ocultarTotalServicios.setVisibility(View.GONE);
+
+            }else if ("Global MP".equals(subcategoria)) {
+                textviewTotalTopografia.setText("Medida:");
+                Mostrar_Maquina.setText(cotizacion.getMaquina());
+                textviewPrecio.setText(cotizacion.getCantidadMaquinaGlobal());
+                tvmostrarvalor.setText("Cantidad:");
+                mostrartotalInAR.setText("S/ " + cotizacion.getCostoMaquinaGlobal());
+                layoutsupervision.setVisibility(View.GONE);
+                layoutTotal.setVisibility(View.GONE);
+                layoutIGV.setVisibility(View.GONE);
+                layoutSubTotal.setVisibility(View.GONE);
+                layoutMetrosUnidadees.setVisibility(View.GONE);
 
 
 
@@ -347,22 +371,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         });
     }
 
-    // Método auxiliar para manejar la visibilidad y asignación de valores
-    private Double obtenerValorSiVisible(TextView textView, String valorDefault) {
-        if (textView.getVisibility() == View.VISIBLE) {
-            return Double.parseDouble(valorDefault.replaceAll("[^\\d.]", ""));
-        } else {
-            return 0.0; // Asignar 0.0 si el campo no es visible
-        }
-    }
 
-    private String obtenerTextoSiVisible(TextView textView) {
-        if (textView.getVisibility() == View.VISIBLE) {
-            return textView.getText().toString();
-        } else {
-            return ""; // Asignar cadena vacía si el campo no es visible
-        }
-    }
 
     private void guardarCotizacionEnRoom() {
         try {
@@ -417,6 +426,12 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             String requerimiento = textviewRequerimiento.getVisibility() == View.VISIBLE ? textviewRequerimiento.getText().toString() : "";
             nuevoItem.setNombre_Item(requerimiento);
 
+            String medida = textviewUnidadMedida.getVisibility() == View.VISIBLE ? textviewUnidadMedida.getText().toString() : "";
+            nuevoItem.setMedida(medida);
+
+            String maquina = Mostrar_Maquina.getVisibility() == View.VISIBLE ? Mostrar_Maquina.getText().toString() : "";
+            nuevoItem.setMaquina(maquina);
+
             // Verificamos si el campo Precio es visible antes de obtener su valor
             String precio = textviewPrecio.getVisibility() == View.VISIBLE ? textviewPrecio.getText().toString() : "";
             nuevoItem.setPrecio(precio);
@@ -462,18 +477,22 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                             @Override
                             public void run() {
                                 // Mostrar mensaje de éxito
-                                Toast.makeText(Activity_mostrar_cotizacon.this,
+                                Toast toast = Toast.makeText(Activity_mostrar_cotizacon.this,
                                         "Cotización guardada exitosamente",
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_SHORT);
+                                toast.show();
 
-                                // Obtener la fecha actual en formato String
-                                String fechaActual = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-
-                                // Obtener la instancia del ViewModel
-                                NotificationsViewModel notificationsViewModel = new ViewModelProvider(Activity_mostrar_cotizacon.this).get(NotificationsViewModel.class);
-
-                                // Llamar al método agregarNotificacion con la fecha actual
-                                notificationsViewModel.agregarNotificacion(fechaActual);
+                                // Reducir el tiempo de duración del Toast
+                                new Thread(() -> {
+                                    try {
+                                        // Hacer que el Toast dure solo 2 segundos
+                                        Thread.sleep(1500);  // 1500 ms (1.5 segundos)
+                                        toast.cancel();  // Cancelar el Toast
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                                
                             }
                         });
                     } catch (Exception e) {
@@ -515,8 +534,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             float pageHeight = PageSize.A4.getHeight();
 
             // Ajustar el tamaño de la imagen
-            float imageWidth = pageWidth - 100; // Ajusta el ancho para que ocupe más espacio horizontal (ajusta el valor según lo que desees)
-            float imageHeight = 118f; // Ajusta la altura para que sea más corta
+            float imageWidth = pageWidth - 130; // Ajusta el ancho para que ocupe más espacio horizontal (ajusta el valor según lo que desees)
+            float imageHeight = 95f; // Ajusta la altura para que sea más corta
 
             // Configurar la posición y tamaño de la imagen
             headerImage.setFixedPosition((pageWidth - imageWidth) / 2, pageHeight - imageHeight - 10);
@@ -526,12 +545,26 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             document.add(headerImage);
 
             // Crear título
-            Paragraph title = new Paragraph(  textViewTitulo.getText().toString())
+            String tituloTexto = textViewTitulo.getText().toString();
+            Paragraph title = new Paragraph(tituloTexto)
                     .setBold()
-                    .setFontSize(20)
+                    .setFontSize(18)
                     .setTextAlignment(TextAlignment.CENTER)
-                    .setMarginTop(113); // Ajusta este valor para bajar más el título
+                    .setMarginTop(85); // Ajusta este valor para bajar más el título
             document.add(title);
+
+// Calcular el ancho de la línea basado en el tamaño del texto
+            float fontSize = 18; // Tamaño de fuente del título
+            float lineWidthPerCharacter = fontSize * 0.6f; // Aproximadamente, dependiendo de la fuente
+            float calculatedWidth = tituloTexto.length() * lineWidthPerCharacter;
+
+// Crear una línea debajo del título con ancho dinámico
+            LineSeparator lineSeparator = new LineSeparator(new SolidLine());
+            lineSeparator.setWidth(calculatedWidth);
+            lineSeparator.setMarginTop(-9); // Ajusta la distancia entre el título y la línea
+            lineSeparator.setHorizontalAlignment(HorizontalAlignment.CENTER); // Centrar la línea
+            document.add(lineSeparator);
+
 
             // Obtén los datos de los TextViews
             String tipoidentificacion = mostrarTipoIden.getText().toString();
@@ -555,7 +588,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Paragraph rightAlignedData = new Paragraph(datosCliente)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(10);
+                    .setMarginTop(15);
 
             // Añadir el Paragraph al documento
             document.add(rightAlignedData);
@@ -662,6 +695,19 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
 
             document.add(table);
+
+            // Obtener el texto ingresado por el usuario desde el campo EditText
+            String textoUsuario = ed_comentario.getText().toString();
+
+// Crear un párrafo con el texto dinámico del usuario
+            Paragraph textCostos = new Paragraph(textoUsuario)
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setMarginTop(20); // Ajusta este valor según sea necesario
+
+// Agregar el párrafo al documento PDF
+            document.add(textCostos);
+
 
 // Crear y añadir la imagen del pie de página (footer)
             Image footerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.empresas))));

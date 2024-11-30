@@ -18,6 +18,9 @@
         <item name="colorOnPrimary3">@color/edit_text_background</item>
 
 
+        <item name="colorbuttons">#D5AF0E</item>
+
+
     </style>
 
     <!-- Base application theme. -->

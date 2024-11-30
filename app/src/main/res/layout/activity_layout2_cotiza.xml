@@ -421,6 +421,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:padding="16dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
@@ -451,6 +452,7 @@
                 android:layout_gravity="center"
                 android:padding="16dp"
                 android:textSize="17sp"
+                android:inputType="number"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
                 android:background="@drawable/editex">
@@ -478,6 +480,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:padding="16dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
@@ -506,6 +509,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:padding="16dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
@@ -629,6 +633,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:padding="16dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
@@ -680,7 +685,7 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/textviewMovilizaciónEquipo"
+                android:id="@+id/textviewMovilizacionEquipo"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -738,6 +743,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:padding="16dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
@@ -766,6 +772,7 @@
                 android:layout_gravity="center"
                 android:padding="16dp"
                 android:textSize="17sp"
+                android:inputType="number"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
                 android:background="@drawable/editex">
@@ -792,6 +799,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:padding="16dp"
+                android:inputType="number"
                 android:textSize="17sp"
                 android:textColor="#5F5F5F"
                 android:hint="S/"
@@ -799,12 +807,60 @@
 
             </EditText>
 
+            <!-- campos de maquinaria pesada "global" -->
+            <TextView
+                android:id="@+id/textviewMedidaGlobal"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Costo del Servicio:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
 
+            </TextView>
+            <EditText
+                android:id="@+id/edCostoTotalGlobal"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:inputType="number"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="S/"
+                android:background="@drawable/editex">
 
+            </EditText>
 
+            <TextView
+                android:id="@+id/textviewCantidad"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Cantidad:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
 
+            </TextView>
+            <EditText
+                android:id="@+id/edCantidadMaquinas"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:inputType="number"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:hint="1, 2, 3 ...."
+                android:background="@drawable/editex">
 
-
+            </EditText>
 
 
 
@@ -812,7 +868,7 @@
         android:id="@+id/GuardarButton"
         android:layout_width="235dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/switch_thumb_color"
+                android:backgroundTint="?attr/colorbuttons"
         android:text="Generar cotización"
         android:textSize="15dp"
         android:textStyle="bold"

@@ -21,7 +21,9 @@ public class table_items {
     private String nombre_Item;
     private String Supervision;
     private String precio;
-    private String stock;
+    private String Maquina;
+    private String Medida;
+
 
     // Getter y Setter para id_items
     public int getId_items() {
@@ -60,6 +62,25 @@ public class table_items {
     public void setSupervision(String supervision) {
         this.Supervision = supervision;
     }
+
+    public String getMedida() {
+        return Medida;
+    }
+
+    // Setter para Supervision (si no existe)
+    public void setMedida(String medida) {
+        this.Medida = medida;
+    }
+
+    public String getMaquina() {
+        return Maquina;
+    }
+
+    // Setter para Supervision (si no existe)
+    public void setMaquina(String maquina) {
+        this.Maquina = maquina;
+    }
+
     // Getter y Setter para precio
     public String getPrecio() {
         return precio;
@@ -70,11 +91,4 @@ public class table_items {
     }
 
     // Getter y Setter para stock
-    public String getStock() {
-        return stock;
-    }
-
-    public void setStock(String stock) {
-        this.stock = stock;
-    }
 }

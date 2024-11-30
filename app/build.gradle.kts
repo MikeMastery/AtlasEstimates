@@ -7,6 +7,7 @@ android {
     compileSdk = 34
 
 
+
     defaultConfig {
         applicationId = "com.example.atlasestimates"
         minSdk = 30
@@ -57,4 +58,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("androidx.core:core:1.6.0")
 }

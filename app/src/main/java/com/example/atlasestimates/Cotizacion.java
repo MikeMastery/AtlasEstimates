@@ -40,6 +40,9 @@ public class Cotizacion implements Serializable {
     private String TipoMaquina;
     private String HorasAlquiler;
     private String CostoHora;
+    private String CantidadMaquinaGlobal;
+    private String CostoTotalGlobalMaquina;
+
 
 
     // Getters y Setters
@@ -331,6 +334,24 @@ public class Cotizacion implements Serializable {
     public String getCostoHora(){
         return CostoHora;
     }
+
+    public void setCantidadMaquinaGlobal(String obtenererCantidadMaquina){
+        this.CantidadMaquinaGlobal = obtenererCantidadMaquina;
+    }
+
+    public String getCantidadMaquinaGlobal(){
+        return  CantidadMaquinaGlobal;
+    }
+
+    public void setCostoMaquinaGlobal(String obtenererCosto){
+        this.CostoTotalGlobalMaquina = obtenererCosto;
+    }
+
+    public String getCostoMaquinaGlobal(){
+        return  CostoTotalGlobalMaquina;
+    }
+
+
 
 
 
