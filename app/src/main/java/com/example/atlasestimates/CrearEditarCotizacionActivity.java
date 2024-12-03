@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -28,14 +30,19 @@ import java.util.Locale;
 
 public class CrearEditarCotizacionActivity extends AppCompatActivity {
 
+
+
+    private CotizacionViewModel viewmodel;
     private Spinner spnTipoIdentificacion;
     private LinearLayout layoutDNI, layoutRUC;
     private static final int PICK_IMAGE = 1;
     private ImageView selectedImage;
     private ImageButton editImageButton;
-    private EditText Ed_fecha;
-    private ImageButton addImageButton;
-    private TextView tv_dni, tv_ruc, tv_razonSocial;
+    private Button buttonActualizar;
+    private table_cotizacion cotizacion;
+    private table_clientes clientes;// Añádelo como variable global.
+    private EditText  Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,26 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         selectedImage = findViewById(R.id.selected_image);
         editImageButton = findViewById(R.id.edit_image_button);
         Ed_fecha = findViewById(R.id.editText_fecha);
+        Ed_titulo = findViewById(R.id.ed_titulo);
+        buttonActualizar = findViewById(R.id.button_actualizarregistro);
+        Ed_ubicacion = findViewById(R.id.ed_ubicacion);
+        Ed_descripcion = findViewById(R.id.ed_descripcion);
+        Ed_cliente = findViewById(R.id.ed_cliente);
+        Ed_dni = findViewById(R.id.ed_dni);
+
+
+
+        // Obtener el ID de la cotización desde el Intent
+        int cotizacionID = getIntent().getIntExtra("cotizacionId", -1);
+
+
+        viewmodel = new ViewModelProvider(this).get(CotizacionViewModel.class);
+
+
+        obtenerDatosCotizacion(cotizacionID);
+        obtenerDatosCliente(cotizacionID);
+
+
 
         editImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +83,54 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                 startActivityForResult(intent, PICK_IMAGE);
             }
         });
+
+        buttonActualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cotizacion != null) {
+                    String nuevoTitulo = Ed_titulo.getText().toString().trim();
+                    String nuevaFecha = Ed_fecha.getText().toString().trim();
+                    String nuevaUbicacion = Ed_ubicacion.getText().toString().trim();
+                    String nuevaDescripcion = Ed_descripcion.getText().toString().trim();
+                    if (!nuevoTitulo.isEmpty()) {
+                        cotizacion.setTitulo(nuevoTitulo);
+                        cotizacion.setFecha(nuevaFecha);
+                        cotizacion.setUbicacion(nuevaUbicacion);
+                        cotizacion.setDescripcion(nuevaDescripcion);
+                        viewmodel.actualizarCotizacion(cotizacion);// Envia la actualización al ViewModel.
+                if (clientes != null) {
+                    String nuevoCliente = Ed_cliente.getText().toString().trim();
+                    if(!nuevoCliente.isEmpty()){
+                        clientes.setNombre_cliente(nuevoCliente);
+                        viewmodel.actualizarCliente(clientes);
+                    }
+                        }
+                        final Toast toast = Toast.makeText(CrearEditarCotizacionActivity.this, "Cotización actualizada", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        // Reducir la duración del Toast
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1500);  // 1500 ms (1.5 segundos)
+                                    toast.cancel();  // Cancelar el Toast
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    } else {
+                        Toast.makeText(CrearEditarCotizacionActivity.this, "El título no puede estar vacío", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(CrearEditarCotizacionActivity.this, "Error al cargar la cotización", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
 
         // Configurar el Spinner con las opciones
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -85,6 +160,33 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // No hacer nada
+            }
+        });
+    }
+    private void obtenerDatosCotizacion(int cotizacionID) {
+        viewmodel.getCotizacion(cotizacionID).observe(this, new Observer<table_cotizacion>() {
+            @Override
+            public void onChanged(table_cotizacion cotizacionResult) {
+                if (cotizacionResult != null) {
+                    cotizacion = cotizacionResult; // Asigna el resultado a la variable global.
+                    Ed_titulo.setText(cotizacion.getTitulo());
+                    Ed_fecha.setText(cotizacion.getFecha());
+                    Ed_ubicacion.setText(cotizacion.getUbicacion());
+                    Ed_descripcion.setText(cotizacion.getDescripcion());
+
+                }
+            }
+        });
+    }
+
+    private void obtenerDatosCliente(int cotizacionId) {
+        viewmodel.getCliente(cotizacionId).observe(this, new Observer<table_clientes>() {
+            @Override
+            public void onChanged(table_clientes cliente) {
+                if (cliente != null) {
+                    clientes = cliente;  // Guardar la instancia como variable global
+                    Ed_cliente.setText(cliente.getNombre_cliente());
+                }
             }
         });
     }

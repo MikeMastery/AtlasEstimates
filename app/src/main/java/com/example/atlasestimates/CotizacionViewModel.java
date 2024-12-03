@@ -25,6 +25,23 @@ public class CotizacionViewModel extends AndroidViewModel {
 
     }
 
+    public void actualizarCotizacion(table_cotizacion cotizacion) {
+        executor.execute(() -> {
+            appDatabase.cotizacionDao().updateCotizacion(cotizacion);
+        });
+    }
+
+    // Método para actualizar los datos del cliente
+    public void actualizarCliente(table_clientes clientes) {
+        executor.execute(() -> {
+            appDatabase.clienteDao().updateCliente(clientes); // Asegúrate de que tengas este DAO
+        });
+    }
+
+
+
+
+
     public LiveData<List<table_cotizacion>> getCotizaciones() {
         return cotizaciones;
     }

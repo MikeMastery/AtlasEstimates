@@ -2,9 +2,9 @@ package com.example.atlasestimates;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -25,6 +25,11 @@ public interface ClienteDao {
 
     @Query("SELECT * FROM clientes WHERE id_cliente = :idCliente LIMIT 1")
     table_clientes getClienteById(int idCliente);
+
+
+
+    @Update
+    void updateCliente(table_clientes clientes);
 
 
 }

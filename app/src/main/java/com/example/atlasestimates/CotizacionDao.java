@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -28,4 +29,12 @@ public interface CotizacionDao {
     // Obtener todas las cotizaciones
     @Query("SELECT * FROM cotizacion")
     List<table_cotizacion> getAllCotizaciones();
+
+
+
+        @Update
+        void updateCotizacion(table_cotizacion cotizacion);
+
+
+
 }
