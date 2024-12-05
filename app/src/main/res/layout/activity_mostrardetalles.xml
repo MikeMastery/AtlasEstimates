@@ -371,8 +371,28 @@
                             android:inputType="textMultiLine"
                             android:focusable="false"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/comentario_costos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Costos"
+                            android:minLines="3"
+                            android:maxLines="6"
+                            android:inputType="textMultiLine"
+                            android:focusable="false"/>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
+
             </com.google.android.material.card.MaterialCardView>
+
+
 
             <!-- Card de Resumen de Costos -->
             <com.google.android.material.card.MaterialCardView

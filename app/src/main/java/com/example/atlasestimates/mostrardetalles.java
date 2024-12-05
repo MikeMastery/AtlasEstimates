@@ -29,7 +29,8 @@ public class mostrardetalles extends AppCompatActivity {
              LayoutSupervision, LayoutPrecio;
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
             tvRequerimiento, tvSubTotal, tvIgv, tvTotal, textviewMetros, textviewprecio, mostrarMedida,
-            Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion;
+            Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion,
+             Tv_comentario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class mostrardetalles extends AppCompatActivity {
         LayoutSupervision = findViewById(R.id.layoutsupervision);
         LayoutPrecio = findViewById(R.id.layoutprecio);
         Tv_Supervisiion = findViewById(R.id.supervision);
+        Tv_comentario = findViewById(R.id.comentario_costos);
 
 
         // Obtener el ID de la cotización desde el Intent
@@ -326,6 +328,8 @@ public class mostrardetalles extends AppCompatActivity {
                 if (categoria != null) {
                     // Actualiza los TextViews con la información de la categoría
                     tvCategoria.setText(categoria.getNombre_categoria());
+                    Tv_comentario.setText(categoria.getDescripcion_categoria());
+
                 }
             }
         });

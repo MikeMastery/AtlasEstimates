@@ -451,6 +451,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             // Crear objeto de categoría
             table_categoria nuevaCategoria = new table_categoria();
             nuevaCategoria.setNombre_categoria(textviewCategoria.getText().toString());
+            nuevaCategoria.setDescripcion_categoria(ed_comentario.getText().toString());
 
             // Crear objeto de item
             table_items nuevoItem = new table_items();
