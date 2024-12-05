@@ -63,7 +63,7 @@
                     android:padding="12dp"
                     android:inputType="text"
                     android:textSize="16sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:hint="Ej. Cotización 1"
                     android:background="@drawable/editex" />
             </LinearLayout>
@@ -94,7 +94,7 @@
                     android:padding="12dp"
                     android:inputType="text"
                     android:textSize="16sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:hint="Ej. Cliente1"
                     android:background="@drawable/editex"
                     android:singleLine="true" />
@@ -127,7 +127,7 @@
                     android:padding="12dp"
                     android:inputType="text"
                     android:textSize="16sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:hint="Ej. Cliente1"
                     android:background="@drawable/editex"
                     android:singleLine="true" />
@@ -190,7 +190,7 @@
                         android:hint="Ingrese el número"
                         android:inputType="number"
                         android:padding="16dp"
-                        android:textColor="#5F5F5F"
+                        android:textColorHint="?attr/colorOnPrimary2"
                         android:textSize="17sp" />
                 </LinearLayout>
 
@@ -224,7 +224,7 @@
                         android:hint="Ingrese el RUC"
                         android:inputType="number"
                         android:padding="16dp"
-                        android:textColor="#5F5F5F"
+                        android:textColorHint="?attr/colorOnPrimary2"
                         android:textSize="17sp" />
 
                     <!-- Campo Razón Social -->
@@ -247,7 +247,7 @@
                         android:hint="Ingrese la Razón Social"
                         android:inputType="text"
                         android:padding="16dp"
-                        android:textColor="#5F5F5F"
+                        android:textColorHint="?attr/colorOnPrimary2"
                         android:textSize="17sp" />
                 </LinearLayout>
 
@@ -326,7 +326,7 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:textSize="16sp"
-                        android:textColor="#5F5F5F"
+                        android:textColorHint="?attr/colorOnPrimary2"
                         android:hint="04/08/24"
                         android:background="@drawable/editex"
                         android:focusable="false"
@@ -379,7 +379,7 @@
                     android:inputType="textMultiLine"
                     android:lines="4"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:minLines="3"
                     android:maxLines="6"
                     android:scrollHorizontally="false"

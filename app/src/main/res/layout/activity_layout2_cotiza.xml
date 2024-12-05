@@ -42,7 +42,7 @@
                     android:layout_gravity="center"
                     android:paddingEnd="40dp"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:paddingStart="12dp"
                     android:background="@drawable/editex"
                     android:hint="Value"
@@ -83,7 +83,7 @@
             android:layout_gravity="center"
             android:paddingEnd="40dp"
             android:textSize="17sp"
-            android:textColor="#5F5F5F"
+            android:textColorHint="?attr/colorOnPrimary2"
             android:paddingStart="12dp"
             android:background="@drawable/editex"
             android:hint="Value" />
@@ -124,7 +124,7 @@
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:minLines="3"
                 android:maxLines="6"
                 android:scrollHorizontally="false"
@@ -160,7 +160,7 @@
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:minLines="3"
                 android:maxLines="6"
                 android:scrollHorizontally="false"
@@ -188,7 +188,7 @@
                 android:hint="Metros"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:paddingStart="12dp"
                 android:inputType="number"
                 android:layout_gravity="center"
@@ -216,7 +216,7 @@
                 android:paddingEnd="40dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
@@ -244,7 +244,7 @@
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
                 android:inputType="number"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
@@ -270,7 +270,7 @@
                 android:hint="Precio"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:inputType="number"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
@@ -305,7 +305,7 @@
                     android:layout_height="wrap_content"
                     android:text="SI"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
 
                 <RadioButton
@@ -314,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:text="NO"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
             </RadioGroup>
 
@@ -345,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:text="SI"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
 
                 <RadioButton
@@ -354,7 +354,7 @@
                     android:layout_height="wrap_content"
                     android:text="NO"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
             </RadioGroup>
 
@@ -387,7 +387,7 @@
                     android:layout_height="wrap_content"
                     android:text="UNIDAD"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
 
                 <RadioButton
@@ -396,7 +396,7 @@
                     android:layout_height="wrap_content"
                     android:text="GLOBAL"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
             </RadioGroup>
 
@@ -423,7 +423,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -453,7 +453,7 @@
                 android:padding="16dp"
                 android:textSize="17sp"
                 android:inputType="number"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -482,7 +482,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -511,7 +511,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -538,7 +538,7 @@
                 android:hint="Días"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
@@ -564,7 +564,7 @@
                 android:hint="S/"
                 android:paddingEnd="40dp"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:paddingStart="12dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
@@ -600,7 +600,7 @@
                     android:layout_gravity="center"
                     android:paddingEnd="40dp"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:paddingStart="12dp"
                     android:background="@drawable/editex"
                     android:hint="Value" />
@@ -635,7 +635,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -671,7 +671,7 @@
                     android:layout_gravity="center"
                     android:paddingEnd="40dp"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:paddingStart="12dp"
                     android:background="@drawable/editex"
                     android:hint="Value" />
@@ -711,7 +711,7 @@
                     android:layout_height="wrap_content"
                     android:text="SI"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
 
                 <RadioButton
@@ -720,7 +720,7 @@
                     android:layout_height="wrap_content"
                     android:text="NO"
                     android:textSize="17sp"
-                    android:textColor="#5F5F5F"
+                    android:textColorHint="?attr/colorOnPrimary2"
                     android:textStyle="bold"/>
             </RadioGroup>
 
@@ -745,7 +745,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -773,7 +773,7 @@
                 android:padding="16dp"
                 android:textSize="17sp"
                 android:inputType="number"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -801,7 +801,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -829,7 +829,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="S/"
                 android:background="@drawable/editex">
 
@@ -856,7 +856,7 @@
                 android:padding="16dp"
                 android:inputType="number"
                 android:textSize="17sp"
-                android:textColor="#5F5F5F"
+                android:textColorHint="?attr/colorOnPrimary2"
                 android:hint="1, 2, 3 ...."
                 android:background="@drawable/editex">
 
