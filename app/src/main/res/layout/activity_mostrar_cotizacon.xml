@@ -674,6 +674,15 @@
         android:layout_marginLeft="225dp">
     </ImageButton>
 
+            <ImageButton
+                android:id="@+id/icon2"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/icon2"
+                android:layout_marginTop="-65dp"
+                android:layout_marginLeft="225dp">
+            </ImageButton>
+
         </LinearLayout>
 
     </ScrollView>

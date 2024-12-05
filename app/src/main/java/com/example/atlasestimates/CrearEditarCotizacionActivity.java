@@ -23,6 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,8 +34,8 @@ import java.util.Locale;
 
 public class CrearEditarCotizacionActivity extends AppCompatActivity {
 
-
-
+    private Uri selectedImageUri;
+    private String imagePath;
     private CotizacionViewModel viewmodel;
     private Spinner spnTipoIdentificacion;
     private LinearLayout layoutDNI, layoutRUC;
@@ -41,7 +45,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
     private Button buttonActualizar;
     private table_cotizacion cotizacion;
     private table_clientes clientes;// Añádelo como variable global.
-    private EditText  Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni;
+    private EditText Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni;
 
 
     @Override
@@ -73,12 +77,12 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
 
         obtenerDatosCotizacion(cotizacionID);
         obtenerDatosCliente(cotizacionID);
-
-
+        cargarImagenDesdeBD(cotizacionID);
 
         editImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Abrir la galería para seleccionar imagen
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_IMAGE);
             }
@@ -87,49 +91,85 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         buttonActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cotizacion != null) {
+                if (cotizacion != null && clientes != null) {
+                    // Actualizar datos de la cotización
                     String nuevoTitulo = Ed_titulo.getText().toString().trim();
                     String nuevaFecha = Ed_fecha.getText().toString().trim();
                     String nuevaUbicacion = Ed_ubicacion.getText().toString().trim();
                     String nuevaDescripcion = Ed_descripcion.getText().toString().trim();
+
+                    // Obtener la selección actual del spinner
+                    String tipoIdentificacion = spnTipoIdentificacion.getSelectedItem().toString();
+
                     if (!nuevoTitulo.isEmpty()) {
+                        // Actualizar datos de la cotización
                         cotizacion.setTitulo(nuevoTitulo);
                         cotizacion.setFecha(nuevaFecha);
                         cotizacion.setUbicacion(nuevaUbicacion);
                         cotizacion.setDescripcion(nuevaDescripcion);
-                        viewmodel.actualizarCotizacion(cotizacion);// Envia la actualización al ViewModel.
-                if (clientes != null) {
-                    String nuevoCliente = Ed_cliente.getText().toString().trim();
-                    if(!nuevoCliente.isEmpty()){
-                        clientes.setNombre_cliente(nuevoCliente);
-                        viewmodel.actualizarCliente(clientes);
-                    }
-                        }
-                        final Toast toast = Toast.makeText(CrearEditarCotizacionActivity.this, "Cotización actualizada", Toast.LENGTH_SHORT);
-                        toast.show();
 
-                        // Reducir la duración del Toast
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(1500);  // 1500 ms (1.5 segundos)
-                                    toast.cancel();  // Cancelar el Toast
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                        // Actualizar la imagen si se ha seleccionado una nueva
+                        if (selectedImageUri != null) {
+                            cotizacion.setImagen(selectedImageUri.toString());
+                        }
+                        viewmodel.actualizarCotizacion(cotizacion);
+
+                        // Actualizar datos del cliente
+                        String nuevoCliente = Ed_cliente.getText().toString().trim();
+                        if (!nuevoCliente.isEmpty()) {
+                            clientes.setNombre_cliente(nuevoCliente);
+
+                            // Actualizar según el tipo de identificación
+                            if (tipoIdentificacion.equals("DNI")) {
+                                String nuevoDNI = Ed_dni.getText().toString().trim();
+                                if (nuevoDNI.length() == 8) {
+                                    clientes.setDni_ruc(nuevoDNI);
+                                } else {
+                                    Toast.makeText(CrearEditarCotizacionActivity.this,
+                                            "El DNI debe tener 8 dígitos",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            } else if (tipoIdentificacion.equals("RUC")) {
+                                // Campos para RUC (asumiendo que tienes EditText para RUC y Razón Social)
+                                EditText edRuc = findViewById(R.id.ed_ruc);
+                                EditText edRazonSocial = findViewById(R.id.ed_razonsocial);
+
+                                String nuevoRUC = edRuc.getText().toString().trim();
+                                String nuevaRazonSocial = edRazonSocial.getText().toString().trim();
+
+                                if (nuevoRUC.length() == 11) {
+                                    clientes.setDni_ruc(nuevoRUC);
+                                    // Aquí deberías tener un método para setear la razón social si es necesario
+                                    clientes.setRazon_social(nuevaRazonSocial);
+                                } else {
+                                    Toast.makeText(CrearEditarCotizacionActivity.this,
+                                            "El RUC debe tener 11 dígitos",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
                             }
-                        }).start();
+
+                            // Actualizar cliente
+                            viewmodel.actualizarCliente(clientes);
+                        }
+
+                        // Mostrar mensaje de éxito
+                        Toast.makeText(CrearEditarCotizacionActivity.this,
+                                "Datos actualizados correctamente",
+                                Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(CrearEditarCotizacionActivity.this, "El título no puede estar vacío", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CrearEditarCotizacionActivity.this,
+                                "El título no puede estar vacío",
+                                Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(CrearEditarCotizacionActivity.this, "Error al cargar la cotización", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CrearEditarCotizacionActivity.this,
+                            "Error al cargar los datos",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
 
 
         // Configurar el Spinner con las opciones
@@ -163,6 +203,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
             }
         });
     }
+
     private void obtenerDatosCotizacion(int cotizacionID) {
         viewmodel.getCotizacion(cotizacionID).observe(this, new Observer<table_cotizacion>() {
             @Override
@@ -186,10 +227,116 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                 if (cliente != null) {
                     clientes = cliente;  // Guardar la instancia como variable global
                     Ed_cliente.setText(cliente.getNombre_cliente());
+
+                    // Obtener el número de identificación
+                    String identificacion = cliente.getDni_ruc();
+
+                    if (identificacion != null) {
+                        // Ocultar primero todos los layouts
+                        layoutDNI.setVisibility(View.GONE);
+                        layoutRUC.setVisibility(View.GONE);
+
+                        // Determinar el tipo según la longitud del número
+                        if (identificacion.length() == 8) {
+                            // Es DNI
+                            layoutDNI.setVisibility(View.VISIBLE);
+                            Ed_dni.setText(identificacion);
+
+                            // Establecer el spinner en DNI automáticamente
+                            for (int i = 0; i < spnTipoIdentificacion.getAdapter().getCount(); i++) {
+                                if (spnTipoIdentificacion.getAdapter().getItem(i).toString().equals("DNI")) {
+                                    spnTipoIdentificacion.setSelection(i);
+                                    break;
+                                }
+                            }
+                        } else if (identificacion.length() == 11) {
+                            // Es RUC
+                            layoutRUC.setVisibility(View.VISIBLE);
+
+                            // Establecer el spinner en RUC automáticamente
+                            for (int i = 0; i < spnTipoIdentificacion.getAdapter().getCount(); i++) {
+                                if (spnTipoIdentificacion.getAdapter().getItem(i).toString().equals("RUC")) {
+                                    spnTipoIdentificacion.setSelection(i);
+                                    break;
+                                }
+                            }
+
+                            // Aquí debes añadir los campos para RUC y Razón Social
+                            // Ejemplo (asumiendo que tienes estos EditText en tu layout):
+                            EditText edRuc = findViewById(R.id.ed_ruc);
+                            EditText edRazonSocial = findViewById(R.id.ed_razonsocial);
+
+                            edRuc.setText(identificacion);
+                            edRazonSocial.setText(cliente.getRazon_social());
+                        } else {
+                            // Si el número no tiene 8 o 11 dígitos
+                            layoutDNI.setVisibility(View.GONE);
+                            layoutRUC.setVisibility(View.GONE);
+                        }
+                    }
                 }
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            try {
+                // Obtener la URI de la imagen seleccionada
+                selectedImageUri = data.getData();
+
+                // Cargar y redimensionar la imagen
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+
+                // Redimensionar imagen (similar a tu método existente)
+                int originalWidth = bitmap.getWidth();
+                int originalHeight = bitmap.getHeight();
+                int resizedWidth;
+                int resizedHeight;
+
+                if (originalHeight > originalWidth) {
+                    int desiredHeight = 535;
+                    resizedHeight = desiredHeight;
+                    resizedWidth = (int) ((float) originalWidth * ((float) desiredHeight / originalHeight));
+                } else {
+                    int desiredWidth = 550;
+                    resizedWidth = desiredWidth;
+                    resizedHeight = (int) ((float) originalHeight * ((float) desiredWidth / originalWidth));
+                }
+
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, true);
+
+                // Mostrar imagen en ImageView
+                selectedImage.setImageBitmap(resizedBitmap);
+
+                // Guardar la imagen
+                imagePath = saveImage(resizedBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // Método para guardar la imagen (debes implementarlo)
+    private String saveImage(Bitmap bitmap) {
+        // Implementa la lógica para guardar la imagen
+        // Retorna la ruta donde se guardó la imagen
+        File imageFile = new File(getExternalFilesDir(null), "cotizacion_" + System.currentTimeMillis() + ".jpg");
+        try {
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+            return imageFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     // Método para abrir el calendario (fuera de onCreate)
     public void AbrirCalendario(View view) {
@@ -204,5 +351,30 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         }, anio, mes, dia);
         dpd.show();
     }
-}
 
+    // Método para cargar la imagen desde la base de datos
+    private void cargarImagenDesdeBD(int cotizacionID) {
+        viewmodel.getCotizacion(cotizacionID).observe(this, new Observer<table_cotizacion>() {
+            @Override
+            public void onChanged(table_cotizacion cotizacionResult) {
+                if (cotizacionResult != null && cotizacionResult.getImagen() != null) {
+                    String imagePath = cotizacionResult.getImagen();
+                    File imageFile = new File(imagePath);
+
+                    if (imageFile.exists()) {
+                        Glide.with(CrearEditarCotizacionActivity.this)
+                                .load(imageFile)
+                                .placeholder(R.drawable.maquinaria)  // Imagen temporal mientras carga
+                                .error(R.drawable.logo)        // Imagen en caso de error
+                                .into(selectedImage);
+                    } else {
+                        Toast.makeText(CrearEditarCotizacionActivity.this,
+                                "La imagen no existe en la ruta especificada",
+                                Toast.LENGTH_SHORT).show();
+                        selectedImage.setImageResource(R.drawable.logo); // Imagen de error
+                    }
+                }
+            }
+        });
+    }
+}

@@ -207,7 +207,7 @@
 
                     <!-- Campo RUC -->
                     <TextView
-                        android:id="@+id/tv_ruc_label"
+                        android:id="@+id/c"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="RUC:"
@@ -217,7 +217,7 @@
                         android:layout_marginBottom="8dp" />
 
                     <EditText
-                        android:id="@+id/et_ruc_input"
+                        android:id="@+id/ed_ruc"
                         android:layout_width="320dp"
                         android:layout_height="50dp"
                         android:background="@drawable/editex"
@@ -240,7 +240,7 @@
                         android:layout_marginBottom="8dp" />
 
                     <EditText
-                        android:id="@+id/et_razon_social_input"
+                        android:id="@+id/ed_razonsocial"
                         android:layout_width="320dp"
                         android:layout_height="50dp"
                         android:background="@drawable/editex"
@@ -263,8 +263,8 @@
 
 
             <FrameLayout
-                android:layout_width="300dp"
-                android:layout_height="180dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp">
 
@@ -273,8 +273,8 @@
                 <!-- Imagen cargada desde la base de datos -->
                 <ImageView
                     android:id="@+id/selected_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="350dp"
+                    android:layout_height="230dp"
                     android:scaleType="centerCrop"
                     android:background="@drawable/editex"
                     android:contentDescription="Imagen seleccionada" />
@@ -285,7 +285,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_margin="8dp"
+                    android:layout_margin="3dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/add_imagen"
                     android:contentDescription="Editar imagen"

@@ -2,21 +2,30 @@ package com.example.atlasestimates;
 
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.Manifest;
+
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,6 +50,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,6 +71,11 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private EditText editextImagen;
     private String imagePath;
     private AppDatabase db;
+    private ImageButton imageButtonPDF;
+    private ImageView imageViewPDFGreen;
+    private static final int PERMISSION_REQUEST_CODE = 100;
+
+    private boolean pdfGenerated = false;
     private CotizacionDao cotizacionDao;
     private Button btnGuardarCotizacion;
     private ClienteDao clienteDao;
@@ -341,23 +356,39 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
     private void configurarImageButton() {
-        ImageButton imageButton = findViewById(R.id.conpartir_descargarPDF);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        // Inicializar los botones
+        imageButtonPDF = findViewById(R.id.conpartir_descargarPDF); // Botón rojo
+        imageViewPDFGreen = findViewById(R.id.icon2); // Botón verde (inicialmente oculto)
+
+        // Ocultar el botón verde al inicio
+        imageViewPDFGreen.setVisibility(View.GONE);
+
+        // Configurar el botón rojo (generar PDF)
+        imageButtonPDF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Generar el PDF
+                createPDFWithIText();
+
+                // Cambiar visibilidad de los botones
+                imageButtonPDF.setVisibility(View.GONE); // Ocultar el rojo
+                imageViewPDFGreen.setVisibility(View.VISIBLE); // Mostrar el verde
+            }
+        });
+
+        // Configurar el botón verde (mostrar PopupMenu)
+        imageViewPDFGreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mostrar el PopupMenu
                 PopupMenu popupMenu = new PopupMenu(Activity_mostrar_cotizacon.this, v);
                 popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(android.view.MenuItem item) {
                         if (item.getItemId() == R.id.action_download) {
-                            createPDFWithIText();
+                            downloadPDF();
                             return true;
                         } else if (item.getItemId() == R.id.action_share) {
                             sharePDF();
@@ -370,6 +401,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 
@@ -492,7 +525,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                 }).start();
-                                
+
                             }
                         });
                     } catch (Exception e) {
@@ -740,10 +773,17 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
 
             document.close();
+
+            // Si el PDF se genera con éxito
             Toast.makeText(this, "PDF generado con éxito", Toast.LENGTH_SHORT).show();
+            pdfGenerated = true;
+
+            // Cambiar la visibilidad del ícono verde
+            imageViewPDFGreen.setVisibility(View.VISIBLE);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            pdfGenerated = false;
         }
     }
 
@@ -784,20 +824,100 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Compartir PDF"));
     }
 
-
-    // Método para guardar la imagen en el almacenamiento externo
     private String saveImage(Bitmap bitmap) {
-        String imagePath = getExternalFilesDir(null).getAbsolutePath() + "/imagen.png";
-        File imageFile = new File(imagePath);
-        try (FileOutputStream out = new FileOutputStream(imageFile)) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            return imageFile.getAbsolutePath();
+        // Genera un nombre de archivo único utilizando una marca de tiempo
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + ".png";
+
+        // Obtiene el directorio de almacenamiento externo para archivos de la aplicación
+        File storageDir = getExternalFilesDir(null);
+
+        try {
+            // Crea un archivo con el nombre único
+            File imageFile = File.createTempFile(
+                    imageFileName,  // prefijo
+                    ".png",         // sufijo
+                    storageDir      // directorio
+            );
+
+            // Guarda la imagen en el archivo
+            try (FileOutputStream out = new FileOutputStream(imageFile)) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                return imageFile.getAbsolutePath();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al guardar imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             return null;
         }
     }
+
+    private void downloadPDF() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Para Android 11 o superior
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent); // Esto lleva al usuario a la configuración para otorgar el permiso.
+            } else {
+                // Ya tiene permisos, continuar con la descarga
+                realizarDescargaPDF();
+            }
+        } else {
+            // Para versiones anteriores a Android 11
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Solicitar permisos para Android 6 a 10
+                requestPermissions(
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_CODE
+                );
+            } else {
+                // Ya tiene permisos, continuar con la descarga
+                realizarDescargaPDF();
+            }
+        }
+    }
+
+
+    private void realizarDescargaPDF() {
+        try {
+            File file = new File(getExternalFilesDir(null) + "/Cotización_Atlas.pdf");
+
+            // Para versiones más nuevas de Android
+            File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File destinationFile = new File(downloadDir, "Cotizacion_Atlas.pdf");
+
+            // Copiar el archivo
+            FileInputStream in = new FileInputStream(file);
+            FileOutputStream out = new FileOutputStream(destinationFile);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+
+            in.close();
+            out.close();
+
+            // Escanear el archivo para que aparezca en las descargas
+            MediaScannerConnection.scanFile(
+                    this,
+                    new String[]{destinationFile.getAbsolutePath()},
+                    null,
+                    null
+            );
+
+            Toast.makeText(this, "PDF descargado en Descargas", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al descargar PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
     private byte[] inputStreamToByteArray(InputStream is) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
@@ -808,4 +928,17 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         return buffer.toByteArray();
     }
 
+    // Manejar el resultado de la solicitud de permisos
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, realizar la descarga
+                realizarDescargaPDF();
+            } else {
+                Toast.makeText(this, "Permiso de almacenamiento denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

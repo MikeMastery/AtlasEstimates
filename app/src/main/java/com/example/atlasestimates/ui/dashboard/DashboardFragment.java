@@ -1,5 +1,6 @@
 package com.example.atlasestimates.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,8 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private List<Item> itemsList; // Lista que contendrá servicios o productos
+    private ItemAdapter adapter;
+    private List<Item> itemsList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,34 +52,7 @@ public class DashboardFragment extends Fragment {
         });
 
         // Configurar el adaptador
-        adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.tarjetas, parent, false);
-                return new RecyclerView.ViewHolder(view) {};
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                ImageView imageView = holder.itemView.findViewById(R.id.ivProductImage);
-                TextView nameView = holder.itemView.findViewById(R.id.tvProductName);
-                TextView descriptionView = holder.itemView.findViewById(R.id.tvProductDescription);
-
-                Item item = itemsList.get(position);
-
-                imageView.setImageResource(item.getImageResource());
-                nameView.setText(item.getName());
-                descriptionView.setText(item.getDescription());
-            }
-
-            @Override
-            public int getItemCount() {
-                return itemsList.size();
-            }
-        };
-
+        adapter = new ItemAdapter(itemsList);
         recyclerView.setAdapter(adapter);
 
         // Cargar productos por defecto
@@ -92,12 +66,12 @@ public class DashboardFragment extends Fragment {
         itemsList.clear();
 
         // Añadir servicios estáticos
-        itemsList.add(new Item("Ingenieria", "Descripción del servicio de instalación", R.drawable.ingenieria));
-        itemsList.add(new Item("Arquitectura", "Descripción del servicio de consultoría técnica", R.drawable.arquitectura));
-        itemsList.add(new Item("Topografia", "Descripción del servicio de mantenimiento", R.drawable.topografia));
-        itemsList.add(new Item("Maquinaria Pesada", "Descripción del servicio de asesoría legal", R.drawable.maquinaria));
-        itemsList.add(new Item("Abastecimiento de agua", "Descripción del servicio de asesoría legal", R.drawable.abasagua));
-        itemsList.add(new Item("Estructuras Metalicas", "Descripción del servicio de asesoría legal", R.drawable.estructuras));
+        itemsList.add(new Item("Ingenieria", "Instalación de sistemas y estructuras en proyectos técnicos.", R.drawable.ingenieria));
+        itemsList.add(new Item("Arquitectura", "Consultoría técnica en diseño y planificación arquitectónica.", R.drawable.arquitectura));
+        itemsList.add(new Item("Topografia", "Servicios de medición y análisis del terreno", R.drawable.topografia));
+        itemsList.add(new Item("Maquinaria Pesada", "Asesoría legal en el uso de maquinaria pesada.", R.drawable.maquinaria));
+        itemsList.add(new Item("Abastecimiento de agua", "Consultoría en gestión de sistemas de agua potable.", R.drawable.abasagua));
+        itemsList.add(new Item("Estructuras Metalicas", "Asesoría legal sobre diseño y construcción de estructuras metálicas.", R.drawable.estructuras));
     }
 
     // Nuevo método para cargar los productos estáticos
@@ -105,13 +79,11 @@ public class DashboardFragment extends Fragment {
         itemsList.clear();
 
         // Añadir productos estáticos
-        itemsList.add(new Item("Cercos Prefabricados", "Permite la visión desde afuera o desde adentro de una propiedad. Los muros prefabricados cuentan con variedad de placas de concreto con diferentes estéticos diseños, este producto aísla totalmente la propiedad, sin permitir la visibilidad.", R.drawable.cercos));
-        itemsList.add(new Item("Block Concreto", "Los Bloques de concreto son elementos modulares premoldeados diseñados para la albañilería confinada y armada", R.drawable.block));
-        itemsList.add(new Item("Murete de Concreto", "Los Bloques de concreto son elementos modulares premoldeados diseñados para la albañilería confinada y armada", R.drawable.murete));
-        itemsList.add(new Item("Poste de Concreto", "Son productos prefabricados de concreto, formados por la mezcla de cemento, agregado grueso, fino, agua y aditivos dentro de esta mezcla se ha colocado una estructura de acero que le da la resistencia a la flexión del poste", R.drawable.poste));
+        itemsList.add(new Item("Cercos Prefabricados", "Muros de concreto con diseños estéticos para mayor privacidad.", R.drawable.cercos));
+        itemsList.add(new Item("Block Concreto", "Bloques modulares para albañilería confinada y armada.", R.drawable.block));
+        itemsList.add(new Item("Murete de Concreto", "Elementos modulares de concreto para albañilería estructural.", R.drawable.murete));
+        itemsList.add(new Item("Poste de Concreto", "Postes prefabricados con acero para alta resistencia a la flexión.", R.drawable.poste));
         // Puedes añadir más productos según necesites
-
-
     }
 
     @Override
@@ -120,8 +92,61 @@ public class DashboardFragment extends Fragment {
         binding = null;
     }
 
+    // Adaptador para RecyclerView
+    public static class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+
+        private List<Item> itemsList;
+
+        public ItemAdapter(List<Item> itemsList) {
+            this.itemsList = itemsList;
+        }
+
+        @NonNull
+        @Override
+        public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.tarjetas, parent, false);
+            return new ItemViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+            Item item = itemsList.get(position);
+            holder.imageView.setImageResource(item.getImageResource());
+            holder.nameView.setText(item.getName());
+            holder.descriptionView.setText(item.getDescription());
+
+            // Manejar el clic en la tarjeta
+            holder.itemView.setOnClickListener(v -> {
+                // Enviar el ítem a la actividad de detalles
+                Intent intent = new Intent(v.getContext(), activity_product_detail.class);
+                intent.putExtra("selectedItem", item); // Pasar el item seleccionado
+                v.getContext().startActivity(intent);
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return itemsList.size();
+        }
+
+        // ViewHolder para el RecyclerView
+        public static class ItemViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView nameView;
+            TextView descriptionView;
+
+            public ItemViewHolder(View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.ivProductImage);
+                nameView = itemView.findViewById(R.id.tvProductName);
+                descriptionView = itemView.findViewById(R.id.tvProductDescription);
+            }
+        }
+    }
+
     // Clase que representa los items (productos o servicios)
-    public static class Item {
+    public static class Item implements java.io.Serializable {
         private String name;
         private String description;
         private int imageResource;

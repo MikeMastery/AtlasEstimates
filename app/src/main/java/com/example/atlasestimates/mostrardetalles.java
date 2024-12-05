@@ -1,11 +1,15 @@
 package com.example.atlasestimates;
 
 import android.graphics.Insets;
+import android.net.Uri;
 import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
 import com.example.atlasestimates.Cotizacion;  // Asegúrate de que la importación esté correcta
 
 import android.text.Layout;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +18,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.File;
 import java.util.List;
 
 public class mostrardetalles extends AppCompatActivity {
 
     private CotizacionViewModel viewModel;
+    private ImageView imagenCotizacion;
     private LinearLayout LayoutMedida, LayoutMaquina, LayoutRazon_Social, LayoutSubtotal, LayoutIGV, LayoutTotal1, LayoutTotal2,
              LayoutSupervision, LayoutPrecio;
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
@@ -32,6 +38,7 @@ public class mostrardetalles extends AppCompatActivity {
 
         // Inicializar los TextViews
         tvNombreCliente = findViewById(R.id.nombre_cliente);
+        imagenCotizacion = findViewById(R.id.imagen_cotizacion);
         tvUbicacion = findViewById(R.id.tv_mostrar_ubi);
         tvTitulo = findViewById(R.id.tvtitulo);
         tvRuc = findViewById(R.id.MostrarRuc);
@@ -103,6 +110,17 @@ public class mostrardetalles extends AppCompatActivity {
                     tvUbicacion.setText(cotizacion.getUbicacion());
                     tvTotal.setText("S/ " + cotizacion.getTotal());
                     ED_Total2.setText(cotizacion.getTotal_Servicio());
+
+                    // Cargar la imagen desde la URI
+                    String imageUriString = cotizacion.getImagen(); // La URI que obtienes de la base de datos
+                    if (imageUriString != null && !imageUriString.isEmpty()) {
+                        Uri imageUri = Uri.parse(imageUriString);
+
+                        Glide.with(mostrardetalles.this)
+                                .load(new File(imageUriString)) // Si es una ruta absoluta
+                                .into(imagenCotizacion);
+
+                    }
                 }
             }
         });
