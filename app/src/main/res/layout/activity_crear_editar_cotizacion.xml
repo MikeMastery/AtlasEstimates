@@ -275,7 +275,7 @@
                     android:id="@+id/selected_image"
                     android:layout_width="350dp"
                     android:layout_height="230dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:background="@drawable/editex"
                     android:contentDescription="Imagen seleccionada" />
 
@@ -285,7 +285,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_margin="3dp"
+                    android:layout_margin="12dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/add_imagen"
                     android:contentDescription="Editar imagen"
@@ -400,7 +400,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Costos:"
+                    android:text="Forma de pago:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -410,7 +410,45 @@
                 <EditText
                     android:id="@+id/ed_comentario_costos"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/editex"
+                    android:hint="Ingrese una comentario"
+                    android:padding="16dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:textSize="17sp"
+                    android:textColorHint="?attr/colorOnPrimary2"
+                    android:minLines="3"
+                    android:maxLines="6"
+                    android:scrollHorizontally="false"
+                    android:overScrollMode="always"
+                    android:scrollbars="vertical"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_plazo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="32dp"
+                android:layout_marginHorizontal="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plazo de entrega:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/ed_plazo"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
                     android:background="@drawable/editex"
                     android:hint="Ingrese una comentario"
                     android:padding="16dp"

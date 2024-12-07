@@ -46,7 +46,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
     private table_cotizacion cotizacion;
     private table_categoria categoria;
     private table_clientes clientes;// Añádelo como variable global.
-    private EditText Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni, Comentario_Costos;
+    private EditText Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni, Comentario_Costos, Ed_plazo;
 
 
     @Override
@@ -67,6 +67,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         Ed_cliente = findViewById(R.id.ed_cliente);
         Ed_dni = findViewById(R.id.ed_dni);
         Comentario_Costos = findViewById(R.id.ed_comentario_costos);
+        Ed_plazo = findViewById(R.id.ed_plazo);
 
 
 
@@ -100,6 +101,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                     String nuevaFecha = Ed_fecha.getText().toString().trim();
                     String nuevaUbicacion = Ed_ubicacion.getText().toString().trim();
                     String nuevaDescripcion = Ed_descripcion.getText().toString().trim();
+                    String nuevoPlazo = Ed_plazo.getText().toString().trim();
 
                     // Obtener la selección actual del spinner
                     String tipoIdentificacion = spnTipoIdentificacion.getSelectedItem().toString();
@@ -110,6 +112,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                         cotizacion.setFecha(nuevaFecha);
                         cotizacion.setUbicacion(nuevaUbicacion);
                         cotizacion.setDescripcion(nuevaDescripcion);
+                        cotizacion.setComentario_plazo(nuevoPlazo);
 
                         // Actualizar la imagen si se ha seleccionado una nueva
                         // Actualizar la imagen si se ha seleccionado una nueva
@@ -228,6 +231,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                     Ed_fecha.setText(cotizacion.getFecha());
                     Ed_ubicacion.setText(cotizacion.getUbicacion());
                     Ed_descripcion.setText(cotizacion.getDescripcion());
+                    Ed_plazo.setText(cotizacion.getComentario_plazo());
 
                 }
             }

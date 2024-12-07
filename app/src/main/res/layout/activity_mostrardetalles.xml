@@ -355,8 +355,7 @@
                         android:id="@+id/imagen_cotizacion"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:scaleType="centerCrop"
-
+                        android:scaleType="fitCenter"
                         android:layout_marginBottom="16dp"/>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -378,6 +377,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -393,17 +393,18 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/comentario_plazo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="false"
                             android:hint="Plazo de entrega"
-                            android:minLines="3"
-                            android:maxLines="6"
                             android:inputType="textMultiLine"
-                            android:focusable="false"/>
+                            android:maxLines="6"
+                            android:minLines="3" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 

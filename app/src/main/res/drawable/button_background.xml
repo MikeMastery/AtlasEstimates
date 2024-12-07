@@ -2,14 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="#94D0D0D0"/> <!-- Color de fondo cuando se presiona -->
-            <corners android:radius="50dp"/> <!-- Radio de los bordes -->
+            <solid android:color="#ABD0D0D0"/> <!-- Color de fondo cuando se presiona -->
+            <corners android:radius="10dp"/> <!-- Radio de los bordes -->
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#37FDFBFB"/> <!-- Color de fondo normal -->
-            <corners android:radius="50dp"/> <!-- Radio de los bordes -->
+            <solid android:color="#DAE0DFDF"/> <!-- Color de fondo normal -->
+            <corners android:radius="10dp"/> <!-- Radio de los bordes -->
         </shape>
     </item>
 </selector>
