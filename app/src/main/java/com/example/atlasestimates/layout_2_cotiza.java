@@ -41,7 +41,7 @@ public class layout_2_cotiza extends AppCompatActivity {
             tvcantidadAgua, tvPrecioAgua, tvcalcularPrecio, textviewObra, editextObra,
             tv_estructurametalica;
     private EditText edtotalPagar, ettotalTopogrgafia, etPrecioAgua, etcantidadAgua, edcalcularDia, edcalcularPrecio, editextestructura,
-            editext_maquinapesada;
+            editext_maquinapesada, Ed_plazo;
     private Button btnGuardar;
     private FrameLayout frame_TipoMaquina, frame_CantidadAgua;
     private ImageButton btnAtras;
@@ -148,8 +148,7 @@ public class layout_2_cotiza extends AppCompatActivity {
         editext_maquinapesada = findViewById(R.id.editextTipoMaquina);
         tvseleccionarTipoMaquina = findViewById(R.id.tvseleccionar_maquina);
         frame_TipoMaquina = findViewById(R.id.framelayoutTipoMaquina);
-
-
+        Ed_plazo = findViewById(R.id.ed_plazo);
 
 
     }
@@ -831,6 +830,7 @@ public class layout_2_cotiza extends AppCompatActivity {
         cotizacion.setCantidadMaquinaGlobal(ed_cantidadMaquina.getText().toString());
         cotizacion.setCostoMaquinaGlobal(ed_costoGlobal_Maquinaria.getText().toString());
         cotizacion.setMontoMovilizacion(edMontoMaquinaria.getText().toString());
+        cotizacion.setPlazoEntrega(Ed_plazo.getText().toString());
 
 
 

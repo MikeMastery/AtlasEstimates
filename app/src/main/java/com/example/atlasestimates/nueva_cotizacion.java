@@ -33,6 +33,7 @@ public class nueva_cotizacion extends AppCompatActivity {
     private ImageButton addImageButton;
     private TextView tv_dni, tv_ruc, tv_razonSocial;
     private Spinner spinnerIdentificacion;
+    private TextView tv_dniError, tv_rucError;
 
     private Bitmap selectedImageBitmap;
     private Uri imageUri;
@@ -54,6 +55,8 @@ public class nueva_cotizacion extends AppCompatActivity {
         etIdentificacion = findViewById(R.id.ed_identificacion);
         tv_dni = findViewById(R.id.textviewDNI);
         tv_ruc = findViewById(R.id.textviewRUC);
+        tv_dniError = findViewById(R.id.textviewDNIError); // Error text for DNI
+        tv_rucError = findViewById(R.id.textviewRUCError); // Error text for RUC
         tv_razonSocial = findViewById(R.id.textviewRAZON);
         spinnerIdentificacion = findViewById(R.id.spinner_identificacion);
         et_Ubicacion = findViewById(R.id.ubicacion);
@@ -72,6 +75,12 @@ public class nueva_cotizacion extends AppCompatActivity {
                 // Verifica el ítem seleccionado en el Spinner
                 String selectedOption = parentView.getItemAtPosition(position).toString();
                 etIdentificacion.setText(selectedOption);
+
+
+                // Ocultar campos de error cuando el usuario cambia de opción
+                tv_dniError.setVisibility(View.GONE);
+                tv_rucError.setVisibility(View.GONE);
+
 
                 // Ocultar todos los campos primero
                 tv_dni.setVisibility(View.GONE);
@@ -99,16 +108,50 @@ public class nueva_cotizacion extends AppCompatActivity {
             }
         });
 
-
-
+        // Botón para validar y continuar
         ImageButton imageButton = findViewById(R.id.sisuiente_coti);
         imageButton.setOnClickListener(v -> {
-            guardarDatosPrimeraParte();
-            Intent intent = new Intent(this, layout_2_cotiza.class);
-            startActivity(intent);
+            if (validarCampos()) {
+                guardarDatosPrimeraParte();
+                Intent intent = new Intent(this, layout_2_cotiza.class);
+                startActivity(intent);
+            }
         });
 
+
         addImageButton.setOnClickListener(v -> openGallery());
+    }
+
+    // Método para validar los campos DNI y RUC
+    private boolean validarCampos() {
+        String dni = et_camposDNI.getText().toString();
+        String ruc = et_camposRUC.getText().toString();
+
+        boolean isValid = true;
+
+        // Si la opción seleccionada es DNI, valida el campo DNI
+        if (etIdentificacion.getText().toString().equals("DNI")) {
+            if (!dni.isEmpty() && dni.length() != 8) {
+                tv_dniError.setText("El DNI debe tener 8 dígitos.");
+                tv_dniError.setVisibility(View.VISIBLE);
+                isValid = false;
+            } else {
+                tv_dniError.setVisibility(View.GONE);
+            }
+        }
+
+        // Si la opción seleccionada es RUC, valida el campo RUC
+        if (etIdentificacion.getText().toString().equals("RUC")) {
+            if (!ruc.isEmpty() && ruc.length() != 11) {
+                tv_rucError.setText("El RUC debe tener 11 dígitos.");
+                tv_rucError.setVisibility(View.VISIBLE);
+                isValid = false;
+            } else {
+                tv_rucError.setVisibility(View.GONE);
+            }
+        }
+
+        return isValid;
     }
 
     private void guardarDatosPrimeraParte() {

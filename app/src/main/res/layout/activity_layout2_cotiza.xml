@@ -137,7 +137,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="Comentarios:"
+                android:text="Forma de pago:"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -150,7 +150,7 @@
             <EditText
                 android:id="@+id/ed_comentarios"
                 android:layout_width="300dp"
-                android:layout_height="120dp"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:background="@drawable/editex"
                 android:hint="Comentario de costos"
@@ -168,6 +168,44 @@
                 android:scrollbars="vertical">
 
             </EditText>
+
+            <TextView
+                android:id="@+id/tv_plazo"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Plazo de entrega:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                >
+
+            </TextView>
+
+
+            <EditText
+                android:id="@+id/ed_plazo"
+                android:layout_width="300dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:hint="Plazo"
+                android:padding="16dp"
+                android:layout_marginTop="-1dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:textSize="17sp"
+                android:textColorHint="?attr/colorOnPrimary2"
+                android:minLines="3"
+                android:maxLines="6"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:scrollbars="vertical">
+
+            </EditText>
+
 
             <TextView
                 android:id="@+id/tv_ml"

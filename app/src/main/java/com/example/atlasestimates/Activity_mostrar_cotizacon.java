@@ -70,7 +70,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
             textviewRazoncial, textviewMostrarRazon, tvmostrarvalor, textmostrarsupervision, textmostrarsupervisionSINO,
             totaldeIngenieriayArquitectura, textviewTotalTopografia, Mostrar_Maquina, ed_comentario;
-    private EditText editextImagen;
+    private EditText editextImagen, Ed_plazoEntrega;
     private String imagePath;
     private AppDatabase db;
     private ImageButton imageButtonPDF;
@@ -159,6 +159,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         Mostrar_Maquina = findViewById(R.id.mostrar_maquina);
         ed_comentario = findViewById(R.id.cajaComentario);
         layoutMaquina = findViewById(R.id.tv_maquina);
+        Ed_plazoEntrega = findViewById(R.id.plazoentrega);
     }
 
     private void mostrarDatosTemporales() {
@@ -187,6 +188,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textviewDescripcion.setText(cotizacion.getDescripcion());
             textviewCategoria.setText(cotizacion.getCategoria());
             ed_comentario.setText(cotizacion.getcoementarioTopografia());
+            Ed_plazoEntrega.setText(cotizacion.getPlazoEntrega());
 
             // Ajustes condicionales basados en la subcategoría
             String subcategoria = cotizacion.getProducto(); // Usar el campo adecuado para la subcategoría
@@ -424,6 +426,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             nuevaCotizacion.setDescripcion(textviewDescripcion.getText().toString());
             nuevaCotizacion.setUbicacion(textview_mostrarUbicacion.getText().toString());
             nuevaCotizacion.setTotal_Servicio(mostrartotalInAR.getText().toString());
+            nuevaCotizacion.setComentario_plazo(Ed_plazoEntrega.getText().toString());
 
             // Añadir la ruta del PDF a la cotización
             nuevaCotizacion.setPdfPath(pdfPath);
@@ -620,33 +623,47 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             lineSeparator.setHorizontalAlignment(HorizontalAlignment.CENTER); // Centrar la línea
             document.add(lineSeparator);
 
-
             // Obtén los datos de los TextViews
-            String tipoidentificacion = mostrarTipoIden.getText().toString();
             String cliente = textviewCliente.getText().toString();
             String fecha = textviewFecha.getText().toString();
             String identificacion = textviewIdentificacion.getText().toString();
             String ubicacion = textview_mostrarUbicacion.getText().toString();
 
-            // Verifica si el campo de razón social está vacío y asigna "NO" si es necesario
+// Verifica si el campo de razón social está vacío y asigna "NO" si es necesario
             String razonSocial = textviewMostrarRazon.getText().toString().isEmpty() ? "No" : textviewMostrarRazon.getText().toString();
             String tipoIdentRazonSocial = textviewRazoncial.getText().toString();
 
-            // Crear la cadena de datos del cliente, incluyendo razón social con "NO" si está vacía
-            String datosCliente = "Cliente: " + cliente + "\n" +
-                    "Fecha: " + fecha + "\n" +
-                    tipoidentificacion + ": " + identificacion + "\n" +
-                    tipoIdentRazonSocial + ": " + razonSocial + "\n" +
-                    "Ubicación: " + ubicacion;
+// Inicializar la variable para la cadena de datos del cliente
+            String datosCliente = "";
 
-            // Crear el Paragraph con los datos
+// Validación de la longitud del número de identificación
+            if (identificacion.length() == 8) {
+                // Si tiene 8 dígitos, es un DNI: Mostrar cliente y ocultar razón social
+                if (!cliente.isEmpty()) {
+                    datosCliente = "Cliente: " + cliente + "\n";
+                }
+                datosCliente += "Fecha: " + fecha + "\n" +
+                        "DNI: " + identificacion + "\n" +
+                        "Ubicación: " + ubicacion;
+            } else if (identificacion.length() == 11) {
+                // Si tiene 11 dígitos, es un RUC: Mostrar razón social después del RUC
+                if (!razonSocial.isEmpty() && !"No".equals(razonSocial)) {
+                    datosCliente = "RUC: " + identificacion + "\n" +
+                            tipoIdentRazonSocial + ": " + razonSocial + "\n";
+                }
+                datosCliente += "Fecha: " + fecha + "\n" +
+                        "Ubicación: " + ubicacion;
+            }
+
+// Crear el Paragraph con los datos del cliente o razón social
             Paragraph rightAlignedData = new Paragraph(datosCliente)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
                     .setMarginTop(15);
 
-            // Añadir el Paragraph al documento
+// Añadir el Paragraph al documento
             document.add(rightAlignedData);
+
 
 
             //Añadir un breve texto de agradecimiento
@@ -749,17 +766,54 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             document.add(table);
 
-            // Obtener el texto ingresado por el usuario desde el campo EditText
-            String textoUsuario = ed_comentario.getText().toString();
+            // Crear el texto "Respecto a la propuesta:"
+            String propuestaTexto = "Respecto a la propuesta:";
+            Paragraph propuesta = new Paragraph(propuestaTexto)
+                    .setBold()               // Negrita
+                    .setFontSize(11)
+                    .setMarginLeft(28)// Tamaño de letra más pequeño
+                    .setTextAlignment(TextAlignment.LEFT)  // Alineado a la izquierda
+                    .setMarginTop(10);       // Ajusta este valor para bajar más el texto
+            document.add(propuesta);
 
-// Crear un párrafo con el texto dinámico del usuario
-            Paragraph textCostos = new Paragraph(textoUsuario)
+            // Datos estáticos
+            String formaPagoStatic = "Forma de pago: ";
+            String plazoEntregaStatic = "Plazo de entrega: ";
+
+// Obtener el texto ingresado por el usuario desde el campo EditText
+            String textoUsuario = ed_comentario.getText().toString();
+            String plazo = Ed_plazoEntrega.getText().toString();
+
+// Si el campo de comentario del usuario está vacío, se usa el texto estático por defecto
+            String anticipo = textoUsuario.isEmpty() ? "Anticipo 50%, saldo al culminar" : textoUsuario; // Este valor será dinámico dependiendo del usuario
+
+// Datos dinámicos
+            String plazoEntrega =  plazo.isEmpty() ? "3 días hábiles" : plazo; // Este valor también es dinámico
+
+// Crear la cadena para "Forma de pago" y "Plazo de entrega"
+            String formaPagoText = formaPagoStatic + anticipo + "\n";
+            String plazoEntregaText = plazoEntregaStatic + plazoEntrega + "\n";
+
+// Crear el Paragraph con los datos estáticos y dinámicos
+            Paragraph formaPagoParagraph = new Paragraph(formaPagoText)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(20); // Ajusta este valor según sea necesario
+                    .setFontSize(10)
+                    .setMarginTop(1); // Reducido el espacio entre párrafos
 
-// Agregar el párrafo al documento PDF
-            document.add(textCostos);
+// Añadir el Paragraph de "Forma de pago"
+            document.add(formaPagoParagraph);
+
+// Crear el Paragraph para "Plazo de entrega"
+            Paragraph plazoEntregaParagraph = new Paragraph(plazoEntregaText)
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setFontSize(10)
+                    .setMarginTop(-3); // Reducido el espacio entre párrafos
+
+// Añadir el Paragraph de "Plazo de entrega"
+            document.add(plazoEntregaParagraph);
+
 
 
 // Crear y añadir la imagen del pie de página (footer)

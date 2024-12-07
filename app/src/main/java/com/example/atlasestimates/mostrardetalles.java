@@ -41,7 +41,7 @@ public class mostrardetalles extends AppCompatActivity {
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
             tvRequerimiento, tvSubTotal, tvIgv, tvTotal, textviewMetros, textviewprecio, mostrarMedida,
             Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion,
-             Tv_comentario;
+             Tv_comentario, Tv_plazo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class mostrardetalles extends AppCompatActivity {
         LayoutPrecio = findViewById(R.id.layoutprecio);
         Tv_Supervisiion = findViewById(R.id.supervision);
         Tv_comentario = findViewById(R.id.comentario_costos);
+        Tv_plazo = findViewById(R.id.comentario_plazo);
 
 
         // Obtener el ID de la cotización desde el Intent
@@ -123,6 +124,7 @@ public class mostrardetalles extends AppCompatActivity {
                     tvUbicacion.setText(cotizacion.getUbicacion());
                     tvTotal.setText("S/ " + cotizacion.getTotal());
                     ED_Total2.setText(cotizacion.getTotal_Servicio());
+                    Tv_plazo.setText(cotizacion.getComentario_plazo());
 
                     // Cargar la imagen desde la URI
                     String imageUriString = cotizacion.getImagen(); // La URI que obtienes de la base de datos

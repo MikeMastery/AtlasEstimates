@@ -465,7 +465,7 @@
                     android:id="@+id/mostrarComentario"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Comentarios de Costos:"
+                    android:text="Forma de pago:"
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
@@ -475,7 +475,48 @@
             <EditText
                 android:id="@+id/cajaComentario"
                 android:layout_width="300dp"
-                android:layout_height="120dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editex"
+                android:padding="16dp"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="#5F5F5F"
+                android:layout_marginTop="5dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:focusable="false"
+                android:clickable="false"
+                android:minLines="3"
+                android:maxLines="6"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:scrollbars="vertical">
+
+            </EditText>
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Plazo de entrega:"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/plazoentrega"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:background="@drawable/editex"
                 android:padding="16dp"

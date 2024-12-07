@@ -42,6 +42,7 @@ public class Cotizacion implements Serializable {
     private String CostoHora;
     private String CantidadMaquinaGlobal;
     private String CostoTotalGlobalMaquina;
+    private String PlazoEntrega;
 
 
 
@@ -351,6 +352,13 @@ public class Cotizacion implements Serializable {
         return  CostoTotalGlobalMaquina;
     }
 
+    public void setPlazoEntrega(String obtenerplazo){
+        this.PlazoEntrega = obtenerplazo;
+    }
+
+    public String getPlazoEntrega(){
+        return  PlazoEntrega;
+    }
 
 
 

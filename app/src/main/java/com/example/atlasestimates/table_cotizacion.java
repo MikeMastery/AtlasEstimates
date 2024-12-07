@@ -28,6 +28,7 @@ public class table_cotizacion {
     private String ubicacion;
     private String pdfPath;
     private String Total_Servicio;
+    private String comentario_plazo;
 
 
 
@@ -113,6 +114,15 @@ public class table_cotizacion {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+
+    public String getComentario_plazo() {
+        return comentario_plazo;
+    }
+
+    public void setComentario_plazo(String plazo) {
+        this.comentario_plazo = plazo;
     }
 
 }
