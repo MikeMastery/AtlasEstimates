@@ -9,13 +9,7 @@
     tools:context=".mostrardetalles">
 
 
-    <!-- Vista para mostrar el PDF en una ventana emergente -->
-    <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdfViewDialog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"/>
+
 
 
     <androidx.core.widget.NestedScrollView
