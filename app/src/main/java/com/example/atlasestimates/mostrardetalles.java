@@ -1,17 +1,22 @@
 package com.example.atlasestimates;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Insets;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.example.atlasestimates.Cotizacion;  // Asegúrate de que la importación esté correcta
+import com.google.android.material.button.MaterialButton;
 
 import android.text.Layout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -121,12 +126,49 @@ public class mostrardetalles extends AppCompatActivity {
                         Glide.with(mostrardetalles.this)
                                 .load(new File(imageUriString)) // Si es una ruta absoluta
                                 .into(imagenCotizacion);
+                    }
 
+                    // Recuperar la ruta del PDF desde la base de datos
+                    String pdfPath = cotizacion.getPdfPath(); // Supongamos que tienes un campo pdfPath
+                    if (pdfPath != null && !pdfPath.isEmpty()) {
+                        // Guardamos la ruta del PDF para usarla después
+                        setupVerPdfButton(pdfPath);
                     }
                 }
             }
         });
     }
+
+    private void setupVerPdfButton(final String pdfPath) {
+        MaterialButton verPDFButton = findViewById(R.id.verpdf);
+        verPDFButton.setVisibility(View.VISIBLE); // Mostrar el botón si hay PDF
+
+        verPDFButton.setOnClickListener(v -> {
+            File pdfFile = new File(pdfPath);
+            if (pdfFile.exists()) {
+                // Crear el Dialog
+                Dialog pdfDialog = new Dialog(mostrardetalles.this);
+                pdfDialog.setContentView(R.layout.dialog_pdf_view);
+                pdfDialog.setCancelable(true); // Permitir que el usuario cierre el dialog tocando fuera de él
+
+                // Configurar el PDFView dentro del Dialog
+                PDFView pdfView = pdfDialog.findViewById(R.id.pdfViewDialog);
+                pdfView.fromFile(pdfFile) // Cargar el PDF desde el archivo
+                        .enableSwipe(true) // Permitir la navegación entre páginas
+                        .swipeHorizontal(false) // Si quieres desplazamiento horizontal
+                        .enableDoubletap(true) // Permitir hacer zoom
+                        .load();
+
+                // Mostrar el Dialog
+                pdfDialog.show();
+            } else {
+                Toast.makeText(mostrardetalles.this, "El archivo PDF no existe", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
 
     private void obtenerDetalles(int cotizacionId) {
         // Obtener los detalles de la cotización (sin relación con los ítems)

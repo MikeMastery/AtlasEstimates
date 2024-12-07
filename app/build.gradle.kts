@@ -53,6 +53,7 @@ dependencies {
     implementation("com.itextpdf:itext7-core:7.1.15")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
     implementation(libs.firebase.crashlytics.buildtools)
     annotationProcessor(libs.glide.compiler)
     testImplementation(libs.junit)

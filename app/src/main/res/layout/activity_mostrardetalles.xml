@@ -9,6 +9,15 @@
     tools:context=".mostrardetalles">
 
 
+    <!-- Vista para mostrar el PDF en una ventana emergente -->
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfViewDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -512,6 +521,9 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+
+
+
             <!-- Botones de Acción -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -522,15 +534,19 @@
 
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/conpartir_descargarPDF"
+                    android:id="@+id/verpdf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PDF"
+                    android:text="VER PDF"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:backgroundTint="#D5042C"
                     />
             </LinearLayout>
+
+
         </LinearLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

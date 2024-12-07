@@ -31,5 +31,10 @@ public interface ClienteDao {
     @Update
     void updateCliente(table_clientes clientes);
 
+        @Query("SELECT pd FROM cotizaciones WHERE id = :cotizacionId LIMIT 1")
+        String getPdfPathByCotizacionId(long cotizacionId);
+    }
+
+
 
 }

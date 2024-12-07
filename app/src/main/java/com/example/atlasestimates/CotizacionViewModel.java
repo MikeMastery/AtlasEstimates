@@ -38,6 +38,17 @@ public class CotizacionViewModel extends AndroidViewModel {
         });
     }
 
+    // Método para actualizar los datos del cliente
+    public void actualizarCategoria(table_categoria categoria) {
+        executor.execute(() -> {
+            appDatabase.categoriaDao().updateCategoria(categoria); // Asegúrate de que tengas este DAO
+        });
+    }
+
+
+
+
+
 
 
 

@@ -35,7 +35,7 @@ import java.util.Locale;
 public class CrearEditarCotizacionActivity extends AppCompatActivity {
 
     private Uri selectedImageUri;
-    private String imagePath;
+    private String imagePath = null;
     private CotizacionViewModel viewmodel;
     private Spinner spnTipoIdentificacion;
     private LinearLayout layoutDNI, layoutRUC;
@@ -44,8 +44,9 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
     private ImageButton editImageButton;
     private Button buttonActualizar;
     private table_cotizacion cotizacion;
+    private table_categoria categoria;
     private table_clientes clientes;// Añádelo como variable global.
-    private EditText Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni;
+    private EditText Ed_fecha, Ed_titulo, Ed_ubicacion, Ed_descripcion, Ed_cliente, Ed_dni, Comentario_Costos;
 
 
     @Override
@@ -65,6 +66,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         Ed_descripcion = findViewById(R.id.ed_descripcion);
         Ed_cliente = findViewById(R.id.ed_cliente);
         Ed_dni = findViewById(R.id.ed_dni);
+        Comentario_Costos = findViewById(R.id.ed_comentario_costos);
 
 
 
@@ -78,6 +80,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         obtenerDatosCotizacion(cotizacionID);
         obtenerDatosCliente(cotizacionID);
         cargarImagenDesdeBD(cotizacionID);
+        obtenerCategoria(cotizacionID);
 
         editImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +94,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         buttonActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cotizacion != null && clientes != null) {
+                if (cotizacion != null && clientes != null && categoria != null) {
                     // Actualizar datos de la cotización
                     String nuevoTitulo = Ed_titulo.getText().toString().trim();
                     String nuevaFecha = Ed_fecha.getText().toString().trim();
@@ -109,8 +112,10 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                         cotizacion.setDescripcion(nuevaDescripcion);
 
                         // Actualizar la imagen si se ha seleccionado una nueva
-                        if (selectedImageUri != null) {
-                            cotizacion.setImagen(selectedImageUri.toString());
+                        // Actualizar la imagen si se ha seleccionado una nueva
+                        if (imagePath != null) {
+                            cotizacion.setImagen(imagePath);
+
                         }
                         viewmodel.actualizarCotizacion(cotizacion);
 
@@ -152,7 +157,16 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
 
                             // Actualizar cliente
                             viewmodel.actualizarCliente(clientes);
+
+                            String nuevaCategoria = Comentario_Costos.getText().toString().trim();
+                            if (!nuevaCategoria.isEmpty()) {
+                                // Actualizar datos de la cotización
+                                categoria.setDescripcion_categoria(nuevaCategoria);
+
+                            }
+                                viewmodel.actualizarCategoria(categoria);
                         }
+
 
                         // Mostrar mensaje de éxito
                         Toast.makeText(CrearEditarCotizacionActivity.this,
@@ -279,6 +293,18 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         });
     }
 
+    private void obtenerCategoria(int cotizacionId) {
+        viewmodel.getCategoria(cotizacionId).observe(this, new Observer<table_categoria>() {
+            @Override
+            public void onChanged(table_categoria categoriaResult) {
+                if (categoriaResult != null) { // Verifica categoriaResult, no categoria
+                    categoria = categoriaResult; // Asigna el valor a la variable global
+                    Comentario_Costos.setText(categoria.getDescripcion_categoria()); // Usa el valor correctamente
+                }
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -312,7 +338,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                 // Mostrar imagen en ImageView
                 selectedImage.setImageBitmap(resizedBitmap);
 
-                // Guardar la imagen
+                // Guardar la imagen y obtener la ruta del archivo
                 imagePath = saveImage(resizedBitmap);
             } catch (IOException e) {
                 e.printStackTrace();

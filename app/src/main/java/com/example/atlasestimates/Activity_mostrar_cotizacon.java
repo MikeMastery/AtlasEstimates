@@ -1,6 +1,7 @@
 package com.example.atlasestimates;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
@@ -67,22 +69,23 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
             textviewRazoncial, textviewMostrarRazon, tvmostrarvalor, textmostrarsupervision, textmostrarsupervisionSINO,
-            totaldeIngenieriayArquitectura, textviewTotalTopografia, Mostrar_Maquina, ed_comentario ;
+            totaldeIngenieriayArquitectura, textviewTotalTopografia, Mostrar_Maquina, ed_comentario;
     private EditText editextImagen;
     private String imagePath;
     private AppDatabase db;
     private ImageButton imageButtonPDF;
     private ImageView imageViewPDFGreen;
     private static final int PERMISSION_REQUEST_CODE = 100;
-
+    private boolean isPDFGenerated = false;
     private boolean pdfGenerated = false;
+    private String pdfPath = null;
     private CotizacionDao cotizacionDao;
     private Button btnGuardarCotizacion;
     private ClienteDao clienteDao;
     private DetalleCotizacionDao detalleDao;
     private CategoriaDao categoriaDao;
-    private ItemsDao  itemsDao;
-    private LinearLayout layoutTotal,layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios, layoutMaquina, layoutMetrosUnidadees, layoutprecio, layoutsupervision;
+    private ItemsDao itemsDao;
+    private LinearLayout layoutTotal, layoutIGV, layoutSubTotal, ocultarRazonSocial, ocultarTotalServicios, layoutMaquina, layoutMetrosUnidadees, layoutprecio, layoutsupervision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +169,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             textview_mostrarUbicacion.setText(cotizacion.getUbicacion());
             String sub = cotizacion.getIdentificacion();
 
-            if ("DNI".equals(sub)){
+            if ("DNI".equals(sub)) {
                 mostrarTipoIden.setText("DNI:");
                 textviewIdentificacion.setText(cotizacion.getDni());
                 ocultarRazonSocial.setVisibility(View.GONE);
@@ -175,7 +178,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 textviewIdentificacion.setText(cotizacion.getRuc());
                 textviewMostrarRazon.setText(cotizacion.getRazonsocial());
                 textviewRazoncial.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 return;
             }
 
@@ -192,7 +195,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 // Muestra unidades en lugar de metros
                 mostrarMedida.setText("Unidades:");
                 textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
-                textviewPrecio.setText("S/ " +  cotizacion.getPrecioHora());
+                textviewPrecio.setText("S/ " + cotizacion.getPrecioHora());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
@@ -203,7 +206,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 // Muestra metros en lugar de metros/unidades
                 mostrarMedida.setText("Metros:");
                 textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
-                textviewPrecio.setText("S/ " +  cotizacion.getPrecio());
+                textviewPrecio.setText("S/ " + cotizacion.getPrecio());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
@@ -214,7 +217,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     "Mezcladora".equals(subcategoria) || "Vibrador Concreto".equals(subcategoria)) {
                 mostrarMedida.setText("Dias:");
                 textviewUnidadMedida.setText(cotizacion.getEquipoMenor());
-                textviewPrecio.setText("S/ " +  cotizacion.getPrecioEquiposMenores());
+                textviewPrecio.setText("S/ " + cotizacion.getPrecioEquiposMenores());
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
@@ -234,7 +237,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutMaquina.setVisibility(View.GONE);
 
 
-            }else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
+            } else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
                 mostrarMedida.setText("Tipo de Medida:");
                 textviewUnidadMedida.setText(cotizacion.getMedida());
                 textviewPrecio.setText(cotizacion.getDesarrolloProyecto());
@@ -247,7 +250,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutSubTotal.setVisibility(View.GONE);
                 layoutMaquina.setVisibility(View.GONE);
 
-            }else if ("Unidad".equals(subcategoria) || "Global".equals(subcategoria)) {
+            } else if ("Unidad".equals(subcategoria) || "Global".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
                 mostrartotalInAR.setText("S/ " + cotizacion.getTotalTopogrgafia());
                 layoutMetrosUnidadees.setVisibility(View.GONE);
@@ -258,7 +261,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutSubTotal.setVisibility(View.GONE);
                 layoutMaquina.setVisibility(View.GONE);
 
-            }else if ("Medida Global".equals(subcategoria)) {
+            } else if ("Medida Global".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
                 mostrartotalInAR.setText("S/ " + cotizacion.getCampoConstruccionObra());
                 layoutMetrosUnidadees.setVisibility(View.GONE);
@@ -269,7 +272,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutSubTotal.setVisibility(View.GONE);
                 layoutMaquina.setVisibility(View.GONE);
 
-            }else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
+            } else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
                 mostrarMedida.setText("Metros Cubicos:");
                 textviewUnidadMedida.setText(cotizacion.getCantidaAgua());
                 textviewPrecio.setVisibility(View.GONE);
@@ -282,7 +285,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutSubTotal.setVisibility(View.GONE);
                 layoutMaquina.setVisibility(View.GONE);
 
-            }else if ("Alquiler".equals(subcategoria)) {
+            } else if ("Alquiler".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
                 Mostrar_Maquina.setText(cotizacion.getMaquina());
                 textviewPrecio.setText(cotizacion.getHorasAlquiler());
@@ -290,10 +293,10 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 mostrarMedida.setText("Movilización / Desmovilización:");
                 tvmostrarvalor.setText("Horas Alquiladas:");
                 textmostrarsupervision.setText("Costo Hora:");
-                textmostrarsupervisionSINO.setText("S/ " +  cotizacion.getCostoHora());
+                textmostrarsupervisionSINO.setText("S/ " + cotizacion.getCostoHora());
                 ocultarTotalServicios.setVisibility(View.GONE);
 
-            }else if ("Global MP".equals(subcategoria)) {
+            } else if ("Global MP".equals(subcategoria)) {
                 textviewTotalTopografia.setText("Medida:");
                 Mostrar_Maquina.setText(cotizacion.getMaquina());
                 textviewPrecio.setText(cotizacion.getCantidadMaquinaGlobal());
@@ -306,8 +309,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 layoutMetrosUnidadees.setVisibility(View.GONE);
 
 
-
-            }else{
+            } else {
                 return;
 
             }
@@ -403,11 +405,18 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     }
 
 
-
-
-
     private void guardarCotizacionEnRoom() {
         try {
+            // Verificar si el PDF ha sido generado
+            if (pdfPath == null || pdfPath.isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Generar PDF")
+                        .setMessage("Por favor, genere el PDF antes de guardar la cotización.")
+                        .setPositiveButton("Entendido", (dialog, which) -> dialog.dismiss())
+                        .show();
+                return;
+            }
+
             // Crear objeto de cotización
             table_cotizacion nuevaCotizacion = new table_cotizacion();
             nuevaCotizacion.setTitulo(textViewTitulo.getText().toString());
@@ -416,12 +425,17 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             nuevaCotizacion.setUbicacion(textview_mostrarUbicacion.getText().toString());
             nuevaCotizacion.setTotal_Servicio(mostrartotalInAR.getText().toString());
 
+            // Añadir la ruta del PDF a la cotización
+            nuevaCotizacion.setPdfPath(pdfPath);
+
+
             String totalText = textviewTotal.getText().toString().replaceAll("[^\\d.]", "");
             double total = totalText.isEmpty() ? 0.0 : Double.parseDouble(totalText);  // Valor por defecto 0.0
             nuevaCotizacion.setTotal(total);
 
             if (imagePath != null && !imagePath.isEmpty()) {
                 nuevaCotizacion.setImagen(imagePath);
+
             }
 
             // Crear objeto de cliente (solo con nombre)
@@ -516,6 +530,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                                         Toast.LENGTH_SHORT);
                                 toast.show();
 
+                                pdfPath = null;
+
                                 // Reducir el tiempo de duración del Toast
                                 new Thread(() -> {
                                     try {
@@ -542,6 +558,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     }
                 }
             });
+            // ... (rest of your existing code remains the same)
         } catch (Exception e) {
             Toast.makeText(this, "Error al preparar la cotización: " + e.getMessage(),
                     Toast.LENGTH_LONG).show();
@@ -551,12 +568,16 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
 
     // Método para crear el PDF con iText7
-    public void createPDFWithIText() {
+    public String createPDFWithIText() {
         // Ruta del archivo PDF
         String pdfPath = getExternalFilesDir(null).getAbsolutePath() + "/Cotización_Atlas.pdf";
         File file = new File(pdfPath);
 
         try {
+
+            // After successful PDF creation, set the flag
+            isPDFGenerated = true;
+            pdfPath = obtenerRutaDelPDF();
             // Inicializar PdfWriter y PdfDocument
             PdfWriter writer = new PdfWriter(file);
             PdfDocument pdfDoc = new PdfDocument(writer);
@@ -630,13 +651,12 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             //Añadir un breve texto de agradecimiento
             Paragraph textAgradecimiento = new Paragraph(
-                    "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: " )
+                    "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: ")
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
                     .setMarginTop(20); // Ajusta este valor para bajar más el título
 
             document.add(textAgradecimiento);
-
 
 
             // Tabla en el centro
@@ -654,7 +674,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             String precio = tvmostrarvalor.getText().toString();
 
-            String supervision =  textmostrarsupervision.getText().toString();
+            String supervision = textmostrarsupervision.getText().toString();
 
 // Añadir datos a la tabla
             addCellToTable(table, "Categoría", textviewCategoria.getText().toString(), true);
@@ -727,7 +747,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             }
 
 
-
             document.add(table);
 
             // Obtener el texto ingresado por el usuario desde el campo EditText
@@ -775,17 +794,31 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             document.close();
 
-            // Si el PDF se genera con éxito
-            Toast.makeText(this, "PDF generado con éxito", Toast.LENGTH_SHORT).show();
-            pdfGenerated = true;
+            // Establecer las banderas de generación
+            isPDFGenerated = true;
+            this.pdfPath = pdfPath; // Asignar a la variable de instancia
 
             // Cambiar la visibilidad del ícono verde
             imageViewPDFGreen.setVisibility(View.VISIBLE);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            pdfGenerated = false;
+
+            // Opcional: Mostrar mensaje de éxito
+            Toast.makeText(this, "PDF generado correctamente", Toast.LENGTH_SHORT).show();
+
+            return pdfPath;
+        } catch (Exception e) {
+            isPDFGenerated = false;
+            this.pdfPath = null;
+            Toast.makeText(this, "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
         }
+    }
+
+    // Método para obtener la ruta del PDF (debes implementarlo según tu lógica de generación)
+    private String obtenerRutaDelPDF() {
+        // Implementa la lógica para obtener la ruta exacta del PDF generado
+        // Por ejemplo:
+        File pdfFile = new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf");
+        return pdfFile.getAbsolutePath();
     }
 
     private void addCellToTable(Table table, String label, String value, boolean isHeader) {

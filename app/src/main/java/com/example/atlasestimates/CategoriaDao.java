@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface CategoriaDao {
     // Otros métodos, si es necesario
     @Query("SELECT * FROM Categorias")
     List<table_categoria> getAllCategorias();
+
+    @Update
+    void updateCategoria(table_categoria categoria);
 }

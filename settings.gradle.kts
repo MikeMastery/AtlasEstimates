@@ -1,6 +1,8 @@
 pluginManagement {
     repositories {
         google {
+            mavenCentral()
+            gradlePluginPortal()
             content {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
@@ -21,4 +23,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "AtlasEstimates"
 include(":app")
- 

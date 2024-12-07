@@ -26,9 +26,22 @@ public class table_cotizacion {
     private String descripcion;
     private String imagen;
     private String ubicacion;
+    private String pdfPath;
     private String Total_Servicio;
 
+
+
+
+
     // Getters y Setters
+
+    public String getPdfPath() {
+        return pdfPath;
+    }
+
+    public void setPdfPath(String pdfPath) {
+        this.pdfPath = pdfPath;
+    }
     public int getId_cotizacion() {
         return id_cotizacion;
     }
