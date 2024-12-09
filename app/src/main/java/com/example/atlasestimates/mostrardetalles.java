@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class mostrardetalles extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class mostrardetalles extends AppCompatActivity {
     private table_cotizacion cotizacion;
     private ImageView imagenCotizacion;
     private LinearLayout LayoutMedida, LayoutMaquina, LayoutRazon_Social, LayoutSubtotal, LayoutIGV, LayoutTotal1, LayoutTotal2,
-             LayoutSupervision, LayoutPrecio;
+             LayoutSupervision, LayoutPrecio, LayoutCliente;
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
             tvRequerimiento, tvSubTotal, tvIgv, tvTotal, textviewMetros, textviewprecio, mostrarMedida,
             Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion,
@@ -91,6 +92,7 @@ public class mostrardetalles extends AppCompatActivity {
         Tv_comentario = findViewById(R.id.comentario_costos);
         Tv_plazo = findViewById(R.id.comentario_plazo);
         verpdf = findViewById(R.id.verpdf);
+        LayoutCliente = findViewById(R.id.layoutcliente);
 
 
         // Obtener el ID de la cotización desde el Intent
@@ -130,7 +132,9 @@ public class mostrardetalles extends AppCompatActivity {
                     tvdescripcion.setText(cotizacion.getDescripcion());
                     tvTitulo.setText(cotizacion.getTitulo());
                     tvUbicacion.setText(cotizacion.getUbicacion());
-                    tvTotal.setText("S/ " + cotizacion.getTotal());
+                    // Formatear el total con comas
+                    double total = cotizacion.getTotal(); // Asegúrate de que getTotal() devuelve un double
+                    tvTotal.setText("S/ " + formatearNumeroConComas(total));
                     ED_Total2.setText(cotizacion.getTotal_Servicio());
                     Tv_plazo.setText(cotizacion.getComentario_plazo());
 
@@ -233,9 +237,9 @@ public class mostrardetalles extends AppCompatActivity {
                         cantidad += detalle.getCantidad();
                         // Suponiendo que `getIgv()` esté en table_detalleCotizacion
                     }
-                    // Actualizar los TextViews para mostrar los totales de los detalles
-                    tvSubTotal.setText("S/ " + subtotal);  // Total de subtotales
-                    tvIgv.setText("S/ " + igv);
+                    // Asegúrate de que subtotal e igv sean de tipo double antes de formatearlos
+                    tvSubTotal.setText("S/ " + formatearNumeroConComas(subtotal)); // Formatear subtotal
+                    tvIgv.setText("S/ " + formatearNumeroConComas(igv));           // Formatear IGV
                     textviewMetros.setText("" + cantidad);// Total de IGV
                 }
             }
@@ -400,6 +404,7 @@ public class mostrardetalles extends AppCompatActivity {
                         Identificacion.setText("RUC");
                         LayoutRazon_Social.setVisibility(View.VISIBLE);
                         tvRazonSocial.setText(cliente.getRazon_social());
+                        LayoutCliente.setVisibility(View.GONE);
                     }
                     // Por si acaso no cumple ninguna condición
                     else {
@@ -423,6 +428,9 @@ public class mostrardetalles extends AppCompatActivity {
             }
         });
     }
+
+
+
     // Method to share PDF
     private void compartirPDF(String pdfPath) {
         if (pdfPath == null || pdfPath.isEmpty()) {
@@ -500,6 +508,11 @@ public class mostrardetalles extends AppCompatActivity {
             Toast.makeText(this, "Error al descargar el PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("PDF_DOWNLOAD_ERROR", "Error descargando PDF", e);
         }
+    }
+
+    private String formatearNumeroConComas(double numero) {
+        DecimalFormat formato = new DecimalFormat("#,###");
+        return formato.format(numero);
     }
 
 

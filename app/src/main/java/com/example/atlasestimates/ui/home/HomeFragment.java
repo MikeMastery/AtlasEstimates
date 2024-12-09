@@ -74,8 +74,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<table_cotizacion> cotizaciones) {
                 adapter.updateCotizaciones(cotizaciones);
+
             }
         });
+
+
 
 
         // Cargar datos de la base de datos loadCotizaciones();
@@ -138,6 +141,8 @@ public class HomeFragment extends Fragment {
             public void afterTextChanged(Editable s) {}
         });
     }
+
+
 
     private void toggleSearchBar() {
         isSearchBarVisible = !isSearchBarVisible;

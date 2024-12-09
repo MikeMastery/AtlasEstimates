@@ -61,30 +61,58 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-    // Método para cargar los servicios estáticos
+
+
     private void cargarServiciosEstaticos() {
         itemsList.clear();
 
-        // Añadir servicios estáticos
-        itemsList.add(new Item("Ingenieria", "Instalación de sistemas y estructuras en proyectos técnicos.", R.drawable.ingenieria));
-        itemsList.add(new Item("Arquitectura", "Consultoría técnica en diseño y planificación arquitectónica.", R.drawable.arquitectura));
-        itemsList.add(new Item("Topografia", "Servicios de medición y análisis del terreno", R.drawable.topografia));
-        itemsList.add(new Item("Maquinaria Pesada", "Asesoría legal en el uso de maquinaria pesada.", R.drawable.maquinaria));
-        itemsList.add(new Item("Abastecimiento de agua", "Consultoría en gestión de sistemas de agua potable.", R.drawable.abasagua));
-        itemsList.add(new Item("Estructuras Metalicas", "Asesoría legal sobre diseño y construcción de estructuras metálicas.", R.drawable.estructuras));
+        // Añadir servicios estáticos con descripciones detalladas
+        itemsList.add(new Item("Ingeniería",
+                "Instalación, mantenimiento y optimización de sistemas eléctricos, hidráulicos y estructuras mecánicas en proyectos industriales, comerciales y residenciales. Los ingenieros especializados en estos campos aseguran la calidad, la viabilidad técnica y la eficiencia de las instalaciones dentro de un proyecto de gran escala, garantizando el cumplimiento con las normativas locales y la sostenibilidad del proyecto. Este servicio incluye desde el diseño hasta la implementación y puesta en marcha de sistemas técnicos avanzados.",
+                R.drawable.ingenieria));
+
+        itemsList.add(new Item("Arquitectura",
+                "Consultoría técnica en diseño y planificación arquitectónica para edificios residenciales, comerciales, urbanos y paisajismo. Los arquitectos se encargan de crear soluciones innovadoras y funcionales, optimizando los espacios en función de las necesidades del cliente, respetando las normativas locales de construcción, la estética y la sostenibilidad en el diseño de espacios habitables y públicos. Además, asesoran en la selección de materiales, eficiencia energética y el diseño de estructuras que maximicen la seguridad y el confort.",
+                R.drawable.arquitectura));
+
+        itemsList.add(new Item("Topografía",
+                "Servicios avanzados de medición, análisis y levantamiento de terrenos para proyectos de construcción, utilizando tecnología de punta como GPS, láser y drones. La topografía es esencial para garantizar que las construcciones sean seguras, estables y precisas, cumpliendo con las regulaciones locales. Este servicio incluye la elaboración de planos topográficos, análisis del terreno y recomendaciones sobre cómo desarrollar proyectos en terrenos con desafíos topográficos o ambientales.",
+                R.drawable.topografia));
+
+        itemsList.add(new Item("Maquinaria Pesada",
+                "Asesoría legal y operativa en la adquisición, mantenimiento y uso eficiente de maquinaria pesada en sectores como la construcción, minería, obra pública y otros. Este servicio cubre desde el análisis de la compra y arrendamiento de maquinaria hasta la optimización de su uso en proyectos a gran escala, asegurando el cumplimiento de normativas legales, seguridad operativa, y la mejora de la productividad mediante el mantenimiento adecuado y la capacitación del personal.",
+                R.drawable.maquinaria));
+
+        itemsList.add(new Item("Abastecimiento de agua",
+                "Consultoría en el diseño, gestión y optimización de sistemas de abastecimiento de agua potable para áreas urbanas, rurales e industriales. Este servicio incluye la planificación de redes de distribución de agua, tratamiento de aguas residuales, soluciones sostenibles para la captación de agua y el diseño de infraestructuras hidráulicas que aseguren el acceso eficiente y económico al agua, mejorando la calidad de vida y minimizando el impacto ambiental.",
+                R.drawable.abasagua));
+
+        itemsList.add(new Item("Estructuras Metálicas",
+                "Asesoría en el diseño, fabricación, montaje y mantenimiento de estructuras metálicas, que incluyen desde edificios de acero hasta puentes, naves industriales y otras grandes construcciones. Los expertos en estructuras metálicas asesoran sobre la resistencia de los materiales, el cumplimiento de normas de seguridad, la eficiencia en los costes y la durabilidad de las estructuras, adaptándose a proyectos tanto comerciales como industriales.",
+                R.drawable.estructuras));
     }
 
-    // Nuevo método para cargar los productos estáticos
     private void cargarProductosEstaticos() {
         itemsList.clear();
 
-        // Añadir productos estáticos
-        itemsList.add(new Item("Cercos Prefabricados", "Muros de concreto con diseños estéticos para mayor privacidad.", R.drawable.cercos));
-        itemsList.add(new Item("Block Concreto", "Bloques modulares para albañilería confinada y armada.", R.drawable.block));
-        itemsList.add(new Item("Murete de Concreto", "Elementos modulares de concreto para albañilería estructural.", R.drawable.murete));
-        itemsList.add(new Item("Poste de Concreto", "Postes prefabricados con acero para alta resistencia a la flexión.", R.drawable.poste));
-        // Puedes añadir más productos según necesites
+        // Añadir productos estáticos con descripciones detalladas
+        itemsList.add(new Item("Cercos Prefabricados",
+                "Muros de concreto prefabricados que ofrecen soluciones estéticas y funcionales para la delimitación de propiedades. Además de proporcionar seguridad y privacidad, estos cercos permiten personalizar los diseños con acabados diversos, adaptándose a las necesidades de cada cliente. Son ideales para áreas residenciales, comerciales e industriales, ofreciendo una instalación rápida y sin complicaciones, con una alta durabilidad frente a condiciones climáticas adversas.",
+                R.drawable.cercos));
+
+        itemsList.add(new Item("Block Concreto",
+                "Bloques modulares de concreto, utilizados en la construcción de muros de albañilería confinada y armada. Son esenciales para la edificación de cimientos, paredes estructurales y divisorias internas en obras de mediana y gran envergadura. Estos bloques ofrecen resistencia a la compresión, facilidad de manejo y colocación, y son una opción económica para la construcción. Además, contribuyen al aislamiento térmico y acústico de los edificios, mejorando el confort de los espacios.",
+                R.drawable.block));
+
+        itemsList.add(new Item("Murete de Concreto",
+                "Elementos modulares de concreto, diseñados para crear muros estructurales resistentes que se emplean en la construcción de edificios, caminos y otras infraestructuras. Los muretes de concreto ofrecen durabilidad, estabilidad y una excelente capacidad para resistir cargas. Son ideales para proyectos en los que se requiere una base sólida y confiable, con la ventaja de ser fáciles de transportar e instalar.",
+                R.drawable.murete));
+
+        itemsList.add(new Item("Poste de Concreto",
+                "Postes de concreto prefabricado con refuerzos de acero, diseñados para resistir altas cargas de flexión y tensión. Son comúnmente utilizados en la instalación de líneas eléctricas, sistemas de telecomunicaciones, alumbrado público y como soporte para otras estructuras verticales. Gracias a su robustez y durabilidad, los postes de concreto garantizan una vida útil prolongada y una alta resistencia a condiciones climáticas extremas, como vientos fuertes y lluvias.",
+                R.drawable.poste));
     }
+
 
     @Override
     public void onDestroyView() {

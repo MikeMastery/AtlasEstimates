@@ -41,39 +41,6 @@
         android:layout_marginBottom="20dp"
         android:text="Descripción detallada del producto que explica sus características y usos..." />
 
-    <!-- Especificaciones del Producto (si las hay) -->
-    <TextView
-        android:id="@+id/tvProductSpecifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="16sp"
-        android:textStyle="italic"
-        android:layout_marginBottom="20dp"
-        android:text="Especificaciones: \n- Material: Acero \n- Tamaño: 40x40 cm \n- Peso: 1.5 kg" />
 
-    <!-- Barra de información adicional o detalles -->
-    <TextView
-        android:id="@+id/tvProductAdditionalInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary2"
-        android:textSize="16sp"
-        android:layout_marginBottom="20dp"
-        android:text="Información adicional: Aquí puedes poner información como instrucciones de cuidado, garantía, o detalles técnicos." />
-
-    <!-- Barra de Navegación para volver a la vista anterior -->
-    <TextView
-        android:id="@+id/tvBackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="16sp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onBackPressed" />
 
 </LinearLayout>

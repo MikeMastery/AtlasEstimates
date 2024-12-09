@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +43,6 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
     }
 
 
-
-
     @NonNull
     @Override
     public CotizacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,20 +56,25 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         holder.tvTitulo.setText(cotizacion.getTitulo());
         holder.tvFecha.setText(cotizacion.getFecha());
 
-        double total = cotizacion.getTotal();
+        // Obtener el total como double
+        double total = cotizacion.getTotal(); // Asegúrate de que getTotal() devuelve un double
         String totalServicio = cotizacion.getTotal_Servicio();
+
+        // Formatear el total con comas
+        String totalFormateado = formatearNumeroConComas(total);
 
         // Mostrar el total adecuado según las condiciones
         if (total > 0.0 && (totalServicio == null || totalServicio.isEmpty())) {
-            holder.tvTotal.setText("Total: S/ " + total);
+            holder.tvTotal.setText("Total: S/ " + totalFormateado);
         } else if (total == 0.0 && totalServicio != null && !totalServicio.isEmpty()) {
-            holder.tvTotal.setText("Total Servicio: " + totalServicio);
+            holder.tvTotal.setText("Total: " + totalServicio);
         } else if (total > 0.0 && totalServicio != null && !totalServicio.isEmpty()) {
-            holder.tvTotal.setText("Total: S/ " + total + "\nTotal Servicio: S/ " + totalServicio);
+            holder.tvTotal.setText("Total: S/ " + totalFormateado + "\nTotal Servicio: " + totalServicio);
         } else {
             holder.tvTotal.setText("Sin total disponible");
         }
-        // Obtener el nombre del cliente en segundo plano
+
+    // Obtener el nombre del cliente en segundo plano
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... voids) {
@@ -195,5 +199,11 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             btneditar = itemView.findViewById(R.id.btnEditar);
         }
     }
+
+    private String formatearNumeroConComas(double numero) {
+        DecimalFormat formato = new DecimalFormat("#,###");
+        return formato.format(numero);
+    }
+
 
 }

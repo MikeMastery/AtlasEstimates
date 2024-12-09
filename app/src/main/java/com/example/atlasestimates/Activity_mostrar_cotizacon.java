@@ -19,6 +19,8 @@ import android.Manifest;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.room.Room;
 
 import com.itextpdf.io.image.ImageDataFactory;
@@ -70,7 +73,6 @@ import java.util.concurrent.Executors;
 public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
 
-
     private TextView textViewTitulo, textviewCliente, textviewFecha, textviewRequerimiento, textviewDescripcion, mostrartotalInAR;
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
@@ -102,8 +104,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         // Configurar ActionBar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Habilita el botón
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home); // Establece tu ícono
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.atlas2); // Establece tu ícono
         }
+
 
         // Inicializar la base de datos
         db = Room.databaseBuilder(getApplicationContext(),
@@ -132,8 +135,33 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             }
         });
 
+
+
         // Configurar el ImageButton para mostrar el menú
         configurarImageButton();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Crear un Intent para ir al MainActivity
+            Intent intent = new Intent(this, MainActivity.class);
+
+            // Agregar banderas para limpiar la pila de actividades
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            // Asegúrate de que se abra directamente en el HomeFragment
+            intent.putExtra("fragment", "home");
+
+            // Iniciar la actividad
+            startActivity(intent);
+
+            // Finalizar la actividad actual
+            finish();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void inicializarVistas() {
@@ -174,6 +202,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         layoutMaquina = findViewById(R.id.tv_maquina);
         Ed_plazoEntrega = findViewById(R.id.plazoentrega);
     }
+
+
 
     private void mostrarDatosTemporales() {
         Cotizacion cotizacion = (Cotizacion) getIntent().getSerializableExtra("cotizacion");
@@ -372,6 +402,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             }
         }
     }
+
+
 
     private void configurarImageButton() {
         // Inicializar los botones
@@ -687,15 +719,43 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: ")
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(20); // Ajusta este valor para bajar más el título
+                    .setMarginTop(10); // Ajusta este valor para bajar más el título
 
             document.add(textAgradecimiento);
+
+            // Agregar la imagen centrada debajo del texto de agradecimiento
+            if (imagePath != null) {
+                Image centeredImage = new Image(ImageDataFactory.create(imagePath));
+
+                // Ajustar el tamaño de la imagen
+                float maxWidth = 155f; // Ancho máximo de la imagen
+                float maxHeight = 122f; // Altura máxima de la imagen
+                float originalWidth = centeredImage.getImageWidth();
+                float originalHeight = centeredImage.getImageHeight();
+
+                // Calcular el ratio para mantener la proporción
+                float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
+                float newWidth = originalWidth * ratio;
+                float newHeight = originalHeight * ratio;
+
+                // Establecer dimensiones
+                centeredImage.setWidth(newWidth);
+                centeredImage.setHeight(newHeight);
+
+                // Centrar la imagen
+                Paragraph imageParagraph = new Paragraph().add(centeredImage)
+                        .setTextAlignment(TextAlignment.CENTER)
+                        .setMarginTop(3); // Espacio antes de la imagen
+
+                document.add(imageParagraph);
+            }
+
 
 
             // Tabla en el centro
             float[] columnWidths = {200f, 200f};
             Table table = new Table(columnWidths);
-            table.setMarginTop(15);
+            table.setMarginTop(7);
 
             table.setHorizontalAlignment(HorizontalAlignment.CENTER);
             // Usar el campo adecuado para la subcategoría
@@ -726,40 +786,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 addCellToTable(table, supervision, textmostrarsupervisionSINO.getText().toString(), true);
             }
 
-
-            // Agregar imagen dentro de la tabla
-            if (imagePath != null) {
-                Image img = new Image(ImageDataFactory.create(imagePath));
-
-                // Obtener dimensiones originales de la imagen
-                float originalWidth = img.getImageWidth();
-                float originalHeight = img.getImageHeight();
-
-                // Definir el ancho máximo de la celda en la tabla
-                float maxWidth = 155f;
-                float maxHeight = 122f;
-
-                // Calcular ratio para mantener proporción
-                float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
-
-                // Establecer nuevas dimensiones manteniendo la proporción
-                float newWidth = originalWidth * ratio;
-                float newHeight = originalHeight * ratio;
-
-                img.setWidth(newWidth);
-                img.setHeight(newHeight);
-
-                // Crear un Paragraph para la imagen y centrarla
-                Paragraph imageParagraph = new Paragraph().add(img).setTextAlignment(TextAlignment.CENTER);
-
-                // Crear la celda y agregar el Paragraph con la imagen centrada
-                Cell imageCell = new Cell(1, 2)
-                        .add(imageParagraph)
-                        .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                        .setPadding(5);
-
-                table.addCell(imageCell);
-            }
             if (!textviewSubTotal.getText().toString().isEmpty()
                     && !"S/ 0".equals(textviewSubTotal.getText().toString())) {
                 addCellToTable(table, "Subtotal", textviewSubTotal.getText().toString(), true);

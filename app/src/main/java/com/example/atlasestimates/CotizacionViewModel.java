@@ -46,13 +46,6 @@ public class CotizacionViewModel extends AndroidViewModel {
     }
 
 
-
-
-
-
-
-
-
     public LiveData<List<table_cotizacion>> getCotizaciones() {
         return cotizaciones;
     }
