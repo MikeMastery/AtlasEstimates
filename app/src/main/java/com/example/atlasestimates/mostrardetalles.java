@@ -2,6 +2,7 @@ package com.example.atlasestimates;
 
 import android.content.Intent;
 import android.graphics.Insets;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,8 +10,12 @@ import com.bumptech.glide.Glide;
 import com.example.atlasestimates.Cotizacion;  // Asegúrate de que la importación esté correcta
 import com.google.android.material.button.MaterialButton;
 
+import android.os.Environment;
 import android.text.Layout;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -35,13 +40,15 @@ import java.util.List;
 public class mostrardetalles extends AppCompatActivity {
 
     private CotizacionViewModel viewModel;
+    private table_cotizacion cotizacion;
     private ImageView imagenCotizacion;
     private LinearLayout LayoutMedida, LayoutMaquina, LayoutRazon_Social, LayoutSubtotal, LayoutIGV, LayoutTotal1, LayoutTotal2,
              LayoutSupervision, LayoutPrecio;
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
             tvRequerimiento, tvSubTotal, tvIgv, tvTotal, textviewMetros, textviewprecio, mostrarMedida,
             Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion,
-             Tv_comentario, Tv_plazo;
+             Tv_comentario, Tv_plazo ;
+    private Button verpdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +90,7 @@ public class mostrardetalles extends AppCompatActivity {
         Tv_Supervisiion = findViewById(R.id.supervision);
         Tv_comentario = findViewById(R.id.comentario_costos);
         Tv_plazo = findViewById(R.id.comentario_plazo);
+        verpdf = findViewById(R.id.verpdf);
 
 
         // Obtener el ID de la cotización desde el Intent
@@ -91,7 +99,6 @@ public class mostrardetalles extends AppCompatActivity {
 
         // Obtener el ViewModel
         viewModel = new ViewModelProvider(this).get(CotizacionViewModel.class);
-
 
 
         // Obtener la cotización
@@ -111,7 +118,8 @@ public class mostrardetalles extends AppCompatActivity {
 
         // Obtener la subcategoría y mostrar el valor correspondiente
 
-    }
+
+        }
 
     private void obtenerCotizacion(int cotizacionId) {
         viewModel.getCotizacion(cotizacionId).observe(this, new Observer<table_cotizacion>() {
@@ -127,120 +135,84 @@ public class mostrardetalles extends AppCompatActivity {
                     Tv_plazo.setText(cotizacion.getComentario_plazo());
 
                     // Cargar la imagen desde la URI
-                    String imageUriString = cotizacion.getImagen(); // La URI que obtienes de la base de datos
+                    String imageUriString = cotizacion.getImagen();
                     if (imageUriString != null && !imageUriString.isEmpty()) {
                         Uri imageUri = Uri.parse(imageUriString);
-
                         Glide.with(mostrardetalles.this)
-                                .load(new File(imageUriString)) // Si es una ruta absoluta
+                                .load(new File(imageUriString))
                                 .into(imagenCotizacion);
                     }
+                    verpdf.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String pdfPath = cotizacion.getPdfPath();
 
-                    // Recuperar la ruta del PDF desde la base de datos
-                    String pdfPath = cotizacion.getPdfPath(); // Supongamos que tienes un campo pdfPath
-                    if (pdfPath != null && !pdfPath.isEmpty()) {
-                        // Convierte la ruta relativa a una ruta absoluta
-                        File pdfFile = new File(getExternalFilesDir(null), pdfPath); // Esto convierte la ruta relativa a una ruta absoluta
-                        setupVerPdfButton(pdfFile.getAbsolutePath());
-                    }
+                            if (pdfPath != null && !pdfPath.isEmpty()) {
+                                // Crear un PopupMenu
+                                PopupMenu popupMenu = new PopupMenu(mostrardetalles.this, verpdf);
+                                popupMenu.getMenuInflater().inflate(R.menu.popup_menu2, popupMenu.getMenu());
+
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        int itemId = item.getItemId();
+
+                                        if (itemId == R.id.menu_ver_pdf) {
+                                            // Tu código existente para abrir PDF
+                                            try {
+                                                File file = new File(pdfPath);
+
+                                                // Verificar si el archivo existe
+                                                if (!file.exists()) {
+                                                    Toast.makeText(mostrardetalles.this,
+                                                            "El archivo PDF no existe",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    return true;
+                                                }
+
+                                                Uri uri = FileProvider.getUriForFile(
+                                                        mostrardetalles.this,
+                                                        getPackageName() + ".fileprovider",
+                                                        file
+                                                );
+
+                                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                                intent.setDataAndType(uri, "application/pdf");
+                                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                                                startActivity(Intent.createChooser(intent, "Abrir PDF con"));
+                                            } catch (Exception e) {
+                                                Toast.makeText(mostrardetalles.this,
+                                                        "Error al abrir el PDF: " + e.getMessage(),
+                                                        Toast.LENGTH_SHORT).show();
+                                                Log.e("PDF_ERROR", "Error abriendo PDF", e);
+                                            }
+                                        } else if (itemId == R.id.menu_compartir_pdf) {
+                                            compartirPDF(pdfPath);
+                                        } else if (itemId == R.id.menu_descargar_pdf) {
+                                            descargarPDF(pdfPath);
+                                        }
+                                        return true;
+                                    }
+                                });
+
+                                popupMenu.show();
+                            } else {
+                                Toast.makeText(mostrardetalles.this,
+                                        "No hay PDF disponible",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
         });
     }
 
-    private void setupVerPdfButton(String pdfPath) {
-        MaterialButton verPDFButton = findViewById(R.id.verpdf);
-        verPDFButton.setVisibility(View.VISIBLE); // Mostrar el botón si hay PDF
-
-        verPDFButton.setOnClickListener(v -> {
-            // Mostrar el PopupMenu con opciones
-            showPdfOptions(v, pdfPath);
-        });
-    }
-
-    private void showPdfOptions(View view, String pdfPath) {
-        PopupMenu popupMenu = new PopupMenu(mostrardetalles.this, view);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_view) {
-                // Ver PDF
-                viewPdf(pdfPath);
-                return true;
-            } else if (item.getItemId() == R.id.action_download) {
-                // Descargar PDF
-                downloadPdf(pdfPath);
-                return true;
-            } else if (item.getItemId() == R.id.action_share) {
-                // Compartir PDF
-                sharePdf(pdfPath);
-                return true;
-            }
-            return false;
-        });
-
-        popupMenu.show();
-    }
 
 
-    private void viewPdf(String pdfPath) {
-        File pdfFile = new File(pdfPath);
-        if (pdfFile.exists()) {
-            // Crear un Intent para abrir el archivo PDF
-            Uri pdfUri = Uri.fromFile(pdfFile);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(pdfUri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(Intent.createChooser(intent, "Ver PDF"));
-        } else {
-            Toast.makeText(mostrardetalles.this, "El archivo PDF no existe", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
-    private void downloadPdf(String pdfPath) {
-        // Lógica para descargar el PDF
-        File pdfFile = new File(pdfPath);
-        if (pdfFile.exists()) {
-            // Puedes copiar el archivo a una ubicación específica en el dispositivo si lo deseas
-            File downloadDir = new File(getExternalFilesDir(null), "Descargas");
-            if (!downloadDir.exists()) {
-                downloadDir.mkdir();
-            }
-            File downloadedFile = new File(downloadDir, pdfFile.getName());
-
-            try {
-                // Usar FileInputStream y FileOutputStream para copiar el archivo
-                InputStream inputStream = new FileInputStream(pdfFile);
-                OutputStream outputStream = new FileOutputStream(downloadedFile);
-
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, length);
-                }
-
-                inputStream.close();
-                outputStream.close();
-
-                Toast.makeText(mostrardetalles.this, "PDF descargado", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(mostrardetalles.this, "Error al descargar el PDF", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void sharePdf(String pdfPath) {
-        File file = new File(pdfPath);
-        Uri uri = FileProvider.getUriForFile(this, "com.example.atlasestimates.fileprovider", file);
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("application/pdf");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "Compartir PDF"));
-    }
 
 
 
@@ -268,6 +240,7 @@ public class mostrardetalles extends AppCompatActivity {
                 }
             }
         });
+
 
         // Obtener los ítems asociados a la cotización (sin relación con los detalles)
         viewModel.getItems(cotizacionId).observe(this, new Observer<List<table_items>>() {
@@ -450,6 +423,85 @@ public class mostrardetalles extends AppCompatActivity {
             }
         });
     }
+    // Method to share PDF
+    private void compartirPDF(String pdfPath) {
+        if (pdfPath == null || pdfPath.isEmpty()) {
+            Toast.makeText(this, "No hay PDF disponible para compartir", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File file = new File(pdfPath);
+        if (!file.exists()) {
+            Toast.makeText(this, "El archivo PDF no existe", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri uri = FileProvider.getUriForFile(
+                this,
+                getPackageName() + ".fileprovider",
+                file
+        );
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("application/pdf");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(Intent.createChooser(shareIntent, "Compartir PDF"));
+    }
+
+    // Method to download PDF (save to Downloads folder)
+    private void descargarPDF(String pdfPath) {
+        if (pdfPath == null || pdfPath.isEmpty()) {
+            Toast.makeText(this, "No hay PDF disponible para descargar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File sourceFile = new File(pdfPath);
+        if (!sourceFile.exists()) {
+            Toast.makeText(this, "El archivo PDF no existe", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            // Crear la carpeta de descargas si no existe
+            File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            if (!downloadDir.exists()) {
+                downloadDir.mkdirs();
+            }
+
+            // Nombre de archivo único
+            String fileName = "Cotizacion_" + System.currentTimeMillis() + ".pdf";
+            File destinationFile = new File(downloadDir, fileName);
+
+            // Copiar el archivo
+            FileInputStream inputStream = new FileInputStream(sourceFile);
+            FileOutputStream outputStream = new FileOutputStream(destinationFile);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+            // Notificar al sistema sobre el nuevo archivo
+            MediaScannerConnection.scanFile(
+                    this,
+                    new String[]{destinationFile.getAbsolutePath()},
+                    null,
+                    null
+            );
+
+            Toast.makeText(this, "PDF descargado en Descargas", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al descargar el PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("PDF_DOWNLOAD_ERROR", "Error descargando PDF", e);
+        }
+    }
+
 
     private void configurarPaddingVistaPrincipal() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

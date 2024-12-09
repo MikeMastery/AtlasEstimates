@@ -1,6 +1,8 @@
 package com.example.atlasestimates;
 
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.Manifest;
 
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +60,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -64,6 +68,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Activity_mostrar_cotizacon extends AppCompatActivity {
+
+
 
     private TextView textViewTitulo, textviewCliente, textviewFecha, textviewRequerimiento, textviewDescripcion, mostrartotalInAR;
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
@@ -91,6 +97,13 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_cotizacon);
+
+
+        // Configurar ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Habilita el botón
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home); // Establece tu ícono
+        }
 
         // Inicializar la base de datos
         db = Room.databaseBuilder(getApplicationContext(),
@@ -572,15 +585,18 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
     // Método para crear el PDF con iText7
     public String createPDFWithIText() {
-        // Ruta del archivo PDF
-        String pdfPath = getExternalFilesDir(null).getAbsolutePath() + "/Cotización_Atlas.pdf";
+        String pdfPath = obtenerRutaDelPDF(); // Obtener la ruta dinámica
         File file = new File(pdfPath);
+
 
         try {
 
-            // After successful PDF creation, set the flag
-            isPDFGenerated = true;
-            pdfPath = obtenerRutaDelPDF();
+            // Crear las carpetas si no existen
+            File dir = file.getParentFile();
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
             // Inicializar PdfWriter y PdfDocument
             PdfWriter writer = new PdfWriter(file);
             PdfDocument pdfDoc = new PdfDocument(writer);
@@ -867,13 +883,11 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         }
     }
 
-    // Método para obtener la ruta del PDF (debes implementarlo según tu lógica de generación)
     private String obtenerRutaDelPDF() {
-        // Implementa la lógica para obtener la ruta exacta del PDF generado
-        // Por ejemplo:
-        File pdfFile = new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf");
-        return pdfFile.getAbsolutePath();
+        // Cambia el nombre del archivo para cada cotización
+        return new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf").getAbsolutePath();
     }
+
 
     private void addCellToTable(Table table, String label, String value, boolean isHeader) {
         // Crear la celda para el encabezado (columna izquierda)
@@ -899,10 +913,18 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         table.addCell(valueCell);
     }
 
-
-
     private void sharePDF() {
-        File file = new File(getExternalFilesDir(null) + "/Cotización_Atlas.pdf");
+        if (pdfPath == null || pdfPath.isEmpty()) {
+            Toast.makeText(this, "No se encontró el archivo PDF para compartir.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File file = new File(pdfPath);
+        if (!file.exists()) {
+            Toast.makeText(this, "El archivo PDF no existe.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Uri uri = FileProvider.getUriForFile(this, "com.example.atlasestimates.fileprovider", file);
 
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -911,6 +933,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, "Compartir PDF"));
     }
+
 
     private String saveImage(Bitmap bitmap) {
         // Genera un nombre de archivo único utilizando una marca de tiempo
@@ -941,43 +964,48 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     }
 
     private void downloadPDF() {
+        if (!isPDFGenerated || pdfPath == null) {
+            Toast.makeText(this, "Primero genera el PDF.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Para Android 11 o superior
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent); // Esto lleva al usuario a la configuración para otorgar el permiso.
+                startActivity(intent);
             } else {
-                // Ya tiene permisos, continuar con la descarga
                 realizarDescargaPDF();
             }
         } else {
             // Para versiones anteriores a Android 11
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Solicitar permisos para Android 6 a 10
                 requestPermissions(
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         PERMISSION_REQUEST_CODE
                 );
             } else {
-                // Ya tiene permisos, continuar con la descarga
                 realizarDescargaPDF();
             }
         }
     }
 
-
     private void realizarDescargaPDF() {
         try {
-            File file = new File(getExternalFilesDir(null) + "/Cotización_Atlas.pdf");
+            File sourceFile = new File(pdfPath); // Usa la ruta dinámica
+            if (!sourceFile.exists()) {
+                Toast.makeText(this, "Archivo PDF no encontrado.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            // Para versiones más nuevas de Android
+            // Ruta de destino en la carpeta de descargas
             File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File destinationFile = new File(downloadDir, "Cotizacion_Atlas.pdf");
+            File destinationFile = new File(downloadDir, sourceFile.getName());
 
             // Copiar el archivo
-            FileInputStream in = new FileInputStream(file);
+            FileInputStream in = new FileInputStream(sourceFile);
             FileOutputStream out = new FileOutputStream(destinationFile);
 
             byte[] buffer = new byte[1024];
@@ -989,7 +1017,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             in.close();
             out.close();
 
-            // Escanear el archivo para que aparezca en las descargas
+            // Notificar al sistema para actualizar la carpeta de descargas
             MediaScannerConnection.scanFile(
                     this,
                     new String[]{destinationFile.getAbsolutePath()},
@@ -1003,7 +1031,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Toast.makeText(this, "Error al descargar PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     private byte[] inputStreamToByteArray(InputStream is) throws IOException {

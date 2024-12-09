@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_ver_pdf"
+        android:title="Ver PDF" />
+    <item
+        android:id="@+id/menu_compartir_pdf"
+        android:title="Compartir PDF" />
+    <item
+        android:id="@+id/menu_descargar_pdf"
+        android:title="Descargar PDF" />
+</menu>
