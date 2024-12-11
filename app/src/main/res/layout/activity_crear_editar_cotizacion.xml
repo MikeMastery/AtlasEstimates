@@ -274,8 +274,8 @@
                 <ImageView
                     android:id="@+id/selected_image"
                     android:layout_width="350dp"
-                    android:layout_height="230dp"
-                    android:scaleType="fitCenter"
+                    android:layout_height="240dp"
+                    android:scaleType="centerCrop"
                     android:background="@drawable/editex"
                     android:contentDescription="Imagen seleccionada" />
 

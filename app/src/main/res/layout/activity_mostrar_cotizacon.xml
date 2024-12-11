@@ -711,8 +711,8 @@
         android:layout_height="64dp"
         android:src="@drawable/pdf1"
         android:layout_marginTop="-55dp"
-        android:background="@drawable/button_background"
-        android:layout_marginLeft="225dp">
+        android:layout_marginLeft="225dp"
+        android:background="@null">
     </ImageButton>
 
             <ImageButton
@@ -720,7 +720,8 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:src="@drawable/icon2"
-                android:layout_marginTop="-65dp"
+                android:layout_marginTop="-60dp"
+                android:background="@null"
                 android:layout_marginLeft="225dp">
             </ImageButton>
 

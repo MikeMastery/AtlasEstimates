@@ -167,6 +167,7 @@ public class mostrardetalles extends AppCompatActivity {
                     tvdescripcion.setText(cotizacion.getDescripcion());
                     tvTitulo.setText(cotizacion.getTitulo());
                     tvUbicacion.setText(cotizacion.getUbicacion());
+                    Tv_fecha.setText(cotizacion.getFecha());
                     // Formatear el total con comas
                     double total = cotizacion.getTotal(); // Asegúrate de que getTotal() devuelve un double
                     tvTotal.setText("S/ " + formatearNumeroConComas(total));
@@ -234,7 +235,7 @@ public class mostrardetalles extends AppCompatActivity {
                                         }
                                         else if (itemId == R.id.menu_actualizar_pdf) {
                                             if (pdfPath != null && !pdfPath.isEmpty()) {
-                                                createPDFWithIText(pdfPath); // Llama al método directamente
+                                                createPDFWithIText2(pdfPath, imageUriString); // Llama al método directamente
 
                                                 // Supongamos que se generó correctamente
                                                 Toast.makeText(mostrardetalles.this, "PDF actualizado correctamente", Toast.LENGTH_SHORT).show();
@@ -478,7 +479,7 @@ public class mostrardetalles extends AppCompatActivity {
     }
 
     // Método para crear el PDF con iText7
-    public String createPDFWithIText(String pdfPath) {
+    public String createPDFWithIText2(String pdfPath, String imageUriString) {
 
         // Verificar si la ruta del PDF es nula o vacía
         if (pdfPath == null || pdfPath.isEmpty()) {
@@ -592,43 +593,42 @@ public class mostrardetalles extends AppCompatActivity {
                     "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: ")
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(10); // Ajusta este valor para bajar más el título
+                    .setMarginTop(5); // Ajusta este valor para bajar más el título
 
             document.add(textAgradecimiento);
 
             // Agregar la imagen centrada debajo del texto de agradecimiento
-            if (imagePath != null) {
-                Image centeredImage = new Image(ImageDataFactory.create(imagePath));
-
-                // Ajustar el tamaño de la imagen
-                float maxWidth = 155f; // Ancho máximo de la imagen
-                float maxHeight = 122f; // Altura máxima de la imagen
-                float originalWidth = centeredImage.getImageWidth();
-                float originalHeight = centeredImage.getImageHeight();
-
-                // Calcular el ratio para mantener la proporción
-                float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
-                float newWidth = originalWidth * ratio;
-                float newHeight = originalHeight * ratio;
-
-                // Establecer dimensiones
-                centeredImage.setWidth(newWidth);
-                centeredImage.setHeight(newHeight);
-
-                // Centrar la imagen
-                Paragraph imageParagraph = new Paragraph().add(centeredImage)
-                        .setTextAlignment(TextAlignment.CENTER)
-                        .setMarginTop(3); // Espacio antes de la imagen
-
-                document.add(imageParagraph);
+            if (imageUriString != null && !imageUriString.isEmpty()) {
+                try {
+                    Image centeredImage = new Image(ImageDataFactory.create(imageUriString));
+                    // Ajustar el tamaño de la imagen
+                    float maxWidth = 155f; // Ancho máximo de la imagen
+                    float maxHeight = 122f; // Altura máxima de la imagen
+                    float originalWidth = centeredImage.getImageWidth();
+                    float originalHeight = centeredImage.getImageHeight();
+                    // Calcular el ratio para mantener la proporción
+                    float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
+                    float newWidth = originalWidth * ratio;
+                    float newHeight = originalHeight * ratio;
+                    // Establecer dimensiones
+                    centeredImage.setWidth(newWidth);
+                    centeredImage.setHeight(newHeight);
+                    // Centrar la imagen
+                    Paragraph imageParagraph = new Paragraph().add(centeredImage)
+                            .setTextAlignment(TextAlignment.CENTER)
+                            .setMarginTop(-1); // Espacio antes de la imagen
+                    document.add(imageParagraph);
+                } catch (Exception e) {
+                    // Manejo de error si no se puede cargar la imagen
+                    Log.e("PDF Creation", "Error adding image to PDF", e);
+                }
             }
-
 
 
             // Tabla en el centro
             float[] columnWidths = {200f, 200f};
             Table table = new Table(columnWidths);
-            table.setMarginTop(7);
+            table.setMarginTop(2);
 
             table.setHorizontalAlignment(HorizontalAlignment.CENTER);
             // Usar el campo adecuado para la subcategoría
@@ -638,6 +638,8 @@ public class mostrardetalles extends AppCompatActivity {
 
             String requerimiento = Requerimiento.getText().toString();
 
+            String medida = mostrarMedida.getText().toString();
+
             String precio = Precio.getText().toString();
 
             String supervision = Tv_Supervisiion.getText().toString();
@@ -646,6 +648,16 @@ public class mostrardetalles extends AppCompatActivity {
             addCellToTable(table, "Categoría", tvCategoria.getText().toString(), true);
             addCellToTable(table, requerimiento, tvRequerimiento.getText().toString(), true);
             addCellToTable(table, "Descripción", tvdescripcion.getText().toString(), true);
+
+            if (!textviewMetros.getText().toString().isEmpty()) {
+                String metrosTexto = textviewMetros.getText().toString();
+
+                // Validar si el valor no es "0.0" o nulo
+                if (!metrosTexto.equals("0.0") && metrosTexto != null) {
+                    addCellToTable(table, medida, metrosTexto, true);
+                }
+            }
+
 
             if (!MostrarMaquina.getText().toString().isEmpty()) {
                 addCellToTable(table, unidadMedidaTexto, MostrarMaquina.getText().toString(), true);

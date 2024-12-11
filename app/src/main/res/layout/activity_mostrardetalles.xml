@@ -382,8 +382,8 @@
                     <ImageView
                         android:id="@+id/imagen_cotizacion"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:scaleType="fitCenter"
+                        android:layout_height="220dp"
+                        android:scaleType="centerCrop"
                         android:layout_marginBottom="16dp"/>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -575,7 +575,7 @@
                     android:id="@+id/verpdf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="VER PDF"
+                    android:text="PDF"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:backgroundTint="#D5042C"

@@ -578,7 +578,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                                         Toast.LENGTH_SHORT);
                                 toast.show();
 
-                                pdfPath = null;
+
 
                                 // Reducir el tiempo de duración del Toast
                                 new Thread(() -> {
@@ -813,12 +813,12 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Paragraph propuesta = new Paragraph(propuestaTexto)
                     .setBold()               // Negrita
                     .setFontSize(11)
-                    .setMarginLeft(28)// Tamaño de letra más pequeño
+                    .setMarginLeft(28)        // Tamaño de letra más pequeño
                     .setTextAlignment(TextAlignment.LEFT)  // Alineado a la izquierda
-                    .setMarginTop(10);       // Ajusta este valor para bajar más el texto
+                    .setMarginTop(10);        // Espacio consistente después de la tabla
             document.add(propuesta);
 
-            // Datos estáticos
+// Datos estáticos
             String formaPagoStatic = "Forma de pago: ";
             String plazoEntregaStatic = "Plazo de entrega: ";
 
@@ -827,10 +827,10 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             String plazo = Ed_plazoEntrega.getText().toString();
 
 // Si el campo de comentario del usuario está vacío, se usa el texto estático por defecto
-            String anticipo = textoUsuario.isEmpty() ? "Anticipo 50%, saldo al culminar" : textoUsuario; // Este valor será dinámico dependiendo del usuario
+            String anticipo = textoUsuario.isEmpty() ? "Anticipo 50%, saldo al culminar" : textoUsuario;
 
 // Datos dinámicos
-            String plazoEntrega =  plazo.isEmpty() ? "3 días hábiles" : plazo; // Este valor también es dinámico
+            String plazoEntrega = plazo.isEmpty() ? "3 días hábiles" : plazo;
 
 // Crear la cadena para "Forma de pago" y "Plazo de entrega"
             String formaPagoText = formaPagoStatic + anticipo + "\n";
@@ -841,7 +841,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
                     .setFontSize(10)
-                    .setMarginTop(1); // Reducido el espacio entre párrafos
+                    .setMarginTop(5); // Espacio consistente
 
 // Añadir el Paragraph de "Forma de pago"
             document.add(formaPagoParagraph);
@@ -851,11 +851,10 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
                     .setFontSize(10)
-                    .setMarginTop(-3); // Reducido el espacio entre párrafos
+                    .setMarginTop(2); // Espacio consistente
 
 // Añadir el Paragraph de "Plazo de entrega"
             document.add(plazoEntregaParagraph);
-
 
 
 // Crear y añadir la imagen del pie de página (footer)
