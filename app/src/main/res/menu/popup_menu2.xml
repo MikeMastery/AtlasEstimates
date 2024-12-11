@@ -10,4 +10,8 @@
     <item
         android:id="@+id/menu_descargar_pdf"
         android:title="Descargar PDF" />
+    <item
+        android:id="@+id/menu_actualizar_pdf"
+        android:title="Actualizar PDF" />
+
 </menu>

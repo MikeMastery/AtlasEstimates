@@ -1,7 +1,12 @@
 package com.example.atlasestimates;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Insets;
+import android.graphics.Paint;
+
+
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +14,19 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.example.atlasestimates.Cotizacion;  // Asegúrate de que la importación esté correcta
 import com.google.android.material.button.MaterialButton;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.LineSeparator;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
 
 import android.os.Environment;
 import android.text.Layout;
@@ -26,9 +44,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,18 +57,31 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
 
 public class mostrardetalles extends AppCompatActivity {
 
     private CotizacionViewModel viewModel;
     private table_cotizacion cotizacion;
     private ImageView imagenCotizacion;
+    private String pdfPath = null;
+    private String imagePath;
     private LinearLayout LayoutMedida, LayoutMaquina, LayoutRazon_Social, LayoutSubtotal, LayoutIGV, LayoutTotal1, LayoutTotal2,
              LayoutSupervision, LayoutPrecio, LayoutCliente;
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
             tvRequerimiento, tvSubTotal, tvIgv, tvTotal, textviewMetros, textviewprecio, mostrarMedida,
             Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion,
-             Tv_comentario, Tv_plazo ;
+             Tv_comentario, Tv_plazo, Tv_fecha, Mostrar_razon ;
     private Button verpdf;
 
     @Override
@@ -59,6 +92,8 @@ public class mostrardetalles extends AppCompatActivity {
         // Inicializar los TextViews
         tvNombreCliente = findViewById(R.id.nombre_cliente);
         imagenCotizacion = findViewById(R.id.imagen_cotizacion);
+        Tv_fecha = findViewById(R.id.mostrarfecha);
+        Mostrar_razon = findViewById(R.id.tv_razon);
         tvUbicacion = findViewById(R.id.tv_mostrar_ubi);
         tvTitulo = findViewById(R.id.tvtitulo);
         tvRuc = findViewById(R.id.MostrarRuc);
@@ -195,7 +230,21 @@ public class mostrardetalles extends AppCompatActivity {
                                             compartirPDF(pdfPath);
                                         } else if (itemId == R.id.menu_descargar_pdf) {
                                             descargarPDF(pdfPath);
+
                                         }
+                                        else if (itemId == R.id.menu_actualizar_pdf) {
+                                            if (pdfPath != null && !pdfPath.isEmpty()) {
+                                                createPDFWithIText(pdfPath); // Llama al método directamente
+
+                                                // Supongamos que se generó correctamente
+                                                Toast.makeText(mostrardetalles.this, "PDF actualizado correctamente", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(mostrardetalles.this, "No hay ruta de PDF para actualizar", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+
+
                                         return true;
                                     }
                                 });
@@ -212,8 +261,6 @@ public class mostrardetalles extends AppCompatActivity {
             }
         });
     }
-
-
 
 
 
@@ -421,13 +468,343 @@ public class mostrardetalles extends AppCompatActivity {
             public void onChanged(table_categoria categoria) {
                 if (categoria != null) {
                     // Actualiza los TextViews con la información de la categoría
-                    tvCategoria.setText(categoria.getNombre_categoria());
                     Tv_comentario.setText(categoria.getDescripcion_categoria());
+                    tvCategoria.setText(categoria.getNombre_categoria());
+
 
                 }
             }
         });
     }
+
+    // Método para crear el PDF con iText7
+    public String createPDFWithIText(String pdfPath) {
+
+        // Verificar si la ruta del PDF es nula o vacía
+        if (pdfPath == null || pdfPath.isEmpty()) {
+            return null; // Devuelve null si no hay una ruta válida
+        }
+
+        File file = new File(pdfPath);
+
+
+        try {
+
+            // Crear directorio si no existe
+            File dir = file.getParentFile();
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            // El resto del c
+
+            // Crear PdfWriter
+            PdfWriter writer = new PdfWriter(pdfPath);
+
+            // Crear PdfDocument
+            PdfDocument pdfDoc = new PdfDocument(writer);
+
+            // Crear documento
+            Document document = new Document(pdfDoc);
+
+            // Crear la imagen desde los recursos
+            Image headerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.encabezado))));
+            float pageWidth = PageSize.A4.getWidth();
+            float pageHeight = PageSize.A4.getHeight();
+
+            // Ajustar el tamaño de la imagen
+            float imageWidth = pageWidth - 130; // Ajusta el ancho para que ocupe más espacio horizontal (ajusta el valor según lo que desees)
+            float imageHeight = 95f; // Ajusta la altura para que sea más corta
+
+            // Configurar la posición y tamaño de la imagen
+            headerImage.setFixedPosition((pageWidth - imageWidth) / 2, pageHeight - imageHeight - 10);
+            headerImage.setWidth(imageWidth);
+            headerImage.setHeight(imageHeight);
+
+            document.add(headerImage);
+
+            // Crear título
+            String tituloTexto = tvTitulo.getText().toString();
+            Paragraph title = new Paragraph(tituloTexto)
+                    .setBold()
+                    .setFontSize(18)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginTop(85); // Ajusta este valor para bajar más el título
+            document.add(title);
+
+// Calcular el ancho de la línea basado en el tamaño del texto
+            float fontSize = 18; // Tamaño de fuente del título
+            float lineWidthPerCharacter = fontSize * 0.6f; // Aproximadamente, dependiendo de la fuente
+            float calculatedWidth = tituloTexto.length() * lineWidthPerCharacter;
+
+// Crear una línea debajo del título con ancho dinámico
+            LineSeparator lineSeparator = new LineSeparator(new SolidLine());
+            lineSeparator.setWidth(calculatedWidth);
+            lineSeparator.setMarginTop(-9); // Ajusta la distancia entre el título y la línea
+            lineSeparator.setHorizontalAlignment(HorizontalAlignment.CENTER); // Centrar la línea
+            document.add(lineSeparator);
+
+            // Obtén los datos de los TextViews
+            String cliente = tvNombreCliente.getText().toString();
+            String fecha = Tv_fecha.getText().toString();
+            String identificacion = tvRuc.getText().toString();
+            String ubicacion = tvUbicacion.getText().toString();
+
+// Verifica si el campo de razón social está vacío y asigna "NO" si es necesario
+            String razonSocial = tvRazonSocial.getText().toString().isEmpty() ? "No" : tvRazonSocial.getText().toString();
+            String tipoIdentRazonSocial = Mostrar_razon.getText().toString();
+
+// Inicializar la variable para la cadena de datos del cliente
+            String datosCliente = "";
+
+// Validación de la longitud del número de identificación
+            if (identificacion.length() == 8) {
+                // Si tiene 8 dígitos, es un DNI: Mostrar cliente y ocultar razón social
+                if (!cliente.isEmpty()) {
+                    datosCliente = "Cliente: " + cliente + "\n";
+                }
+                datosCliente += "Fecha: " + fecha + "\n" +
+                        "DNI: " + identificacion + "\n" +
+                        "Ubicación: " + ubicacion;
+            } else if (identificacion.length() == 11) {
+                // Si tiene 11 dígitos, es un RUC: Mostrar razón social después del RUC
+                if (!razonSocial.isEmpty() && !"No".equals(razonSocial)) {
+                    datosCliente = "RUC: " + identificacion + "\n" +
+                            tipoIdentRazonSocial + ": " + razonSocial + "\n";
+                }
+                datosCliente += "Fecha: " + fecha + "\n" +
+                        "Ubicación: " + ubicacion;
+            }
+
+// Crear el Paragraph con los datos del cliente o razón social
+            Paragraph rightAlignedData = new Paragraph(datosCliente)
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setMarginTop(15);
+
+// Añadir el Paragraph al documento
+            document.add(rightAlignedData);
+
+
+
+            //Añadir un breve texto de agradecimiento
+            Paragraph textAgradecimiento = new Paragraph(
+                    "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: ")
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setMarginTop(10); // Ajusta este valor para bajar más el título
+
+            document.add(textAgradecimiento);
+
+            // Agregar la imagen centrada debajo del texto de agradecimiento
+            if (imagePath != null) {
+                Image centeredImage = new Image(ImageDataFactory.create(imagePath));
+
+                // Ajustar el tamaño de la imagen
+                float maxWidth = 155f; // Ancho máximo de la imagen
+                float maxHeight = 122f; // Altura máxima de la imagen
+                float originalWidth = centeredImage.getImageWidth();
+                float originalHeight = centeredImage.getImageHeight();
+
+                // Calcular el ratio para mantener la proporción
+                float ratio = Math.min(maxWidth / originalWidth, maxHeight / originalHeight);
+                float newWidth = originalWidth * ratio;
+                float newHeight = originalHeight * ratio;
+
+                // Establecer dimensiones
+                centeredImage.setWidth(newWidth);
+                centeredImage.setHeight(newHeight);
+
+                // Centrar la imagen
+                Paragraph imageParagraph = new Paragraph().add(centeredImage)
+                        .setTextAlignment(TextAlignment.CENTER)
+                        .setMarginTop(3); // Espacio antes de la imagen
+
+                document.add(imageParagraph);
+            }
+
+
+
+            // Tabla en el centro
+            float[] columnWidths = {200f, 200f};
+            Table table = new Table(columnWidths);
+            table.setMarginTop(7);
+
+            table.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            // Usar el campo adecuado para la subcategoría
+
+            // Recuperar el texto actual de mostrarMedida
+            String unidadMedidaTexto = MostrarTexto.getText().toString();
+
+            String requerimiento = Requerimiento.getText().toString();
+
+            String precio = Precio.getText().toString();
+
+            String supervision = Tv_Supervisiion.getText().toString();
+
+// Añadir datos a la tabla
+            addCellToTable(table, "Categoría", tvCategoria.getText().toString(), true);
+            addCellToTable(table, requerimiento, tvRequerimiento.getText().toString(), true);
+            addCellToTable(table, "Descripción", tvdescripcion.getText().toString(), true);
+
+            if (!MostrarMaquina.getText().toString().isEmpty()) {
+                addCellToTable(table, unidadMedidaTexto, MostrarMaquina.getText().toString(), true);
+            }
+
+            if (!textviewprecio.getText().toString().isEmpty()) {
+                addCellToTable(table, precio, textviewprecio.getText().toString(), true);
+            }
+
+            if (!MostrarSupervision.getText().toString().isEmpty()) {
+                addCellToTable(table, supervision, MostrarSupervision.getText().toString(), true);
+            }
+
+            if (!tvSubTotal.getText().toString().isEmpty()
+                    && !"S/ 0".equals(tvSubTotal.getText().toString())) {
+                addCellToTable(table, "Subtotal", tvSubTotal.getText().toString(), true);
+            }
+            if (!tvIgv.getText().toString().isEmpty()
+                    && !"S/ 0".equals(tvIgv.getText().toString())) {
+                addCellToTable(table, "IGV", tvIgv.getText().toString(), true);
+            }
+
+            if (!tvTotal.getText().toString().isEmpty()
+                    && !"S/ 0".equals(tvTotal.getText().toString())) {
+                addCellToTable(table, "Total", tvTotal.getText().toString(), true);
+            }
+
+            if (!ED_Total2.getText().toString().isEmpty()
+                    && !"S/ 0".equals(ED_Total2.getText().toString())) {
+                addCellToTable(table, "Total", ED_Total2.getText().toString(), true);
+            }
+
+
+            document.add(table);
+
+            // Crear el texto "Respecto a la propuesta:"
+            String propuestaTexto = "Respecto a la propuesta:";
+            Paragraph propuesta = new Paragraph(propuestaTexto)
+                    .setBold()               // Negrita
+                    .setFontSize(11)
+                    .setMarginLeft(28)// Tamaño de letra más pequeño
+                    .setTextAlignment(TextAlignment.LEFT)  // Alineado a la izquierda
+                    .setMarginTop(10);       // Ajusta este valor para bajar más el texto
+            document.add(propuesta);
+
+            // Datos estáticos
+            String formaPagoStatic = "Forma de pago: ";
+            String plazoEntregaStatic = "Plazo de entrega: ";
+
+// Obtener el texto ingresado por el usuario desde el campo EditText
+            String textoUsuario = Tv_comentario.getText().toString();
+            String plazo = Tv_plazo.getText().toString();
+
+// Si el campo de comentario del usuario está vacío, se usa el texto estático por defecto
+            String anticipo = textoUsuario.isEmpty() ? "Anticipo 50%, saldo al culminar" : textoUsuario; // Este valor será dinámico dependiendo del usuario
+
+// Datos dinámicos
+            String plazoEntrega =  plazo.isEmpty() ? "3 días hábiles" : plazo; // Este valor también es dinámico
+
+// Crear la cadena para "Forma de pago" y "Plazo de entrega"
+            String formaPagoText = formaPagoStatic + anticipo + "\n";
+            String plazoEntregaText = plazoEntregaStatic + plazoEntrega + "\n";
+
+// Crear el Paragraph con los datos estáticos y dinámicos
+            Paragraph formaPagoParagraph = new Paragraph(formaPagoText)
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setFontSize(10)
+                    .setMarginTop(1); // Reducido el espacio entre párrafos
+
+// Añadir el Paragraph de "Forma de pago"
+            document.add(formaPagoParagraph);
+
+// Crear el Paragraph para "Plazo de entrega"
+            Paragraph plazoEntregaParagraph = new Paragraph(plazoEntregaText)
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setMarginLeft(28)
+                    .setFontSize(10)
+                    .setMarginTop(-3); // Reducido el espacio entre párrafos
+
+// Añadir el Paragraph de "Plazo de entrega"
+            document.add(plazoEntregaParagraph);
+
+
+
+// Crear y añadir la imagen del pie de página (footer)
+            Image footerImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.empresas))));
+            float footerHeight = 50f; // Altura del pie de página, ajusta según necesites
+            float footerWidth = (footerImage.getImageWidth() / footerImage.getImageHeight()) * footerHeight;
+
+// Posicionar el pie de página en la parte inferior
+            float footerBottomMargin = 5f; // Posición del pie de página (ajusta según necesites)
+            footerImage.setFixedPosition((pageWidth - footerWidth) / 2, footerBottomMargin);
+            footerImage.setWidth(footerWidth);
+            footerImage.setHeight(footerHeight);
+
+// Añadir el pie de página al documento
+            document.add(footerImage);
+
+// Crear y añadir imagen de la firma (por ejemplo, un cuadrado pequeño)
+            Image firmaImage = new Image(ImageDataFactory.create(inputStreamToByteArray(getResources().openRawResource(R.drawable.firma))));
+            float firmaHeight = 50f; // Altura de la firma, ajusta según necesites
+            float firmaWidth = (firmaImage.getImageWidth() / firmaImage.getImageHeight()) * firmaHeight;
+
+// Posicionar la imagen de la firma encima del footer
+            float firmaMarginAboveFooter = footerBottomMargin + footerHeight + 9f; // Espacio para separar firma del footer
+
+            firmaImage.setFixedPosition((pageWidth - firmaWidth) / 2, firmaMarginAboveFooter);
+            firmaImage.setWidth(firmaWidth);
+            firmaImage.setHeight(firmaHeight);
+
+// Añadir la firma al documento
+            document.add(firmaImage);
+
+
+            document.close();
+
+
+            return pdfPath;
+        } catch (Exception e) {
+            this.pdfPath = null;
+
+            Toast.makeText(this, "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+
+
+    private void addCellToTable(Table table, String label, String value, boolean isHeader) {
+        // Crear la celda para el encabezado (columna izquierda)
+        Cell labelCell = new Cell()
+                .add(new Paragraph(label))
+                .setTextAlignment(TextAlignment.LEFT)
+                .setPadding(5);
+
+        // Aplicar estilo celeste y blanco solo si es encabezado
+        if (isHeader) {
+            labelCell.setBackgroundColor(new DeviceRgb(173, 216, 230)); // Fondo celeste
+            labelCell.setFontColor(ColorConstants.BLACK); // Texto blanco
+        }
+
+        // Crear la celda para el valor (columna derecha)
+        Cell valueCell = new Cell()
+                .add(new Paragraph(value))
+                .setTextAlignment(TextAlignment.LEFT)
+                .setPadding(5);
+
+        // Agregar ambas celdas a la tabla
+        table.addCell(labelCell);
+        table.addCell(valueCell);
+    }
+
+    private String obtenerRutaDelPDF() {
+        // Cambia el nombre del archivo para cada cotización
+        return new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf").getAbsolutePath();
+    }
+
+
 
 
 
@@ -513,6 +890,16 @@ public class mostrardetalles extends AppCompatActivity {
     private String formatearNumeroConComas(double numero) {
         DecimalFormat formato = new DecimalFormat("#,###");
         return formato.format(numero);
+    }
+
+    private byte[] inputStreamToByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[16384];
+        while ((nRead = is.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        return buffer.toByteArray();
     }
 
 

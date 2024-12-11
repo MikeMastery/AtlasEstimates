@@ -31,6 +31,10 @@ public interface ClienteDao {
     @Update
     void updateCliente(table_clientes clientes);
 
+
+    @Query("SELECT * FROM clientes WHERE id_cliente = :cotizacionId")
+    List<table_clientes> getDetallesByCotizacionId(int cotizacionId);
+
     }
 
 

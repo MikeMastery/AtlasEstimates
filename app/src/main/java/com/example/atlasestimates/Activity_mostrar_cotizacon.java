@@ -617,9 +617,9 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
     // Método para crear el PDF con iText7
     public String createPDFWithIText() {
+
         String pdfPath = obtenerRutaDelPDF(); // Obtener la ruta dinámica
         File file = new File(pdfPath);
-
 
         try {
 
@@ -909,10 +909,6 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         }
     }
 
-    private String obtenerRutaDelPDF() {
-        // Cambia el nombre del archivo para cada cotización
-        return new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf").getAbsolutePath();
-    }
 
 
     private void addCellToTable(Table table, String label, String value, boolean isHeader) {
@@ -938,6 +934,12 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         table.addCell(labelCell);
         table.addCell(valueCell);
     }
+
+    private String obtenerRutaDelPDF() {
+        // Cambia el nombre del archivo para cada cotización
+        return new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf").getAbsolutePath();
+    }
+
 
     private void sharePDF() {
         if (pdfPath == null || pdfPath.isEmpty()) {

@@ -46,6 +46,18 @@ public class CotizacionViewModel extends AndroidViewModel {
     }
 
 
+    // Método para obtener los detalles de la cotización
+    public List<table_detalleCotizacion> etDetallesByCotizacionId(int cotizacionId) {
+        return appDatabase.detalleCotizacionDao().getDetallesByCotizacionId(cotizacionId);
+    }
+
+
+
+
+
+
+
+
     public LiveData<List<table_cotizacion>> getCotizaciones() {
         return cotizaciones;
     }
