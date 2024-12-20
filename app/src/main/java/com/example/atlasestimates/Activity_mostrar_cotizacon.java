@@ -54,6 +54,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.ByteArrayOutputStream;
@@ -77,7 +78,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
     private TextView textviewCategoria, textviewUnidadMedida, textviewPrecio, textviewTotal, textviewTotalIGV,
             textviewSubTotal, textviewIdentificacion, textview_mostrarUbicacion, mostrarMedida, mostrarTipoIden,
             textviewRazoncial, textviewMostrarRazon, tvmostrarvalor, textmostrarsupervision, textmostrarsupervisionSINO,
-            totaldeIngenieriayArquitectura, textviewTotalTopografia, Mostrar_Maquina, ed_comentario;
+            totaldeIngenieriayArquitectura, textviewTotalTopografia, Mostrar_Maquina, ed_comentario, Maquina;
     private EditText editextImagen, Ed_plazoEntrega;
     private String imagePath;
     private AppDatabase db;
@@ -201,6 +202,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
         ed_comentario = findViewById(R.id.cajaComentario);
         layoutMaquina = findViewById(R.id.tv_maquina);
         Ed_plazoEntrega = findViewById(R.id.plazoentrega);
+        Maquina = findViewById(R.id.maquina);
     }
 
 
@@ -654,13 +656,13 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             String tituloTexto = textViewTitulo.getText().toString();
             Paragraph title = new Paragraph(tituloTexto)
                     .setBold()
-                    .setFontSize(18)
+                    .setFontSize(16)
                     .setTextAlignment(TextAlignment.CENTER)
                     .setMarginTop(85); // Ajusta este valor para bajar más el título
             document.add(title);
 
 // Calcular el ancho de la línea basado en el tamaño del texto
-            float fontSize = 18; // Tamaño de fuente del título
+            float fontSize = 16; // Tamaño de fuente del título
             float lineWidthPerCharacter = fontSize * 0.6f; // Aproximadamente, dependiendo de la fuente
             float calculatedWidth = tituloTexto.length() * lineWidthPerCharacter;
 
@@ -707,7 +709,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Paragraph rightAlignedData = new Paragraph(datosCliente)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(15);
+                    .setFontSize(11)
+                    .setMarginTop(16);
 
 // Añadir el Paragraph al documento
             document.add(rightAlignedData);
@@ -719,7 +722,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                     "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: ")
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(10); // Ajusta este valor para bajar más el título
+                    .setFontSize(12)
+                    .setMarginTop(10); // Ajusta este valor para bajar más el texto
 
             document.add(textAgradecimiento);
 
@@ -728,8 +732,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 Image centeredImage = new Image(ImageDataFactory.create(imagePath));
 
                 // Ajustar el tamaño de la imagen
-                float maxWidth = 155f; // Ancho máximo de la imagen
-                float maxHeight = 122f; // Altura máxima de la imagen
+                float maxWidth = 185f; // Ancho máximo de la imagen
+                float maxHeight = 150f; // Altura máxima de la imagen
                 float originalWidth = centeredImage.getImageWidth();
                 float originalHeight = centeredImage.getImageHeight();
 
@@ -745,17 +749,18 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 // Centrar la imagen
                 Paragraph imageParagraph = new Paragraph().add(centeredImage)
                         .setTextAlignment(TextAlignment.CENTER)
-                        .setMarginTop(3); // Espacio antes de la imagen
+                        .setMarginTop(5); // Espacio antes de la imagen
 
                 document.add(imageParagraph);
             }
 
-
-
-            // Tabla en el centro
-            float[] columnWidths = {200f, 200f};
-            Table table = new Table(columnWidths);
-            table.setMarginTop(7);
+            // Tabla en el centro con ajuste dinámico
+            float maxWidth = 455f; // Ancho máximo permitido
+            Table table = new Table(2); // 2 columnas
+            table.setWidth(UnitValue.createPercentValue(100)); // La tabla se ajustará al 100% del contenido
+            table.setMaxWidth(maxWidth); // Pero no superará este ancho máximo
+            table.setMarginTop(9);
+            table.setFixedLayout();
 
             table.setHorizontalAlignment(HorizontalAlignment.CENTER);
             // Usar el campo adecuado para la subcategoría
@@ -766,6 +771,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             String requerimiento = textviewTotalTopografia.getText().toString();
 
             String precio = tvmostrarvalor.getText().toString();
+
+            String maquina = Maquina.getText().toString();
 
             String supervision = textmostrarsupervision.getText().toString();
 
@@ -780,6 +787,10 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             if (!textviewPrecio.getText().toString().isEmpty()) {
                 addCellToTable(table, precio, textviewPrecio.getText().toString(), true);
+            }
+
+            if (!Mostrar_Maquina.getText().toString().isEmpty()) {
+                addCellToTable(table, maquina, Mostrar_Maquina.getText().toString(), true);
             }
 
             if (!textmostrarsupervisionSINO.getText().toString().isEmpty()) {
@@ -812,10 +823,10 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             String propuestaTexto = "Respecto a la propuesta:";
             Paragraph propuesta = new Paragraph(propuestaTexto)
                     .setBold()               // Negrita
-                    .setFontSize(11)
+                    .setFontSize(12)
                     .setMarginLeft(28)        // Tamaño de letra más pequeño
                     .setTextAlignment(TextAlignment.LEFT)  // Alineado a la izquierda
-                    .setMarginTop(10);        // Espacio consistente después de la tabla
+                    .setMarginTop(12);        // Espacio consistente después de la tabla
             document.add(propuesta);
 
 // Datos estáticos
@@ -840,8 +851,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Paragraph formaPagoParagraph = new Paragraph(formaPagoText)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setFontSize(10)
-                    .setMarginTop(5); // Espacio consistente
+                    .setFontSize(11)
+                    .setMarginTop(1); // Espacio consistente
 
 // Añadir el Paragraph de "Forma de pago"
             document.add(formaPagoParagraph);
@@ -850,8 +861,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             Paragraph plazoEntregaParagraph = new Paragraph(plazoEntregaText)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setFontSize(10)
-                    .setMarginTop(2); // Espacio consistente
+                    .setFontSize(11)
+                    .setMarginTop(-2); // Espacio consistente
 
 // Añadir el Paragraph de "Plazo de entrega"
             document.add(plazoEntregaParagraph);
@@ -907,33 +918,33 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             return null;
         }
     }
-
-
-
+    // En el método addCellToTable, ajusta el ancho de las columnas
     private void addCellToTable(Table table, String label, String value, boolean isHeader) {
         // Crear la celda para el encabezado (columna izquierda)
         Cell labelCell = new Cell()
-                .add(new Paragraph(label))
+                .add(new Paragraph(label)
+                        .setFontSize(11f))
                 .setTextAlignment(TextAlignment.LEFT)
-                .setPadding(5);
+                .setPadding(2)
+                .setWidth(UnitValue.createPercentValue(30)); // La primera columna ocupa 30%
 
-        // Aplicar estilo celeste y blanco solo si es encabezado
         if (isHeader) {
-            labelCell.setBackgroundColor(new DeviceRgb(173, 216, 230)); // Fondo celeste
-            labelCell.setFontColor(ColorConstants.BLACK); // Texto blanco
+            labelCell.setBackgroundColor(new DeviceRgb(173, 216, 230));
+            labelCell.setFontColor(ColorConstants.BLACK);
         }
 
         // Crear la celda para el valor (columna derecha)
         Cell valueCell = new Cell()
-                .add(new Paragraph(value))
+                .add(new Paragraph(value)
+                        .setFontSize(11f))
                 .setTextAlignment(TextAlignment.LEFT)
-                .setPadding(5);
+                .setPadding(2)
+                .setWidth(UnitValue.createPercentValue(70)); // La segunda columna ocupa 70%
 
         // Agregar ambas celdas a la tabla
         table.addCell(labelCell);
         table.addCell(valueCell);
     }
-
     private String obtenerRutaDelPDF() {
         // Cambia el nombre del archivo para cada cotización
         return new File(getExternalFilesDir(null), "Cotizacion_" + System.currentTimeMillis() + ".pdf").getAbsolutePath();

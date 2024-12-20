@@ -68,6 +68,7 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 
 public class mostrardetalles extends AppCompatActivity {
 
@@ -81,7 +82,7 @@ public class mostrardetalles extends AppCompatActivity {
     private TextView tvNombreCliente, tvTitulo, tvUbicacion, tvdescripcion, tvRuc, tvRazonSocial, tvCategoria,
             tvRequerimiento, tvSubTotal, tvIgv, tvTotal, textviewMetros, textviewprecio, mostrarMedida,
             Requerimiento, MostrarMaquina, Precio, Identificacion, MostrarTexto, MostrarSupervision, ED_Total2, Tv_Supervisiion,
-             Tv_comentario, Tv_plazo, Tv_fecha, Mostrar_razon ;
+             Tv_comentario, Tv_plazo, Tv_fecha, Mostrar_razon , mostrarTexto;
     private Button verpdf;
 
     @Override
@@ -128,6 +129,7 @@ public class mostrardetalles extends AppCompatActivity {
         Tv_plazo = findViewById(R.id.comentario_plazo);
         verpdf = findViewById(R.id.verpdf);
         LayoutCliente = findViewById(R.id.layoutcliente);
+
 
 
         // Obtener el ID de la cotización desde el Intent
@@ -338,7 +340,7 @@ public class mostrardetalles extends AppCompatActivity {
 
                                 case "Global MP":
                                     Requerimiento.setText("Medida:");
-                                    mostrarMedida.setText("Maquina:");
+
                                     Precio.setText("Cantidad:");
                                     MostrarMaquina.setText(item.getMaquina());
                                     LayoutTotal1.setVisibility(View.GONE);
@@ -528,13 +530,13 @@ public class mostrardetalles extends AppCompatActivity {
             String tituloTexto = tvTitulo.getText().toString();
             Paragraph title = new Paragraph(tituloTexto)
                     .setBold()
-                    .setFontSize(18)
+                    .setFontSize(16)
                     .setTextAlignment(TextAlignment.CENTER)
                     .setMarginTop(85); // Ajusta este valor para bajar más el título
             document.add(title);
 
 // Calcular el ancho de la línea basado en el tamaño del texto
-            float fontSize = 18; // Tamaño de fuente del título
+            float fontSize = 16; // Tamaño de fuente del título
             float lineWidthPerCharacter = fontSize * 0.6f; // Aproximadamente, dependiendo de la fuente
             float calculatedWidth = tituloTexto.length() * lineWidthPerCharacter;
 
@@ -581,7 +583,8 @@ public class mostrardetalles extends AppCompatActivity {
             Paragraph rightAlignedData = new Paragraph(datosCliente)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(15);
+                    .setFontSize(11)
+                    .setMarginTop(16);
 
 // Añadir el Paragraph al documento
             document.add(rightAlignedData);
@@ -593,7 +596,8 @@ public class mostrardetalles extends AppCompatActivity {
                     "Es grato dirigirme a usted, para saludarle, agradecer la invitación y presentar nuestra propuesta de vuestro servicio: ")
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setMarginTop(5); // Ajusta este valor para bajar más el título
+                    .setFontSize(12)
+                    .setMarginTop(10); // Ajusta este valor para bajar más el título
 
             document.add(textAgradecimiento);
 
@@ -602,8 +606,8 @@ public class mostrardetalles extends AppCompatActivity {
                 try {
                     Image centeredImage = new Image(ImageDataFactory.create(imageUriString));
                     // Ajustar el tamaño de la imagen
-                    float maxWidth = 155f; // Ancho máximo de la imagen
-                    float maxHeight = 122f; // Altura máxima de la imagen
+                    float maxWidth = 185f; // Ancho máximo de la imagen
+                    float maxHeight = 150f; // Altura máxima de la imagen
                     float originalWidth = centeredImage.getImageWidth();
                     float originalHeight = centeredImage.getImageHeight();
                     // Calcular el ratio para mantener la proporción
@@ -616,7 +620,7 @@ public class mostrardetalles extends AppCompatActivity {
                     // Centrar la imagen
                     Paragraph imageParagraph = new Paragraph().add(centeredImage)
                             .setTextAlignment(TextAlignment.CENTER)
-                            .setMarginTop(-1); // Espacio antes de la imagen
+                            .setMarginTop(5); // Espacio antes de la imagen
                     document.add(imageParagraph);
                 } catch (Exception e) {
                     // Manejo de error si no se puede cargar la imagen
@@ -624,11 +628,13 @@ public class mostrardetalles extends AppCompatActivity {
                 }
             }
 
-
-            // Tabla en el centro
-            float[] columnWidths = {200f, 200f};
-            Table table = new Table(columnWidths);
-            table.setMarginTop(2);
+            // Tabla en el centro con ajuste dinámico
+            float maxWidth = 455f; // Ancho máximo permitido
+            Table table = new Table(2); // 2 columnas
+            table.setWidth(UnitValue.createPercentValue(100)); // La tabla se ajustará al 100% del contenido
+            table.setMaxWidth(maxWidth); // Pero no superará este ancho máximo
+            table.setMarginTop(9);
+            table.setFixedLayout();
 
             table.setHorizontalAlignment(HorizontalAlignment.CENTER);
             // Usar el campo adecuado para la subcategoría
@@ -641,6 +647,8 @@ public class mostrardetalles extends AppCompatActivity {
             String medida = mostrarMedida.getText().toString();
 
             String precio = Precio.getText().toString();
+
+
 
             String supervision = Tv_Supervisiion.getText().toString();
 
@@ -666,6 +674,7 @@ public class mostrardetalles extends AppCompatActivity {
             if (!textviewprecio.getText().toString().isEmpty()) {
                 addCellToTable(table, precio, textviewprecio.getText().toString(), true);
             }
+
 
             if (!MostrarSupervision.getText().toString().isEmpty()) {
                 addCellToTable(table, supervision, MostrarSupervision.getText().toString(), true);
@@ -697,10 +706,10 @@ public class mostrardetalles extends AppCompatActivity {
             String propuestaTexto = "Respecto a la propuesta:";
             Paragraph propuesta = new Paragraph(propuestaTexto)
                     .setBold()               // Negrita
-                    .setFontSize(11)
+                    .setFontSize(12)
                     .setMarginLeft(28)// Tamaño de letra más pequeño
                     .setTextAlignment(TextAlignment.LEFT)  // Alineado a la izquierda
-                    .setMarginTop(10);       // Ajusta este valor para bajar más el texto
+                    .setMarginTop(12);       // Ajusta este valor para bajar más el texto
             document.add(propuesta);
 
             // Datos estáticos
@@ -725,7 +734,7 @@ public class mostrardetalles extends AppCompatActivity {
             Paragraph formaPagoParagraph = new Paragraph(formaPagoText)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setFontSize(10)
+                    .setFontSize(11)
                     .setMarginTop(1); // Reducido el espacio entre párrafos
 
 // Añadir el Paragraph de "Forma de pago"
@@ -735,8 +744,8 @@ public class mostrardetalles extends AppCompatActivity {
             Paragraph plazoEntregaParagraph = new Paragraph(plazoEntregaText)
                     .setTextAlignment(TextAlignment.LEFT)
                     .setMarginLeft(28)
-                    .setFontSize(10)
-                    .setMarginTop(-3); // Reducido el espacio entre párrafos
+                    .setFontSize(11)
+                    .setMarginTop(-2); // Reducido el espacio entre párrafos
 
 // Añadir el Paragraph de "Plazo de entrega"
             document.add(plazoEntregaParagraph);
@@ -785,26 +794,28 @@ public class mostrardetalles extends AppCompatActivity {
         }
     }
 
-
-
+    // En el método addCellToTable, ajusta el ancho de las columnas
     private void addCellToTable(Table table, String label, String value, boolean isHeader) {
         // Crear la celda para el encabezado (columna izquierda)
         Cell labelCell = new Cell()
-                .add(new Paragraph(label))
+                .add(new Paragraph(label)
+                        .setFontSize(11f))
                 .setTextAlignment(TextAlignment.LEFT)
-                .setPadding(5);
+                .setPadding(2)
+                .setWidth(UnitValue.createPercentValue(30)); // La primera columna ocupa 30%
 
-        // Aplicar estilo celeste y blanco solo si es encabezado
         if (isHeader) {
-            labelCell.setBackgroundColor(new DeviceRgb(173, 216, 230)); // Fondo celeste
-            labelCell.setFontColor(ColorConstants.BLACK); // Texto blanco
+            labelCell.setBackgroundColor(new DeviceRgb(173, 216, 230));
+            labelCell.setFontColor(ColorConstants.BLACK);
         }
 
         // Crear la celda para el valor (columna derecha)
         Cell valueCell = new Cell()
-                .add(new Paragraph(value))
+                .add(new Paragraph(value)
+                        .setFontSize(11f))
                 .setTextAlignment(TextAlignment.LEFT)
-                .setPadding(5);
+                .setPadding(2)
+                .setWidth(UnitValue.createPercentValue(70)); // La segunda columna ocupa 70%
 
         // Agregar ambas celdas a la tabla
         table.addCell(labelCell);
