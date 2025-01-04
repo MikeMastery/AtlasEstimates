@@ -246,42 +246,62 @@ public class layout_2_cotiza extends AppCompatActivity {
             case "Materiales":
                 tvSeleccionarProducto.setText("Materiales");
                 setSpinnerSubcategorias(R.array.spinner_productos);
+
                 break;
 
             case "Servicios":
                 tvSeleccionarProducto.setText("Servicios");
                 setSpinnerSubcategorias(R.array.spinner_servicios);
+
                 break;
 
             case "Topografia":
                 tvSeleccionarProducto.setText("Medida");
                 setSpinnerSubcategorias(R.array.spinner_medida);
+
                 break;
 
             case "Estructuras Metálicas":
                 tvSeleccionarProducto.setText("Seleccionar Estructura");
                 setSpinnerSubcategorias(R.array.spinner_estructurasMetalicas);
+
                 break;
 
             case "Abastecimiento de Agua":
                 tvSeleccionarProducto.setText("Tipo de Agua");
                 setSpinnerSubcategorias(R.array.spinner_AbasAgua);
+
                 break;
 
             case "Maquinaria Pesada":
                 tvSeleccionarProducto.setText("Subcategoría");
                 setSpinnerSubcategorias(R.array.spinner_MaquinariaPesada);
+
                 break;
 
             case "Construcción de Obra":
                 tvSeleccionarProducto.setText("Subcategoría");
                 setSpinnerSubcategorias(R.array.spinner_Constru_Obra);
+
                 break;
 
 
             case "Equipos menores":
                 tvSeleccionarProducto.setText("Tipo de maquina");
                 setSpinnerSubcategorias(R.array.spinner_Equipos_Menores);
+
+                break;
+
+            case "Otro":
+                // Cambiar el TextView a "Escribe una nueva subcategoría"
+                tvSeleccionarProducto.setText("Nueva subcategoría");
+
+                // Limpiar el Spinner de subcategorías
+                spinnerProducto.setAdapter(null);
+
+                // Mostrar los campos reutilizados (Cantidad y Precio)
+                showCantidadYPrecio();
+
                 break;
 
 
@@ -289,6 +309,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 tvSeleccionarProducto.setText("Seleccionar");
                 spinnerProducto.setAdapter(null);
                 hideAllFields();
+
                 break;
         }
     }
@@ -316,6 +337,9 @@ public class layout_2_cotiza extends AppCompatActivity {
         });
     }
 
+
+
+
     private void configurarTextWatcher() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -332,6 +356,7 @@ public class layout_2_cotiza extends AppCompatActivity {
             }
         };
 
+        edittext_producto.addTextChangedListener(textWatcher);
         etMl.addTextChangedListener(textWatcher);
         etPrecio.addTextChangedListener(textWatcher);
         etHorasMaquina.addTextChangedListener(textWatcher);
@@ -389,6 +414,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
             case "Ingenieria":
@@ -401,6 +427,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
             case "Unidad":
@@ -413,6 +440,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
             case "Coberturas":
@@ -428,6 +456,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
             case "Agua potable":
@@ -441,6 +470,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposMaquinariaPesada();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
             case "Medida Global":
@@ -453,6 +483,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
             case "Generador (10 KW)":
@@ -472,6 +503,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hidecamposMaquinariaPesada();
                 hideCamposAbastecimientoAgua();
                 hidecamposMaquinariaGlobal();
+                hideCantidadYPrecio();
                 break;
 
 
@@ -486,7 +518,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposEquiposMenores();
                 hideCamposAbastecimientoAgua();
-
+                hideCantidadYPrecio();
                 break;
 
             case "Global MP":
@@ -500,6 +532,7 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideCampoConstruccionObra();
                 hidecamposEquiposMenores();
                 hideCamposAbastecimientoAgua();
+                hideCantidadYPrecio();
                 break;
 
 
@@ -507,6 +540,31 @@ public class layout_2_cotiza extends AppCompatActivity {
                 hideAllFields();
                 break;
         }
+    }
+
+
+    private void showCantidadYPrecio() {
+        // Mostrar los campos de cantidad y precio con los TextViews correspondientes
+        etMl.setVisibility(View.VISIBLE);
+        etPrecio.setVisibility(View.VISIBLE);
+        tvMl.setVisibility(View.VISIBLE);
+        tvPrecio.setVisibility(View.VISIBLE);
+
+        // Cambiar los textos de los TextViews a "Cantidad" y "Precio"
+        tvMl.setText("Cantidad");
+        tvPrecio.setText("Precio");
+    }
+
+    private void hideCantidadYPrecio() {
+        // Ocultar los campos de cantidad y precio
+        etMl.setVisibility(View.GONE);
+        etPrecio.setVisibility(View.GONE);
+        tvMl.setVisibility(View.GONE);
+        tvPrecio.setVisibility(View.GONE);
+
+        // Limpiar el contenido de los EditText
+        etMl.setText("");
+        etPrecio.setText("");
     }
 
     private void showMetrosLinealesFields() {
@@ -723,7 +781,10 @@ public class layout_2_cotiza extends AppCompatActivity {
         hideCampoConstruccionObra();
         hidecamposMaquinariaPesada();
         hidecamposMaquinariaGlobal();
+        hideCantidadYPrecio();
     }
+
+
     private void calculateResult() {
         try {
             double cantidad, precio, subtotal, igv, total;

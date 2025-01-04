@@ -238,128 +238,27 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             // Ajustes condicionales basados en la subcategoría
             String subcategoria = cotizacion.getProducto(); // Usar el campo adecuado para la subcategoría
 
-            if ("Block de concreto".equals(subcategoria) || "Poste de concreto".equals(subcategoria)) {
-                // Muestra unidades en lugar de metros
-                mostrarMedida.setText("Unidades:");
-                textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
-                textviewPrecio.setText("S/ " + cotizacion.getPrecioHora());
-                textmostrarsupervision.setVisibility(View.GONE);
-                ocultarTotalServicios.setVisibility(View.GONE);
-                layoutsupervision.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-
-            } else if ("Cercos prefabricados".equals(subcategoria) || "Cerco cabeza caballo".equals(subcategoria)) {
-                // Muestra metros en lugar de metros/unidades
-                mostrarMedida.setText("Metros:");
+            // Verificar si la subcategoría es una personalizada (vacía o no coincide con ninguna opción predefinida)
+            if (subcategoria == null || subcategoria.isEmpty() || !esSubcategoriaPredefinida(subcategoria)) {
+                // Mostrar los campos de "Metros Lineales" y "Precio"
+                mostrarMedida.setText("Cantidad:");
                 textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
                 textviewPrecio.setText("S/ " + cotizacion.getPrecio());
+                // Mostrar los layouts relacionados
+                layoutMetrosUnidadees.setVisibility(View.VISIBLE);
+                layoutprecio.setVisibility(View.VISIBLE);
+                layoutTotal.setVisibility(View.VISIBLE);
+                layoutIGV.setVisibility(View.VISIBLE);
+                layoutSubTotal.setVisibility(View.VISIBLE);
                 textmostrarsupervision.setVisibility(View.GONE);
                 ocultarTotalServicios.setVisibility(View.GONE);
                 layoutsupervision.setVisibility(View.GONE);
                 layoutMaquina.setVisibility(View.GONE);
-
-            } else if ("Generador (10 KW)".equals(subcategoria) || "Rotomartillo Demoledor (17 K)".equals(subcategoria) ||
-                    "Rotomartillo Demoledor (11 K)".equals(subcategoria) || "Cortadora Pavimento".equals(subcategoria) ||
-                    "Mezcladora".equals(subcategoria) || "Vibrador Concreto".equals(subcategoria)) {
-                mostrarMedida.setText("Dias:");
-                textviewUnidadMedida.setText(cotizacion.getEquipoMenor());
-                textviewPrecio.setText("S/ " + cotizacion.getPrecioEquiposMenores());
-                textmostrarsupervision.setVisibility(View.GONE);
-                ocultarTotalServicios.setVisibility(View.GONE);
-                layoutsupervision.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-            } else if ("Coberturas".equals(subcategoria) || "Puertas".equals(subcategoria) ||
-                    "Portones".equals(subcategoria) || "Barandas".equals(subcategoria) ||
-                    "Escaleras".equals(subcategoria)) {
-                mostrartotalInAR.setText("S/ " + cotizacion.getCampoEstructura());
-                textmostrarsupervision.setVisibility(View.GONE);
-                layoutsupervision.setVisibility(View.GONE);
-                layoutprecio.setVisibility(View.GONE);
-                layoutMetrosUnidadees.setVisibility(View.GONE);
-                layoutTotal.setVisibility(View.GONE);
-                layoutIGV.setVisibility(View.GONE);
-                layoutSubTotal.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-
-            } else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
-                mostrarMedida.setText("Tipo de Medida:");
-                textviewUnidadMedida.setText(cotizacion.getMedida());
-                textviewPrecio.setText(cotizacion.getDesarrolloProyecto());
-                tvmostrarvalor.setText(cotizacion.gettextodesarrollo());
-                textmostrarsupervisionSINO.setText(cotizacion.getsupersionSINO());
-                mostrartotalInAR.setText("S/ " + cotizacion.gettotalInAr());
-                // Ocultar los LinearLayouts completos en lugar de solo los TextViews
-                layoutTotal.setVisibility(View.GONE);
-                layoutIGV.setVisibility(View.GONE);
-                layoutSubTotal.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-            } else if ("Unidad".equals(subcategoria) || "Global".equals(subcategoria)) {
-                textviewTotalTopografia.setText("Medida:");
-                mostrartotalInAR.setText("S/ " + cotizacion.getTotalTopogrgafia());
-                layoutMetrosUnidadees.setVisibility(View.GONE);
-                layoutprecio.setVisibility(View.GONE);
-                layoutsupervision.setVisibility(View.GONE);
-                layoutTotal.setVisibility(View.GONE);
-                layoutIGV.setVisibility(View.GONE);
-                layoutSubTotal.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-            } else if ("Medida Global".equals(subcategoria)) {
-                textviewTotalTopografia.setText("Medida:");
-                mostrartotalInAR.setText("S/ " + cotizacion.getCampoConstruccionObra());
-                layoutMetrosUnidadees.setVisibility(View.GONE);
-                layoutprecio.setVisibility(View.GONE);
-                layoutsupervision.setVisibility(View.GONE);
-                layoutTotal.setVisibility(View.GONE);
-                layoutIGV.setVisibility(View.GONE);
-                layoutSubTotal.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-            } else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
-                mostrarMedida.setText("Metros Cubicos:");
-                textviewUnidadMedida.setText(cotizacion.getCantidaAgua());
-                textviewPrecio.setVisibility(View.GONE);
-                tvmostrarvalor.setVisibility(View.GONE);
-                layoutsupervision.setVisibility(View.GONE);
-                mostrartotalInAR.setText("S/ " + cotizacion.getCampoTotalAgua());
-                // Ocultar los LinearLayouts completos en lugar de solo los TextViews
-                layoutTotal.setVisibility(View.GONE);
-                layoutIGV.setVisibility(View.GONE);
-                layoutSubTotal.setVisibility(View.GONE);
-                layoutMaquina.setVisibility(View.GONE);
-
-            } else if ("Alquiler".equals(subcategoria)) {
-                textviewTotalTopografia.setText("Medida:");
-                Mostrar_Maquina.setText(cotizacion.getMaquina());
-                textviewPrecio.setText(cotizacion.getHorasAlquiler());
-                textviewUnidadMedida.setText(cotizacion.getMovilizacion());
-                mostrarMedida.setText("Movilización / Desmovilización:");
-                tvmostrarvalor.setText("Horas Alquiladas:");
-                textmostrarsupervision.setText("Costo Hora:");
-                textmostrarsupervisionSINO.setText("S/ " + cotizacion.getCostoHora());
-                ocultarTotalServicios.setVisibility(View.GONE);
-
-            } else if ("Global MP".equals(subcategoria)) {
-                textviewTotalTopografia.setText("Medida:");
-                Mostrar_Maquina.setText(cotizacion.getMaquina());
-                textviewPrecio.setText(cotizacion.getCantidadMaquinaGlobal());
-                tvmostrarvalor.setText("Cantidad:");
-                mostrartotalInAR.setText("S/ " + cotizacion.getCostoMaquinaGlobal());
-                layoutsupervision.setVisibility(View.GONE);
-                layoutTotal.setVisibility(View.GONE);
-                layoutIGV.setVisibility(View.GONE);
-                layoutSubTotal.setVisibility(View.GONE);
-                layoutMetrosUnidadees.setVisibility(View.GONE);
-
-
             } else {
-                return;
-
+                // Procesar las subcategorías predefinidas
+                procesarSubcategoria(cotizacion, subcategoria);
             }
+
 
             textviewTotal.setText("S/ " + cotizacion.getTotal());
             textviewTotalIGV.setText("S/ " + cotizacion.getIgv());
@@ -368,6 +267,154 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
 
             manejarImagenCotizacion(cotizacion);
         }
+    }
+
+    // Método para verificar si la subcategoría es predefinida
+    private boolean esSubcategoriaPredefinida(String subcategoria) {
+        // Aquí puedes incluir todas las subcategorías conocidas que están en las opciones
+        String[] subcategoriasPredefinidas = {
+                "Block de concreto", "Poste de concreto", "Cercos prefabricados",
+                "Cerco cabeza caballo", "Generador (10 KW)", "Rotomartillo Demoledor (17 K)",
+                "Rotomartillo Demoledor (11 K)", "Cortadora Pavimento", "Mezcladora",
+                "Vibrador Concreto", "Coberturas", "Puertas", "Portones", "Barandas",
+                "Escaleras", "Ingenieria", "Arquitectura", "Unidad", "Global", "Medida Global",
+                "Agua potable", "Agua no potable", "Alquiler", "Global MP"
+        };
+
+        // Compara la subcategoría con las predefinidas
+        for (String categoria : subcategoriasPredefinidas) {
+            if (categoria.equals(subcategoria)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Método para procesar las subcategorías predefinidas
+    private void procesarSubcategoria(Cotizacion cotizacion, String subcategoria) {
+        if ("Block de concreto".equals(subcategoria) || "Poste de concreto".equals(subcategoria)) {
+            // Muestra unidades en lugar de metros
+            mostrarMedida.setText("Unidades:");
+            textviewUnidadMedida.setText(cotizacion.getHorasMaquina());
+            textviewPrecio.setText("S/ " + cotizacion.getPrecioHora());
+            textmostrarsupervision.setVisibility(View.GONE);
+            ocultarTotalServicios.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+
+        } else if ("Cercos prefabricados".equals(subcategoria) || "Cerco cabeza caballo".equals(subcategoria)) {
+            // Muestra metros en lugar de metros/unidades
+            mostrarMedida.setText("Metros:");
+            textviewUnidadMedida.setText(cotizacion.getMetrosLineales());
+            textviewPrecio.setText("S/ " + cotizacion.getPrecio());
+            textmostrarsupervision.setVisibility(View.GONE);
+            ocultarTotalServicios.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+        } else if ("Generador (10 KW)".equals(subcategoria) || "Rotomartillo Demoledor (17 K)".equals(subcategoria) ||
+                "Rotomartillo Demoledor (11 K)".equals(subcategoria) || "Cortadora Pavimento".equals(subcategoria) ||
+                "Mezcladora".equals(subcategoria) || "Vibrador Concreto".equals(subcategoria)) {
+            mostrarMedida.setText("Dias:");
+            textviewUnidadMedida.setText(cotizacion.getEquipoMenor());
+            textviewPrecio.setText("S/ " + cotizacion.getPrecioEquiposMenores());
+            textmostrarsupervision.setVisibility(View.GONE);
+            ocultarTotalServicios.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+        } else if ("Coberturas".equals(subcategoria) || "Puertas".equals(subcategoria) ||
+                "Portones".equals(subcategoria) || "Barandas".equals(subcategoria) ||
+                "Escaleras".equals(subcategoria)) {
+            mostrartotalInAR.setText("S/ " + cotizacion.getCampoEstructura());
+            textmostrarsupervision.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            layoutprecio.setVisibility(View.GONE);
+            layoutMetrosUnidadees.setVisibility(View.GONE);
+            layoutTotal.setVisibility(View.GONE);
+            layoutIGV.setVisibility(View.GONE);
+            layoutSubTotal.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+
+        } else if ("Ingenieria".equals(subcategoria) || "Arquitectura".equals(subcategoria)) {
+            mostrarMedida.setText("Tipo de Medida:");
+            textviewUnidadMedida.setText(cotizacion.getMedida());
+            textviewPrecio.setText(cotizacion.getDesarrolloProyecto());
+            tvmostrarvalor.setText(cotizacion.gettextodesarrollo());
+            textmostrarsupervisionSINO.setText(cotizacion.getsupersionSINO());
+            mostrartotalInAR.setText("S/ " + cotizacion.gettotalInAr());
+            // Ocultar los LinearLayouts completos en lugar de solo los TextViews
+            layoutTotal.setVisibility(View.GONE);
+            layoutIGV.setVisibility(View.GONE);
+            layoutSubTotal.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+        } else if ("Unidad".equals(subcategoria) || "Global".equals(subcategoria)) {
+            textviewTotalTopografia.setText("Medida:");
+            mostrartotalInAR.setText("S/ " + cotizacion.getTotalTopogrgafia());
+            layoutMetrosUnidadees.setVisibility(View.GONE);
+            layoutprecio.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            layoutTotal.setVisibility(View.GONE);
+            layoutIGV.setVisibility(View.GONE);
+            layoutSubTotal.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+        } else if ("Medida Global".equals(subcategoria)) {
+            textviewTotalTopografia.setText("Medida:");
+            mostrartotalInAR.setText("S/ " + cotizacion.getCampoConstruccionObra());
+            layoutMetrosUnidadees.setVisibility(View.GONE);
+            layoutprecio.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            layoutTotal.setVisibility(View.GONE);
+            layoutIGV.setVisibility(View.GONE);
+            layoutSubTotal.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+        } else if ("Agua potable".equals(subcategoria) || "Agua no potable".equals(subcategoria)) {
+            mostrarMedida.setText("Metros Cubicos:");
+            textviewUnidadMedida.setText(cotizacion.getCantidaAgua());
+            textviewPrecio.setVisibility(View.GONE);
+            tvmostrarvalor.setVisibility(View.GONE);
+            layoutsupervision.setVisibility(View.GONE);
+            mostrartotalInAR.setText("S/ " + cotizacion.getCampoTotalAgua());
+            // Ocultar los LinearLayouts completos en lugar de solo los TextViews
+            layoutTotal.setVisibility(View.GONE);
+            layoutIGV.setVisibility(View.GONE);
+            layoutSubTotal.setVisibility(View.GONE);
+            layoutMaquina.setVisibility(View.GONE);
+
+        } else if ("Alquiler".equals(subcategoria)) {
+            textviewTotalTopografia.setText("Medida:");
+            Mostrar_Maquina.setText(cotizacion.getMaquina());
+            textviewPrecio.setText(cotizacion.getHorasAlquiler());
+            textviewUnidadMedida.setText(cotizacion.getMovilizacion());
+            mostrarMedida.setText("Movilización / Desmovilización:");
+            tvmostrarvalor.setText("Horas Alquiladas:");
+            textmostrarsupervision.setText("Costo Hora:");
+            textmostrarsupervisionSINO.setText("S/ " + cotizacion.getCostoHora());
+            ocultarTotalServicios.setVisibility(View.GONE);
+
+        } else if ("Global MP".equals(subcategoria)) {
+            textviewTotalTopografia.setText("Medida:");
+            Mostrar_Maquina.setText(cotizacion.getMaquina());
+            textviewPrecio.setText(cotizacion.getCantidadMaquinaGlobal());
+            tvmostrarvalor.setText("Cantidad:");
+            mostrartotalInAR.setText("S/ " + cotizacion.getCostoMaquinaGlobal());
+            layoutsupervision.setVisibility(View.GONE);
+            layoutTotal.setVisibility(View.GONE);
+            layoutIGV.setVisibility(View.GONE);
+            layoutSubTotal.setVisibility(View.GONE);
+            layoutMetrosUnidadees.setVisibility(View.GONE);
+
+
+        } else {
+            return;
+
+        }
+        // Aquí puedes agregar más condiciones para las demás subcategorías predefinidas...
     }
 
     private void manejarImagenCotizacion(Cotizacion cotizacion) {
@@ -732,8 +779,8 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
                 Image centeredImage = new Image(ImageDataFactory.create(imagePath));
 
                 // Ajustar el tamaño de la imagen
-                float maxWidth = 185f; // Ancho máximo de la imagen
-                float maxHeight = 150f; // Altura máxima de la imagen
+                float maxWidth = 175f; // Ancho máximo de la imagen
+                float maxHeight = 140f; // Altura máxima de la imagen
                 float originalWidth = centeredImage.getImageWidth();
                 float originalHeight = centeredImage.getImageHeight();
 

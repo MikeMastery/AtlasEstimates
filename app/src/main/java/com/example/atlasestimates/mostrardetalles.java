@@ -424,7 +424,10 @@ public class mostrardetalles extends AppCompatActivity {
 
                                 // Agrega más casos según sea necesario para otros ítems
                                 default:
-                                    mostrarMedida.setText("Medida:"); // Texto predeterminado
+                                    mostrarMedida.setText("Cantidad:");
+                                    LayoutMaquina.setVisibility(View.GONE);
+                                    LayoutTotal2.setVisibility(View.GONE);
+                                    LayoutSupervision.setVisibility(View.GONE);// Texto predeterminado
                             }
                         }
                     }
