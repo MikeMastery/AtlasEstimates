@@ -41,7 +41,7 @@
             </LinearLayout>
 
             <!-- Card de Información del Cliente -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -76,6 +76,7 @@
                             android:layout_height="wrap_content"
                             android:text="Cliente:"
                             android:textStyle="bold"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"/>
 
                         <TextView
@@ -83,6 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             tools:text=""/>
                     </LinearLayout>
@@ -98,6 +100,7 @@
                             android:layout_height="wrap_content"
                             android:text="Ubicación:"
                             android:textStyle="bold"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"/>
 
                         <TextView
@@ -106,6 +109,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="Lima, Perú"/>
                     </LinearLayout>
                     <LinearLayout
@@ -120,6 +124,7 @@
                             android:layout_height="wrap_content"
                             android:text="RUC:"
                             android:textStyle="bold"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"/>
 
                         <TextView
@@ -128,6 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="86278399011"/>
 
                     </LinearLayout>
@@ -144,6 +150,7 @@
                             android:layout_height="wrap_content"
                             android:text="Razon Social:"
                             android:textStyle="bold"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"/>
 
                         <TextView
@@ -152,16 +159,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="Empresa Tramarsa EIRL"/>
 
                     </LinearLayout>
 
                     <!-- Resto de información del cliente similar -->
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- Card de Detalles del Servicio -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -196,6 +204,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Categoría:"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -205,6 +214,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="Construcción" />
 
                     </LinearLayout>
@@ -222,7 +232,8 @@
                             android:layout_height="wrap_content"
                             android:text="Requerimiento:"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorOnPrimary2"/>
 
                         <TextView
                             android:id="@+id/mostrarItem"
@@ -230,6 +241,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="Construcción" />
 
                     </LinearLayout>
@@ -246,6 +258,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Medida:"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -254,6 +267,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             tools:text="" />
 
@@ -272,6 +286,7 @@
                             android:layout_height="wrap_content"
                             android:text="Maquina:"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textStyle="bold" />
 
                         <TextView
@@ -280,6 +295,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="" />
 
                     </LinearLayout>
@@ -296,6 +312,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Precio:"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -304,6 +321,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             tools:text="" />
 
@@ -321,6 +339,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Supervisión:"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -330,6 +349,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="" />
 
                     </LinearLayout>
@@ -345,7 +365,8 @@
                             android:layout_height="wrap_content"
                             android:text="Fecha:"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorOnPrimary2"/>
 
                         <TextView
                             android:id="@+id/mostrarfecha"
@@ -353,6 +374,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="" />
 
                     </LinearLayout>
@@ -360,10 +382,10 @@
 
                     <!-- Resto de detalles del servicio similar -->
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- Card de Imagen y Descripción -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -434,12 +456,12 @@
                 </LinearLayout>
 
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
 
 
             <!-- Card de Resumen de Costos -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -473,12 +495,14 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="SubTotal"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/ed_SubTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="S/ 1,000.00"/>
                     </LinearLayout>
 
@@ -494,12 +518,14 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="IGV"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/mostrar_igv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="S/ 180.00"/>
                     </LinearLayout>
 
@@ -507,6 +533,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="?android:attr/listDivider"
+                        android:textColor="?attr/colorOnPrimary2"
                         android:layout_marginVertical="8dp"/>
 
                     <LinearLayout
@@ -520,6 +547,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Total"
+                        android:textColor="?attr/colorOnPrimary2"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
 
@@ -528,6 +556,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:textColor="?attr/colorOnPrimary2"
                         android:textSize="18sp"
                         tools:text="S/ 1,180.00"/>
                 </LinearLayout>
@@ -542,6 +571,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Total"
+                            android:textColor="?attr/colorOnPrimary2"
                             android:textStyle="bold"
                             android:textSize="18sp"/>
 
@@ -551,11 +581,11 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="18sp"
+                            android:textColor="?attr/colorOnPrimary2"
                             tools:text="S/ 1,180.00"/>
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
+            </androidx.cardview.widget.CardView>
 
 
 
