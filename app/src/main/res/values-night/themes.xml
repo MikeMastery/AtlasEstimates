@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">@color/ic_launcher_background</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/ic_launcher_background</item>,
+        <item name="colorSecondary">#3CFBCC05</item>,
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">#595757</item>
 
@@ -16,6 +16,8 @@
 
         <!-- Status bar color. -->
         <item name="colorOnPrimary3">@color/edit_text_background</item>
+
+        <item name="colorOnPrimary4">#801F1D1D</item>
 
 
         <item name="colorbuttons">#D5AF0E</item>

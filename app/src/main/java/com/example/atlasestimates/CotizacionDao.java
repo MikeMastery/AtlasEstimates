@@ -30,9 +30,11 @@ public interface CotizacionDao {
     @Query("SELECT * FROM cotizacion")
     List<table_cotizacion> getAllCotizaciones();
 
+    @Query("SELECT SUM(total) FROM cotizacion")
+    LiveData<Double> getSumaTotalIngresos();
 
 
-        @Update
+    @Update
         void updateCotizacion(table_cotizacion cotizacion);
 
 

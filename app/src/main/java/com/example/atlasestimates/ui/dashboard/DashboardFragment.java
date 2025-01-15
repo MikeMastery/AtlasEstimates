@@ -1,5 +1,7 @@
 package com.example.atlasestimates.ui.dashboard;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.atlasestimates.AppDatabase;
+import com.example.atlasestimates.CotizacionViewModel;
 import com.example.atlasestimates.R;
 import com.example.atlasestimates.databinding.FragmentDashboardBinding;
 
@@ -26,15 +31,28 @@ public class DashboardFragment extends Fragment {
     private ItemAdapter adapter;
     private List<Item> itemsList;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // Inicializa el binding
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+
+
+        CotizacionViewModel viewModel = new ViewModelProvider(requireActivity()).get(CotizacionViewModel.class);
+
+
+
+
+
 
         // Configurar RecyclerView
         recyclerView = root.findViewById(R.id.recyclerViewProductos);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+
 
         // Inicializar la lista
         itemsList = new ArrayList<>();
@@ -104,7 +122,7 @@ public class DashboardFragment extends Fragment {
                 "Bloques modulares de concreto, utilizados en la construcción de muros de albañilería confinada y armada. Son esenciales para la edificación de cimientos, paredes estructurales y divisorias internas en obras de mediana y gran envergadura. Estos bloques ofrecen resistencia a la compresión, facilidad de manejo y colocación, y son una opción económica para la construcción. Además, contribuyen al aislamiento térmico y acústico de los edificios, mejorando el confort de los espacios.",
                 R.drawable.block));
 
-        itemsList.add(new Item("Murete de Concreto",
+        itemsList.add(new Item("Cerco Tipo cabeza de Caballo",
                 "Elementos modulares de concreto, diseñados para crear muros estructurales resistentes que se emplean en la construcción de edificios, caminos y otras infraestructuras. Los muretes de concreto ofrecen durabilidad, estabilidad y una excelente capacidad para resistir cargas. Son ideales para proyectos en los que se requiere una base sólida y confiable, con la ventaja de ser fáciles de transportar e instalar.",
                 R.drawable.murete));
 
@@ -149,6 +167,7 @@ public class DashboardFragment extends Fragment {
                 // Enviar el ítem a la actividad de detalles
                 Intent intent = new Intent(v.getContext(), activity_product_detail.class);
                 intent.putExtra("selectedItem", item); // Pasar el item seleccionado
+
                 v.getContext().startActivity(intent);
             });
         }
@@ -169,6 +188,7 @@ public class DashboardFragment extends Fragment {
                 imageView = itemView.findViewById(R.id.ivProductImage);
                 nameView = itemView.findViewById(R.id.tvProductName);
                 descriptionView = itemView.findViewById(R.id.tvProductDescription);
+
             }
         }
     }

@@ -41,7 +41,7 @@
                 android:scaleType="centerCrop"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="18dp"
-                android:background="@drawable/rounded_border_background" />
+                />
 
             <!-- Nombre del Producto -->
             <TextView
@@ -75,7 +75,6 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="18dp"
         app:cardElevation="10dp"
-
         android:layout_margin="19px"
         >
 
@@ -100,7 +99,7 @@
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="12dp">
 
                 <LinearLayout
@@ -117,9 +116,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="123"
-                        android:textSize="36sp"
+                        android:textSize="40sp"
                         android:textStyle="bold"
-                        android:textColor="#FF5722"
+                        android:textColor="#FF3D00"
                         android:gravity="center" />
 
                     <!-- Texto descriptivo -->
@@ -127,9 +126,11 @@
                         android:id="@+id/tvSales1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ventas Totales"
-                        android:textSize="14sp"
-                        android:textColor="#000000"
+                        android:text="Cotizaciones Aceptadas"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:textColor="?attr/colorOnPrimary2"
+                        android:layout_margin="5dp"
                         android:gravity="center" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -140,7 +141,7 @@
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="12dp">
 
                 <LinearLayout
@@ -157,9 +158,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="456"
-                        android:textSize="36sp"
+                        android:textSize="40sp"
                         android:textStyle="bold"
-                        android:textColor="#4CAF50"
+                        android:textColor="#00FF0A"
                         android:gravity="center" />
 
                     <!-- Texto descriptivo -->
@@ -167,9 +168,11 @@
                         android:id="@+id/tvSales2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ventas Totales"
-                        android:textSize="14sp"
-                        android:textColor="#000000"
+                        android:text="Cotizaciones Rechazadas"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textColor="?attr/colorOnPrimary2"
                         android:gravity="center" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -188,7 +191,7 @@
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="12dp">
 
                 <LinearLayout
@@ -205,9 +208,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="789"
-                        android:textSize="36sp"
+                        android:textSize="40sp"
                         android:textStyle="bold"
-                        android:textColor="#2196F3"
+                        android:textColor="#1296FF"
                         android:gravity="center" />
 
                     <!-- Texto descriptivo -->
@@ -216,8 +219,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ventas Totales"
-                        android:textSize="14sp"
-                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:layout_margin="5dp"
+                        android:textColor="?attr/colorOnPrimary2"
                         android:gravity="center" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -228,7 +233,59 @@
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="12dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/glass_effect_background"
+                    android:padding="8dp">
+
+                    <!-- Número grande -->
+                    <TextView
+                        android:id="@+id/tvNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="101"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        android:textColor="#EFDA27"
+                        android:gravity="center" />
+
+                    <!-- Texto descriptivo -->
+                    <TextView
+                        android:id="@+id/tvSales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ingresos Totales"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textSize="15dp"
+                        android:textColor="?attr/colorOnPrimary2"
+                        android:gravity="center" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Segunda fila -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <!-- Tarjeta 4 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="12dp"
                 >
 
@@ -246,9 +303,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="101"
-                        android:textSize="36sp"
+                        android:textSize="40sp"
                         android:textStyle="bold"
-                        android:textColor="#9C27B0"
+                        android:textColor="#DB09FF"
                         android:gravity="center" />
 
                     <!-- Texto descriptivo -->
@@ -256,16 +313,22 @@
                         android:id="@+id/tvSales4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ventas Totales"
-                        android:textSize="14sp"
-                        android:textColor="#000000"
+                        android:text="Ingresos Totales"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textSize="15dp"
+                        android:textColor="?attr/colorOnPrimary2"
                         android:gravity="center" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+
         </LinearLayout>
 
+
+
     </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
 

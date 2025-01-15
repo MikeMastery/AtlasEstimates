@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -18,12 +19,17 @@ public class CotizacionViewModel extends AndroidViewModel {
 
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final MutableLiveData<List<table_cotizacion>> cotizaciones = new MutableLiveData<>();
+    private final MutableLiveData<Double> sumaTotalIngresos = new MutableLiveData<>();
 
     public CotizacionViewModel(@NonNull Application application) {
         super(application);
         appDatabase = AppDatabase.getInstance(application);
 
+
+
     }
+
+
 
     public void actualizarCotizacion(table_cotizacion cotizacion) {
         executor.execute(() -> {
@@ -78,7 +84,20 @@ public class CotizacionViewModel extends AndroidViewModel {
         }.execute();
     }
 
+    // Método para exponer la suma de los ingresos totales
+    public LiveData<Double> getSumaTotalIngresos() {
+        return sumaTotalIngresos;
+    }
 
+    // Método para cargar la suma total de ingresos
+    public void loadSumaTotalIngresos() {
+        appDatabase.cotizacionDao().getSumaTotalIngresos().observeForever(new Observer<Double>() {
+            @Override
+            public void onChanged(Double suma) {
+                sumaTotalIngresos.setValue(suma);
+            }
+        });
+    }
 
 
     public void deleteClienteYRelaciones(int clienteId) {
@@ -101,6 +120,10 @@ public class CotizacionViewModel extends AndroidViewModel {
 
         });
     }
+
+
+
+
 
     // Obtener una cotización por su ID
     public LiveData<table_cotizacion> getCotizacion(int cotizacionId) {

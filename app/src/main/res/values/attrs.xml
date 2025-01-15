@@ -3,6 +3,7 @@
     <!-- Define el atributo personalizado colorOnPrimary2 -->
     <attr name="colorOnPrimary2" format="color" />
     <attr name="colorOnPrimary3" format="color"></attr>
+    <attr name="colorOnPrimary4" format="color"></attr>
     <attr name="colorbuttons" format="color"></attr>
 
 </resources>
