@@ -19,6 +19,7 @@ public class CotizacionViewModel extends AndroidViewModel {
 
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final MutableLiveData<List<table_cotizacion>> cotizaciones = new MutableLiveData<>();
+    private MutableLiveData<Double> totalPorItem = new MutableLiveData<>();
     private final MutableLiveData<Double> sumaTotalIngresos = new MutableLiveData<>();
 
     public CotizacionViewModel(@NonNull Application application) {
@@ -64,6 +65,7 @@ public class CotizacionViewModel extends AndroidViewModel {
 
 
 
+
     public LiveData<List<table_cotizacion>> getCotizaciones() {
         return cotizaciones;
     }
@@ -89,6 +91,11 @@ public class CotizacionViewModel extends AndroidViewModel {
         return sumaTotalIngresos;
     }
 
+
+    public LiveData<Double> getTotalPorItem() {
+        return totalPorItem;
+    }
+
     // Método para cargar la suma total de ingresos
     public void loadSumaTotalIngresos() {
         appDatabase.cotizacionDao().getSumaTotalIngresos().observeForever(new Observer<Double>() {
@@ -99,6 +106,19 @@ public class CotizacionViewModel extends AndroidViewModel {
         });
     }
 
+
+
+    public void loadTotalPorItem(String nombreItem) {
+        new Thread(() -> {
+            try {
+                Double total = appDatabase.cotizacionDao().getTotalPorItem(nombreItem);
+                totalPorItem.postValue(total != null ? total : 0.0);
+            } catch (Exception e) {
+                e.printStackTrace();
+                totalPorItem.postValue(0.0);
+            }
+        }).start();
+    }
 
     public void deleteClienteYRelaciones(int clienteId) {
         executor.execute(() -> {

@@ -183,49 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="155dp"
             android:orientation="horizontal"
-            android:weightSum="2">
-
-            <!-- Tarjeta 3 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/glass_effect_background"
-                    android:padding="8dp">
-
-                    <!-- Número grande -->
-                    <TextView
-                        android:id="@+id/tvNumber3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="789"
-                        android:textSize="40sp"
-                        android:textStyle="bold"
-                        android:textColor="#1296FF"
-                        android:gravity="center" />
-
-                    <!-- Texto descriptivo -->
-                    <TextView
-                        android:id="@+id/tvSales3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas Totales"
-                        android:textStyle="bold"
-                        android:textSize="15dp"
-                        android:layout_margin="5dp"
-                        android:textColor="?attr/colorOnPrimary2"
-                        android:gravity="center" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            android:weightSum="1">
 
             <!-- Tarjeta 4 -->
             <androidx.cardview.widget.CardView
@@ -247,23 +205,23 @@
 
                     <!-- Número grande -->
                     <TextView
-                        android:id="@+id/tvNumber"
+                        android:id="@+id/tvNumber3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="101"
-                        android:textSize="40sp"
+                        android:textSize="42sp"
                         android:textStyle="bold"
-                        android:textColor="#EFDA27"
+                        android:textColor="#EFDB2E"
                         android:gravity="center" />
 
                     <!-- Texto descriptivo -->
                     <TextView
-                        android:id="@+id/tvSales"
+                        android:id="@+id/tvSales3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ingresos Totales"
+                        android:text="Ingresos por Ventas"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:textSize="15dp"
                         android:textColor="?attr/colorOnPrimary2"
                         android:gravity="center" />
@@ -302,8 +260,8 @@
                         android:id="@+id/tvNumber4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="101"
-                        android:textSize="40sp"
+                        android:text="0"
+                        android:textSize="42sp"
                         android:textStyle="bold"
                         android:textColor="#DB09FF"
                         android:gravity="center" />
@@ -315,7 +273,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ingresos Totales"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:textSize="15dp"
                         android:textColor="?attr/colorOnPrimary2"
                         android:gravity="center" />

@@ -34,6 +34,13 @@ public interface CotizacionDao {
     LiveData<Double> getSumaTotalIngresos();
 
 
+        @Query("SELECT SUM(CAST(c.total AS DOUBLE)) FROM cotizacion c " +
+                "JOIN Items i ON c.id_cotizacion = i.id_items " +
+                "WHERE i.nombre_Item = :nombreItem")
+        Double getTotalPorItem(String nombreItem);
+
+
+
     @Update
         void updateCotizacion(table_cotizacion cotizacion);
 
