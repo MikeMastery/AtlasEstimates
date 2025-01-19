@@ -11,4 +11,5 @@
     <color name="edit_text_border">#CCCCCC</color>
     <color name="edit_text_background">#FFFFFF</color>
     <color name="switch_thumb_color">#2C2C2C</color>
+    <color name="colorPrimary">#1976D2</color>
 </resources>

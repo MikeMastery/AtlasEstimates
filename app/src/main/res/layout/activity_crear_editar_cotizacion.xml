@@ -36,6 +36,23 @@
                 android:background="#94B8B7B7"
                 android:layout_marginTop="10dp"/>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView1"
+                android:layout_width="350dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+
 
             <LinearLayout
                 android:id="@+id/layout_titulo"
@@ -43,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="2dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -74,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="2dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -107,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="2dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -133,12 +150,34 @@
                     android:singleLine="true" />
             </LinearLayout>
 
-            <LinearLayout
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView0"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="10dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="25dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="1dp"
                 android:gravity="center_horizontal">
 
                 <!-- Tipo de Identificación -->
@@ -150,11 +189,11 @@
                     android:textColor="?attr/colorOnPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="15dp" />
 
                 <Spinner
                     android:id="@+id/spn_tipo_identificacion"
-                    android:layout_width="320dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/editex"
                     android:padding="12dp"
@@ -169,7 +208,7 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     android:layout_marginTop="16dp"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="1dp"
                     android:gravity="center_horizontal">
 
                     <TextView
@@ -184,7 +223,7 @@
 
                     <EditText
                         android:id="@+id/ed_dni"
-                        android:layout_width="320dp"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/editex"
                         android:hint="Ingrese el número"
@@ -202,7 +241,7 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     android:layout_marginTop="16dp"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="1dp"
                     android:gravity="center_horizontal">
 
                     <!-- Campo RUC -->
@@ -218,7 +257,7 @@
 
                     <EditText
                         android:id="@+id/ed_ruc"
-                        android:layout_width="320dp"
+                        android:layout_width="300dp"
                         android:layout_height="50dp"
                         android:background="@drawable/editex"
                         android:hint="Ingrese el RUC"
@@ -241,7 +280,7 @@
 
                     <EditText
                         android:id="@+id/ed_razonsocial"
-                        android:layout_width="320dp"
+                        android:layout_width="300dp"
                         android:layout_height="50dp"
                         android:background="@drawable/editex"
                         android:hint="Ingrese la Razón Social"
@@ -252,6 +291,10 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
             <View
@@ -266,6 +309,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                app:cornerRadius="8dp"
                 android:layout_marginTop="15dp">
 
 
@@ -276,6 +320,7 @@
                     android:layout_width="350dp"
                     android:layout_height="240dp"
                     android:scaleType="centerCrop"
+
                     android:background="@drawable/editex"
                     android:contentDescription="Imagen seleccionada" />
 
@@ -291,15 +336,31 @@
                     android:contentDescription="Editar imagen"
                     android:elevation="6dp" />
             </FrameLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView2"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="10dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
 
-            <LinearLayout
+
+        <LinearLayout
                 android:id="@+id/layout_fecha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="1dp"
                 android:gravity="center_vertical">
 
                 <!-- Etiqueta de la Fecha (a la izquierda) -->
@@ -317,12 +378,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:layout_marginLeft="-75dp">
+                    android:layout_marginLeft="-45dp">
 
                     <!-- Campo de fecha (que funciona como un botón) -->
                     <EditText
                         android:id="@+id/editText_fecha"
-                        android:layout_width="230dp"
+                        android:layout_width="160dp"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:textSize="16sp"
@@ -339,7 +400,7 @@
                         android:id="@+id/button_calendar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="245dp"
+                        android:layout_marginLeft="175dp"
                         android:src="@drawable/calendario"
 
                         android:background="@drawable/button_background"
@@ -355,7 +416,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="1dp"
                 android:gravity="center">
 
                 <TextView
@@ -394,7 +455,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="1dp"
                 android:gravity="center">
 
                 <TextView
@@ -432,7 +493,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="32dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="1dp"
                 android:gravity="center">
 
                 <TextView
@@ -464,6 +525,94 @@
                     android:scrollbars="vertical"
                     android:layout_gravity="center" />
             </LinearLayout>
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="Estado de Cotización"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/statusRadioGroup"
+                        android:layout_width="300dp"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/rbPendiente"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/radio_selector"
+                            android:button="@null"
+                            android:padding="12dp"
+                            android:text="Pendiente"
+                            android:textColor="@drawable/radio_text_selector"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rbAceptada"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/radio_selector"
+                            android:button="@null"
+                            android:padding="12dp"
+                            android:text="Aceptada"
+                            android:textColor="@drawable/radio_text_selector"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rbRechazada"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/radio_selector"
+                            android:button="@null"
+                            android:padding="12dp"
+                            android:text="Rechazada"
+                            android:textColor="@drawable/radio_text_selector"
+                            android:textSize="16sp" />
+                    </RadioGroup>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGuardarestado"
+                        android:layout_width="220dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:text="Guardar estado"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:cornerRadius="8dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
             <Button
@@ -474,6 +623,7 @@
                 android:text="Actualizar Registro"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                app:cornerRadius="8dp"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:layout_marginTop="20dp"
