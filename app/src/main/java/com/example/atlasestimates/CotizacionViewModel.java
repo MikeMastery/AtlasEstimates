@@ -26,10 +26,7 @@ public class CotizacionViewModel extends AndroidViewModel {
         super(application);
         appDatabase = AppDatabase.getInstance(application);
 
-
-
     }
-
 
 
     public void actualizarCotizacion(table_cotizacion cotizacion) {
@@ -57,10 +54,6 @@ public class CotizacionViewModel extends AndroidViewModel {
     public List<table_detalleCotizacion> etDetallesByCotizacionId(int cotizacionId) {
         return appDatabase.detalleCotizacionDao().getDetallesByCotizacionId(cotizacionId);
     }
-
-
-
-
 
 
 

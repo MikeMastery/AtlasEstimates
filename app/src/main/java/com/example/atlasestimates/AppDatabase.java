@@ -3,11 +3,14 @@ package com.example.atlasestimates;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {table_cotizacion.class, table_detalleCotizacion.class, table_clientes.class, table_items.class, table_categoria.class}, version = 20)
+@Database(entities = {table_cotizacion.class, table_detalleCotizacion.class, table_clientes.class, table_items.class, table_categoria.class}, version = 21)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -28,4 +31,12 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+    // Migración de la versión 1 a la versión 2
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Agregar columna estado
+            database.execSQL("ALTER TABLE table_cotizacion ADD COLUMN estado TEXT DEFAULT 'Pendiente'");
+        }
+    };
 }

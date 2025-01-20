@@ -521,6 +521,7 @@ public class Activity_mostrar_cotizacon extends AppCompatActivity {
             nuevaCotizacion.setUbicacion(textview_mostrarUbicacion.getText().toString());
             nuevaCotizacion.setTotal_Servicio(mostrartotalInAR.getText().toString());
             nuevaCotizacion.setComentario_plazo(Ed_plazoEntrega.getText().toString());
+            nuevaCotizacion.setEstado("Pendiente"); // Configura el estado predeterminado
 
             // Añadir la ruta del PDF a la cotización
             nuevaCotizacion.setPdfPath(pdfPath);

@@ -598,18 +598,6 @@
                             android:textSize="16sp" />
                     </RadioGroup>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnGuardarestado"
-                        android:layout_width="220dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:text="Guardar estado"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:cornerRadius="8dp" />
-
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>

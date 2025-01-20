@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">@color/ic_launcher_background</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#3CFBCC05</item>,
+        <item name="colorSecondary">#F4C80F</item>,
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">#595757</item>
 

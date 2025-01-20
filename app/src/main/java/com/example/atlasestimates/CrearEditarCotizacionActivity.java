@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +37,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class CrearEditarCotizacionActivity extends AppCompatActivity {
+
+    private RadioGroup statusRadioGroup;
+
 
     private Uri selectedImageUri;
     private String imagePath = null;
@@ -69,9 +76,10 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         Comentario_Costos = findViewById(R.id.ed_comentario_costos);
         Ed_plazo = findViewById(R.id.ed_plazo);
 
+        statusRadioGroup = findViewById(R.id.statusRadioGroup);
 
 
-        // Obtener el ID de la cotización desde el Intent
+    // Obtener el ID de la cotización desde el Intent
         int cotizacionID = getIntent().getIntExtra("cotizacionId", -1);
 
 
@@ -92,6 +100,8 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
             }
         });
 
+
+
         buttonActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +116,17 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                     // Obtener la selección actual del spinner
                     String tipoIdentificacion = spnTipoIdentificacion.getSelectedItem().toString();
 
+                    // Obtener el estado seleccionado
+                    String nuevoEstado;
+                    int checkedId = statusRadioGroup.getCheckedRadioButtonId();
+                    if (checkedId == R.id.rbAceptada) {
+                        nuevoEstado = "Aceptada";
+                    } else if (checkedId == R.id.rbRechazada) {
+                        nuevoEstado = "Rechazada";
+                    } else {
+                        nuevoEstado = "Pendiente";
+                    }
+
                     if (!nuevoTitulo.isEmpty()) {
                         // Actualizar datos de la cotización
                         cotizacion.setTitulo(nuevoTitulo);
@@ -113,6 +134,7 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
                         cotizacion.setUbicacion(nuevaUbicacion);
                         cotizacion.setDescripcion(nuevaDescripcion);
                         cotizacion.setComentario_plazo(nuevoPlazo);
+                        cotizacion.setEstado(nuevoEstado); // Actualizar el estado
 
                         // Actualizar la imagen si se ha seleccionado una nueva
                         // Actualizar la imagen si se ha seleccionado una nueva
@@ -221,23 +243,49 @@ public class CrearEditarCotizacionActivity extends AppCompatActivity {
         });
     }
 
+    private void actualizarEstadoSeleccionado(String estado) {
+        if (statusRadioGroup != null) {
+            Log.d("Estado", "Actualizando estado a: " + estado); // Debug
+            switch (estado) {
+                case "Pendiente":
+                    statusRadioGroup.check(R.id.rbPendiente);
+                    break;
+                case "Aceptada":
+                    statusRadioGroup.check(R.id.rbAceptada);
+                    break;
+                case "Rechazada":
+                    statusRadioGroup.check(R.id.rbRechazada);
+                    break;
+                default:
+                    statusRadioGroup.check(R.id.rbPendiente);
+                    break;
+            }
+        }
+    }
+
     private void obtenerDatosCotizacion(int cotizacionID) {
         viewmodel.getCotizacion(cotizacionID).observe(this, new Observer<table_cotizacion>() {
             @Override
             public void onChanged(table_cotizacion cotizacionResult) {
                 if (cotizacionResult != null) {
-                    cotizacion = cotizacionResult; // Asigna el resultado a la variable global.
+                    cotizacion = cotizacionResult;
                     Ed_titulo.setText(cotizacion.getTitulo());
                     Ed_fecha.setText(cotizacion.getFecha());
                     Ed_ubicacion.setText(cotizacion.getUbicacion());
                     Ed_descripcion.setText(cotizacion.getDescripcion());
                     Ed_plazo.setText(cotizacion.getComentario_plazo());
 
+                    // Obtener el estado y actualizar RadioButtons
+                    String estadoActual = cotizacion.getEstado();
+                    if (estadoActual == null || estadoActual.isEmpty()) {
+                        estadoActual = "Pendiente";
+                    }
+                    Log.d("Estado", "Estado recuperado: " + estadoActual); // Debug
+                    actualizarEstadoSeleccionado(estadoActual);
                 }
             }
         });
     }
-
     private void obtenerDatosCliente(int cotizacionId) {
         viewmodel.getCliente(cotizacionId).observe(this, new Observer<table_clientes>() {
             @Override

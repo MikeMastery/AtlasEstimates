@@ -343,7 +343,7 @@
                     android:layout_height="wrap_content"
                     android:text="SI"
                     android:textSize="17sp"
-                    android:textColorHint="?attr/colorOnPrimary2"
+
                     android:textStyle="bold"/>
 
                 <RadioButton

@@ -40,6 +40,10 @@ public interface CotizacionDao {
         Double getTotalPorItem(String nombreItem);
 
 
+    @Query("UPDATE cotizacion SET estado = :nuevoEstado WHERE id_cotizacion = :cotizacionId")
+    void actualizarEstado(int cotizacionId, String nuevoEstado);
+
+
 
     @Update
         void updateCotizacion(table_cotizacion cotizacion);

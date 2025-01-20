@@ -1,6 +1,7 @@
 package com.example.atlasestimates;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -30,9 +31,20 @@ public class table_cotizacion {
     private String Total_Servicio;
     private String comentario_plazo;
 
+    private String estado ; // Valor por defecto
+
+    // Getters y setters
 
 
 
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     // Getters y Setters
 
