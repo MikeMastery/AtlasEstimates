@@ -18,33 +18,8 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Notificaciones -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notificaciones"
-                android:textColor="?attr/colorOnPrimary"
-                android:textStyle="bold"
-                android:paddingTop="16dp"
-                android:paddingBottom="8dp"
-                android:textSize="20dp" />
 
-            <Switch
-                android:id="@+id/notifications_switch"
-                android:layout_marginTop="15dp"
-                android:textSize="15dp"
-                android:layout_width="match_parent"
-                android:backgroundTint="?attr/colorOnPrimary"
-                android:layout_height="wrap_content"
-                android:thumbTint="@color/switch_thumb_color"
-                android:text="Habilitar Notificaciones" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-             
-                android:background="#94B8B7B7"
-                android:layout_marginTop="30dp"/>
 
             <!-- Otros Ajustes -->
             <TextView
@@ -71,6 +46,31 @@
                 android:layout_gravity="center"
                 android:text="Terminos y condiciones" />
 
+            <!-- Versión de la aplicación -->
+            <TextView
+                android:id="@+id/version_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="530dp"
+                android:text=""
+                android:textSize="16sp"
+                android:textColor="?attr/colorOnPrimary" />
+
+            <!-- Derechos de autor -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="© 2024 Michel Peña. Todos los derechos reservados."
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnPrimary" />
+
+
         </LinearLayout>
+
+
     </ScrollView>
+
 </RelativeLayout>
