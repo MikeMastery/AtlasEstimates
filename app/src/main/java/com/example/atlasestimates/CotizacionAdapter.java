@@ -2,6 +2,7 @@ package com.example.atlasestimates;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,27 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
         table_cotizacion cotizacion = cotizaciones.get(position);
         holder.tvTitulo.setText(cotizacion.getTitulo());
         holder.tvFecha.setText(cotizacion.getFecha());
+        holder.tvestado.setText(cotizacion.getEstado());
+
+        // Configurar el estilo del botón según el estado
+        holder.tvestado.setBackgroundResource(R.drawable.estado_button_bg);
+
+        // Asignar color según el estado
+        switch (cotizacion.getEstado().toLowerCase()) {
+            case "aceptada":
+                holder.tvestado.setBackgroundColor(Color.parseColor("#4CAF50")); // Verde
+                break;
+            case "rechazada":
+                holder.tvestado.setBackgroundColor(Color.parseColor("#F44336")); // Rojo
+                break;
+            case "pendiente":
+                holder.tvestado.setBackgroundColor(Color.parseColor("#2196F3")); // Azul
+                break;
+        }
+
+        holder.tvestado.setTextColor(Color.WHITE);
+        holder.tvestado.setPadding(24, 8, 24, 8); // A
+
 
         // Obtener el total como double
         double total = cotizacion.getTotal(); // Asegúrate de que getTotal() devuelve un double
@@ -163,6 +185,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
                     for (table_cotizacion item : cotizacionesFull) {
                         if (item.getTitulo().toLowerCase().contains(filterPattern) ||
                                 item.getFecha().toLowerCase().contains(filterPattern) ||
+                                item.getEstado().toLowerCase().contains(filterPattern) ||
                                 String.valueOf(item.getTotal()).contains(filterPattern)) {
                             filteredList.add(item); // Agregar elementos que coincidan con el filtro
                         }
@@ -185,7 +208,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
 
 
     public static class CotizacionViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitulo, tvFecha, tvTotal, tvNombreCliente;
+        TextView tvTitulo, tvFecha, tvTotal, tvNombreCliente, tvestado;
         Button btnEliminar, btnViewDetails, btneditar;
 
         public CotizacionViewHolder(@NonNull View itemView) {
@@ -197,6 +220,7 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
             btneditar = itemView.findViewById(R.id.btnEditar);
+            tvestado = itemView.findViewById(R.id.tvestado);
         }
     }
 

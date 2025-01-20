@@ -571,8 +571,9 @@
                             android:button="@null"
                             android:padding="12dp"
                             android:text="Pendiente"
+                            android:textStyle="bold"
                             android:textColor="@drawable/radio_text_selector"
-                            android:textSize="16sp" />
+                            android:textSize="17sp" />
 
                         <RadioButton
                             android:id="@+id/rbAceptada"
@@ -583,8 +584,9 @@
                             android:button="@null"
                             android:padding="12dp"
                             android:text="Aceptada"
+                            android:textStyle="bold"
                             android:textColor="@drawable/radio_text_selector"
-                            android:textSize="16sp" />
+                            android:textSize="17sp" />
 
                         <RadioButton
                             android:id="@+id/rbRechazada"
@@ -594,8 +596,9 @@
                             android:button="@null"
                             android:padding="12dp"
                             android:text="Rechazada"
+                            android:textStyle="bold"
                             android:textColor="@drawable/radio_text_selector"
-                            android:textSize="16sp" />
+                            android:textSize="17sp" />
                     </RadioGroup>
 
                 </LinearLayout>

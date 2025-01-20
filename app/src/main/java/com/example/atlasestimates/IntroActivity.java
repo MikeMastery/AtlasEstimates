@@ -38,17 +38,17 @@ public class IntroActivity extends AppCompatActivity {
         slides.add(new IntroSlide(
                 "Bienvenido a AtlasEtimates, tu App de Cotizaciones",
                 "Gestiona tus cotizaciones de manera fácil y profesional",
-                R.drawable.logoatlas
+                R.drawable.contentt1
         ));
         slides.add(new IntroSlide(
                 "Crea Cotizaciones",
                 "Genera cotizaciones personalizadas en segundos",
-                R.drawable.logoatlas
+                R.drawable.content2
         ));
         slides.add(new IntroSlide(
                 "Comparte",
                 "Envía tus cotizaciones por email o WhatsApp",
-                R.drawable.logoatlas
+                R.drawable.content3
         ));
 
         // Configurar adapter
