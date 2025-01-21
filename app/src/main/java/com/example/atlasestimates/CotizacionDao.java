@@ -44,6 +44,8 @@ public interface CotizacionDao {
     void actualizarEstado(int cotizacionId, String nuevoEstado);
 
 
+    @Query("SELECT * FROM cotizacion ORDER BY fecha DESC")
+    List<table_cotizacion> getAllCotizacionesOrderByDate();
 
     @Update
         void updateCotizacion(table_cotizacion cotizacion);
