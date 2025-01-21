@@ -22,6 +22,7 @@ public class CotizacionViewModel extends AndroidViewModel {
     private MutableLiveData<Double> totalPorItem = new MutableLiveData<>();
     private final MutableLiveData<Double> sumaTotalIngresos = new MutableLiveData<>();
 
+
     public CotizacionViewModel(@NonNull Application application) {
         super(application);
         appDatabase = AppDatabase.getInstance(application);
@@ -33,7 +34,10 @@ public class CotizacionViewModel extends AndroidViewModel {
         executor.execute(() -> {
             appDatabase.cotizacionDao().updateCotizacion(cotizacion);
         });
+
     }
+
+
 
     // Método para actualizar los datos del cliente
     public void actualizarCliente(table_clientes clientes) {
@@ -54,7 +58,6 @@ public class CotizacionViewModel extends AndroidViewModel {
     public List<table_detalleCotizacion> etDetallesByCotizacionId(int cotizacionId) {
         return appDatabase.detalleCotizacionDao().getDetallesByCotizacionId(cotizacionId);
     }
-
 
 
 
@@ -113,6 +116,8 @@ public class CotizacionViewModel extends AndroidViewModel {
         }).start();
     }
 
+
+
     public void deleteClienteYRelaciones(int clienteId) {
         executor.execute(() -> {
             // 1. Eliminar los detalles de cotización relacionados
@@ -133,9 +138,6 @@ public class CotizacionViewModel extends AndroidViewModel {
 
         });
     }
-
-
-
 
 
     // Obtener una cotización por su ID

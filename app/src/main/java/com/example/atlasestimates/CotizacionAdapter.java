@@ -96,20 +96,42 @@ public class CotizacionAdapter extends RecyclerView.Adapter<CotizacionAdapter.Co
             holder.tvTotal.setText("Sin total disponible");
         }
 
-    // Obtener el nombre del cliente en segundo plano
+        // Obtener el nombre del cliente o la razón social en segundo plano
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... voids) {
+                // Obtener el cliente de la base de datos
                 table_clientes cliente = appDatabase.clienteDao().getClienteById(cotizacion.getId_cliente());
-                return cliente != null ? cliente.getNombre_cliente() : "Cliente desconocido";
+
+                // Si no se encuentra el cliente, retornar un mensaje genérico
+                if (cliente == null) {
+                    return "Cliente desconocido";
+                }
+
+                // Validar el número del campo DNI o RUC
+                String dniRuc = cliente.getDni_ruc(); // Asegúrate de que el campo exista en tu entidad table_clientes
+                if (dniRuc == null || dniRuc.isEmpty()) {
+                    return "Campo DNI/RUC vacío";
+                }
+
+                if (dniRuc.length() == 8) {
+                    // Si tiene 8 dígitos, mostrar como Cliente
+                    return "Cliente: " + cliente.getNombre_cliente();
+                } else if (dniRuc.length() == 11) {
+                    // Si tiene 11 dígitos, mostrar como Razón Social
+                    return "Razón Social: " + cliente.getRazon_social();
+                } else {
+                    // Si no cumple con ninguna longitud esperada
+                    return "Formato de DNI/RUC no válido";
+                }
             }
 
             @Override
-            protected void onPostExecute(String nombreCliente) {
-                holder.tvNombreCliente.setText("Cliente: " + nombreCliente);
+            protected void onPostExecute(String resultado) {
+                // Mostrar el resultado en el TextView correspondiente
+                holder.tvNombreCliente.setText(resultado);
             }
         }.execute();
-
 
         // Configurar el botón de "Eliminar"
         holder.btnEliminar.setOnClickListener(v -> {

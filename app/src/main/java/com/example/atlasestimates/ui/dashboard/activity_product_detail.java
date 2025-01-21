@@ -21,6 +21,9 @@ public class activity_product_detail extends AppCompatActivity {
     private TextView tvNumber3; // Para mostrar total por item específico
     private TextView tvNumber4; // Para mostrar total general
     private CotizacionViewModel viewModel;
+    private TextView tvCotizacionesAceptadas;
+    private TextView tvCotizacionesRechazadas;
+    private TextView tvCotizacionesPendientes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,12 @@ public class activity_product_detail extends AppCompatActivity {
         tvProductDescriptionDetail = findViewById(R.id.tvProductDescriptionDetail);
         tvNumber3 = findViewById(R.id.tvNumber3);
         tvNumber4 = findViewById(R.id.tvNumber4);
+        // Inicializar las vistas
+        tvCotizacionesAceptadas = findViewById(R.id.tvCotizacionesAceptadas);
+        tvCotizacionesRechazadas = findViewById(R.id.tvCotizacionesRechazadas);
+        tvCotizacionesPendientes = findViewById(R.id.tvCotizacionesPendientes);
+
+
 
         // Inicializar ViewModel
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory

@@ -449,19 +449,19 @@ public class mostrardetalles extends AppCompatActivity {
 
                     // Lógica para DNI (8 dígitos)
                     if (identificacion.length() == 8) {
-                        Identificacion.setText("DNI");
+                        Identificacion.setText("DNI:");
                         LayoutRazon_Social.setVisibility(View.GONE);  // Ocultar Razón Social
                     }
                     // Lógica para RUC (11 dígitos)
                     else if (identificacion.length() == 11) {
-                        Identificacion.setText("RUC");
+                        Identificacion.setText("RUC:");
                         LayoutRazon_Social.setVisibility(View.VISIBLE);
                         tvRazonSocial.setText(cliente.getRazon_social());
                         LayoutCliente.setVisibility(View.GONE);
                     }
                     // Por si acaso no cumple ninguna condición
                     else {
-                        Identificacion.setText("ID");
+                        Identificacion.setText("ID:");
                         tvRazonSocial.setVisibility(View.GONE);
                     }
                 }

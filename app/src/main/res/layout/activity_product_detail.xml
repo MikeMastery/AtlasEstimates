@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                android:lineSpacingExtra="4dp"
+                android:lineSpacingExtra="3dp"
                 android:ellipsize="end"
                 android:justificationMode="inter_word"
                 android:text="" />
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="155dp"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:layout_marginBottom="8dp">
 
             <!-- Tarjeta 1 -->
@@ -112,10 +112,10 @@
 
                     <!-- Número grande -->
                     <TextView
-                        android:id="@+id/tvNumber1"
+                        android:id="@+id/tvCotizacionesAceptadas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="123"
+                        android:text="0"
                         android:textSize="40sp"
                         android:textStyle="bold"
                         android:textColor="#FF3D00"
@@ -126,9 +126,9 @@
                         android:id="@+id/tvSales1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cotizaciones Aceptadas"
+                        android:text="Aceptadas"
                         android:textStyle="bold"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textColor="?attr/colorOnPrimary2"
                         android:layout_margin="5dp"
                         android:gravity="center" />
@@ -154,10 +154,10 @@
 
                     <!-- Número grande -->
                     <TextView
-                        android:id="@+id/tvNumber2"
+                        android:id="@+id/tvCotizacionesPendientes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="456"
+                        android:text="0"
                         android:textSize="40sp"
                         android:textStyle="bold"
                         android:textColor="#00FF0A"
@@ -168,8 +168,50 @@
                         android:id="@+id/tvSales2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cotizaciones Rechazadas"
-                        android:textSize="15dp"
+                        android:text="Pendiente"
+                        android:textSize="13dp"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textColor="?attr/colorOnPrimary2"
+                        android:gravity="center" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tarjeta 2 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/glass_effect_background"
+                    android:padding="8dp">
+
+                    <!-- Número grande -->
+                    <TextView
+                        android:id="@+id/tvCotizacionesRechazadas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        android:textColor="#00FF0A"
+                        android:gravity="center" />
+
+                    <!-- Texto descriptivo -->
+                    <TextView
+                        android:id="@+id/tvSales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rechazada"
+                        android:textSize="13dp"
                         android:textStyle="bold"
                         android:layout_margin="5dp"
                         android:textColor="?attr/colorOnPrimary2"
